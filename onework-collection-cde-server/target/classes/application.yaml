@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: onework-collection-cde-server
+onework:
+  collection:
+    cde:
+      server:
+        drive-path: D:\tools\chromedriver-win64\chromedriver.exe
+        max-error-count: 99
+        save-path: D:\药物临床试验登记与信息公示平台
+        thread-count: 5
+        collection-url: http://www.chinadrugtrials.org.cn/clinicaltrials.searchlist.dhtml
