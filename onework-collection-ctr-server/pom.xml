@@ -18,10 +18,7 @@
     <url>https://github.com/zhongkai/onework-platform</url>
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.shell</groupId>
-            <artifactId>spring-shell-starter</artifactId>
-        </dependency>
+
     </dependencies>
 
     <build>

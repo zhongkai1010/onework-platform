@@ -19,13 +19,11 @@
         <!-- 统一依赖管理 -->
         <spring.boot.version>3.3.4</spring.boot.version>
         <spring-shell.version>3.3.3</spring-shell.version>
-
     </properties>
 
     <dependencyManagement>
         <dependencies>
             <!-- 统一依赖管理 -->
-
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>

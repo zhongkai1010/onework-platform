@@ -2,8 +2,8 @@
   "groups": [
     {
       "name": "onework.collection.cde.server",
-      "type": "com.onework.scraper.cde.ServerConfiguration",
-      "sourceType": "com.onework.scraper.cde.ServerConfiguration"
+      "type": "com.onework.collection.cde.ServerConfiguration",
+      "sourceType": "com.onework.collection.cde.ServerConfiguration"
     }
   ],
   "properties": [
@@ -11,32 +11,32 @@
       "name": "onework.collection.cde.server.collection-url",
       "type": "java.lang.String",
       "description": "采集链接",
-      "sourceType": "com.onework.scraper.cde.ServerConfiguration"
+      "sourceType": "com.onework.collection.cde.ServerConfiguration"
     },
     {
       "name": "onework.collection.cde.server.drive-path",
       "type": "java.lang.String",
       "description": "驱动路径",
-      "sourceType": "com.onework.scraper.cde.ServerConfiguration"
+      "sourceType": "com.onework.collection.cde.ServerConfiguration"
     },
     {
       "name": "onework.collection.cde.server.max-error-count",
       "type": "java.lang.Integer",
       "description": "最大错误次数",
-      "sourceType": "com.onework.scraper.cde.ServerConfiguration",
+      "sourceType": "com.onework.collection.cde.ServerConfiguration",
       "defaultValue": 0
     },
     {
       "name": "onework.collection.cde.server.save-path",
       "type": "java.lang.String",
       "description": "保存路径",
-      "sourceType": "com.onework.scraper.cde.ServerConfiguration"
+      "sourceType": "com.onework.collection.cde.ServerConfiguration"
     },
     {
       "name": "onework.collection.cde.server.thread-count",
       "type": "java.lang.Integer",
       "description": "线程数",
-      "sourceType": "com.onework.scraper.cde.ServerConfiguration",
+      "sourceType": "com.onework.collection.cde.ServerConfiguration",
       "defaultValue": 0
     }
   ],

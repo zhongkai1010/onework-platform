@@ -20,17 +20,21 @@
         </processorPath>
         <module name="onework-collection-ctr-server" />
         <module name="onework-collection-cde-server" />
+        <module name="onework-parse-cde-server" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="onework-scraper-ctr" target="17" />
+      <module name="onework-tools-generator" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="onework-collection-cde-server" options="-parameters" />
       <module name="onework-collection-ctr-server" options="-parameters" />
+      <module name="onework-parse-cde-server" options="-parameters" />
       <module name="onework-scraper-ctr" options="-parameters" />
+      <module name="onework-tools-generator" options="-parameters" />
     </option>
   </component>
 </project>

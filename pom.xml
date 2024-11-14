@@ -12,6 +12,7 @@
         <module>onework-framework</module>
         <module>onework-collection-ctr-server</module>
         <module>onework-collection-cde-server</module>
+        <module>onework-parse-cde-server</module>
     </modules>
 
     <name>${project.artifactId}</name>
