@@ -21,7 +21,6 @@ nbproject/
 # 3. 构建工具生成的文件
 # Maven
 target/
-*.log
 
 # Gradle
 .gradle/
