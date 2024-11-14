@@ -3,6 +3,7 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/onework-collection-cde-server/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/onework-collection-cde-server/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/onework-collection-cde-server/src/main/resources/application.yaml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/onework-collection-ctr-server/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/onework-collection-ctr-server/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/onework-framework/src/main/java" charset="UTF-8" />
