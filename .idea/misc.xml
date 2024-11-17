@@ -14,10 +14,14 @@
         <option value="$PROJECT_DIR$/onework-collection-cde-server/pom.xml" />
         <option value="$PROJECT_DIR$/onework-collection-ctr-server/pom.xml" />
         <option value="$PROJECT_DIR$/onework-parse-cde-server/pom.xml" />
+        <option value="$PROJECT_DIR$/onework-ctr/onework-ctr-collection/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
       <set>
+        <option value="$PROJECT_DIR$/onework-cde/onework-cde-parse/pom.xml" />
+        <option value="$PROJECT_DIR$/onework-cde/pom.xml" />
+        <option value="$PROJECT_DIR$/onework-ctr/pom.xml" />
         <option value="$PROJECT_DIR$/onework-scraper-ctr/pom.xml" />
       </set>
     </option>

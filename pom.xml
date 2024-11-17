@@ -10,17 +10,17 @@
     <modules>
         <module>onework-dependencies</module>
         <module>onework-framework</module>
-        <module>onework-collection-ctr-server</module>
-        <module>onework-collection-cde-server</module>
-        <module>onework-parse-cde-server</module>
+        <module>onework-tools-generator</module>
+        <module>onework-cde-collection</module>
+        <module>onework-ctr-collection</module>
+        <module>onework-framework/onework-data</module>
     </modules>
 
     <name>${project.artifactId}</name>
     <description>OneWork基础脚手架</description>
-    <url>https://github.com/zhongkai/onework-platform</url>
 
     <properties>
-        <revision>2.3.0-SNAPSHOT</revision>
+        <revision>1.0.0-SNAPSHOT</revision>
         <!-- Maven 相关 -->
         <java.version>17</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>

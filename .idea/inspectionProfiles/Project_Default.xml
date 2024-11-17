@@ -3,8 +3,11 @@
     <option name="myName" value="Project Default" />
     <inspection_tool class="DuplicatedCode" enabled="true" level="WEAK WARNING" enabled_by_default="true">
       <Languages>
-        <language minSize="80" name="Java" />
+        <language minSize="105" name="Java" />
       </Languages>
+    </inspection_tool>
+    <inspection_tool class="ExtractMethodRecommender" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="minLength" value="1186" />
     </inspection_tool>
     <inspection_tool class="HttpUrlsUsage" enabled="true" level="WEAK WARNING" enabled_by_default="true">
       <option name="ignoredUrls">
@@ -45,6 +48,14 @@
           <option value="onework-collection-ctr-server" />
           <option value="onework-collection-ctr-server" />
           <option value="onework-collection-cde-server" />
+          <option value="onework-tools-generator" />
+          <option value="onework-cde-collection" />
+          <option value="onework-cde-parse" />
+          <option value="onework-ctr-collection" />
+          <option value="onework-data" />
+          <option value="onework-common" />
+          <option value="onework-common" />
+          <option value="onework-spring-boot-starter-mybatis" />
         </list>
       </option>
       <option name="ignoredPackages">
@@ -53,10 +64,26 @@
           <option value="commons-io:commons-io:2.11.0" />
           <option value="org.springframework:spring-context:6.1.13" />
           <option value="org.springframework:spring-context:6.1.13" />
+          <option value="org.springframework:spring-context:6.1.13" />
+          <option value="org.springframework:spring-context:6.1.13" />
+          <option value="org.springframework:spring-context:6.1.13" />
+          <option value="org.springframework:spring-context:6.1.13" />
+          <option value="org.springframework:spring-context:6.1.13" />
+          <option value="org.springframework:spring-context:6.1.13" />
+          <option value="org.xmlunit:xmlunit-core:2.9.1" />
+          <option value="org.springframework:spring-context:6.1.13" />
         </list>
       </option>
       <option name="ignoredReasons">
         <list>
+          <option value="不可利用" />
+          <option value="不可利用" />
+          <option value="不可利用" />
+          <option value="不可利用" />
+          <option value="不可利用" />
+          <option value="不可利用" />
+          <option value="不可利用" />
+          <option value="不可利用" />
           <option value="不可利用" />
           <option value="不可利用" />
           <option value="不可利用" />

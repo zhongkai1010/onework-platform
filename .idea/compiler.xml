@@ -18,22 +18,32 @@
           <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/mapstruct/mapstruct-processor/1.6.2/mapstruct-processor-1.6.2.jar" />
           <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/mapstruct/mapstruct/1.6.2/mapstruct-1.6.2.jar" />
         </processorPath>
-        <module name="onework-collection-ctr-server" />
-        <module name="onework-collection-cde-server" />
-        <module name="onework-parse-cde-server" />
+        <module name="onework-cde-collection" />
+        <module name="onework-ctr-collection" />
+        <module name="onework-common" />
+        <module name="onework-spring-boot-starter-mybatis" />
+        <module name="onework-data" />
+        <module name="onework-tools-generator" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="onework-cde" target="17" />
+      <module name="onework-cde-parse" target="17" />
+      <module name="onework-ctr" target="17" />
       <module name="onework-scraper-ctr" target="17" />
-      <module name="onework-tools-generator" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="onework-collection-cde-server" options="-parameters" />
-      <module name="onework-collection-ctr-server" options="-parameters" />
-      <module name="onework-parse-cde-server" options="-parameters" />
+      <module name="onework-cde" options="" />
+      <module name="onework-cde-collection" options="-parameters" />
+      <module name="onework-cde-parse" options="-parameters" />
+      <module name="onework-common" options="-parameters" />
+      <module name="onework-ctr" options="" />
+      <module name="onework-ctr-collection" options="-parameters" />
+      <module name="onework-data" options="-parameters" />
       <module name="onework-scraper-ctr" options="-parameters" />
+      <module name="onework-spring-boot-starter-mybatis" options="-parameters" />
       <module name="onework-tools-generator" options="-parameters" />
     </option>
   </component>

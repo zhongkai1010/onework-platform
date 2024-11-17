@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: onework-ctr-collection
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
+    url: jdbc:mysql://127.0.0.1:33061/onework_platform?characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false
+onework:
+  info:
+    base-package: com.onework.boot
+  ctr:
+    collection:
+      collection-url: https://www.chictr.org.cn/searchproj.html
+      drive-path: D:\tools\chromedriver-win64\chromedriver.exe
+      incognito: true
+      open-window: true
+      thread-count: 10
+      save-path: D:\中国临床试验注册中心
+      server-type: scan_list
+      max-page: 10000

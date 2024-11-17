@@ -9,9 +9,13 @@
         <version>${revision}</version>
     </parent>
     <packaging>pom</packaging>
+    <!-- 子模块 -->
     <modules>
-
+        <module>onework-common</module>
+        <module>onework-data</module>
+        <module>onework-spring-boot-starter-mybatis</module>
     </modules>
+    <!-- 基础信息 -->
     <artifactId>onework-framework</artifactId>
     <description>
         该包是技术组件，每个子包，代表一个组件。每个组件包括两部分：
@@ -23,6 +27,4 @@
         2. 业务组件：和业务相关的组件的封装，例如说数据字典、操作日志等等。
         如果是业务组件，Maven 名字会包含 biz
     </description>
-    <url>https://github.com/YunaiV/ruoyi-vue-pro</url>
-
 </project>
