@@ -12,7 +12,7 @@
   <properties>
     <spring-shell.version>3.3.3</spring-shell.version>
     <spring.boot.version>3.3.4</spring.boot.version>
-    <mybatis-plus.version>3.5.7</mybatis-plus.version>
+    <mybatis-plus.version>3.5.9</mybatis-plus.version>
     <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
     <revision>1.0.0-SNAPSHOT</revision>
   </properties>
@@ -29,9 +29,24 @@
         <version>${revision}</version>
       </dependency>
       <dependency>
+        <groupId>com.baomidou</groupId>
+        <artifactId>mybatis-plus-generator</artifactId>
+        <version>${mybatis-plus.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.onework.boot</groupId>
+        <artifactId>onework-data</artifactId>
+        <version>${revision}</version>
+      </dependency>
+      <dependency>
         <groupId>com.onework.boot</groupId>
         <artifactId>onework-common</artifactId>
         <version>${revision}</version>
+      </dependency>
+      <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <version>8.0.33</version>
       </dependency>
       <dependency>
         <groupId>org.jsoup</groupId>

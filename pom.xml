@@ -13,7 +13,6 @@
         <module>onework-tools-generator</module>
         <module>onework-cde-collection</module>
         <module>onework-ctr-collection</module>
-        <module>onework-framework/onework-data</module>
     </modules>
 
     <name>${project.artifactId}</name>
@@ -102,8 +101,11 @@
                 <artifactId>flatten-maven-plugin</artifactId>
                 <version>${flatten-maven-plugin.version}</version>
                 <configuration>
-                    <flattenMode>oss</flattenMode>
-                    <updatePomFile>true</updatePomFile>
+<!--                    <flattenMode>oss</flattenMode>-->
+<!--                    <updatePomFile>true</updatePomFile>-->
+                    <skip>
+                        true
+                    </skip>
                 </configuration>
                 <executions>
                     <execution>
