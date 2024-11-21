@@ -1,9 +1,9 @@
 package com.onework.boot.cde.collection;
 
-import com.onework.boot.cde.collection.process.AllProjectProcessServer;
-import com.onework.boot.cde.collection.process.FileDownloadProcessServer;
-import com.onework.boot.cde.collection.process.FileParseProcessServer;
-import com.onework.boot.cde.collection.process.ScanListProcessServer;
+import com.onework.boot.cde.collection.tasks.AllProjectFileDownloadTaskServer;
+import com.onework.boot.cde.collection.tasks.FileParseTaskServer;
+import com.onework.boot.cde.collection.tasks.ProjectFileDownloadTaskServer;
+import com.onework.boot.cde.collection.tasks.ScanListTaskServer;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -14,15 +14,15 @@ public class CollectionCommandLineRunner implements CommandLineRunner {
 
     private final ServerConfiguration serverConfiguration;
 
-    private final AllProjectProcessServer allProjectProcessServer;
+    private final AllProjectFileDownloadTaskServer allProjectProcessServer;
 
-    private final FileDownloadProcessServer fileDownloadProcessServer;
+    private final ProjectFileDownloadTaskServer fileDownloadProcessServer;
 
-    private final FileParseProcessServer fileParseProcessServer;
+    private final FileParseTaskServer fileParseProcessServer;
 
-    private final ScanListProcessServer scanListProcessServer;
+    private final ScanListTaskServer scanListProcessServer;
 
-    public CollectionCommandLineRunner(ServerConfiguration serverConfiguration, AllProjectProcessServer allProjectProcessServer, FileDownloadProcessServer fileDownloadProcessServer, FileParseProcessServer fileParseProcessServer, ScanListProcessServer scanListProcessServer) {
+    public CollectionCommandLineRunner(ServerConfiguration serverConfiguration, AllProjectFileDownloadTaskServer allProjectProcessServer, ProjectFileDownloadTaskServer fileDownloadProcessServer, FileParseTaskServer fileParseProcessServer, ScanListTaskServer scanListProcessServer) {
         this.serverConfiguration = serverConfiguration;
         this.allProjectProcessServer = allProjectProcessServer;
         this.fileDownloadProcessServer = fileDownloadProcessServer;
@@ -35,6 +35,9 @@ public class CollectionCommandLineRunner implements CommandLineRunner {
     public void run(String... args) {
 
         switch (serverConfiguration.getServerType()) {
+            case ALL_FILE_DOWNLOAD:
+                allProjectProcessServer.run();
+                break;
             case FILE_DOWNLOAD:
                 fileDownloadProcessServer.run();
                 break;
@@ -44,13 +47,7 @@ public class CollectionCommandLineRunner implements CommandLineRunner {
             case FILE_PARSE:
                 fileParseProcessServer.run();
                 break;
-            case SCAN_AND_FILE_DOWNLOAD_AND_FILE_PARSE:
-                scanListProcessServer.run();
-                fileDownloadProcessServer.run();
-                fileParseProcessServer.run();
-                break;
             default:
-                allProjectProcessServer.run();
                 break;
         }
     }

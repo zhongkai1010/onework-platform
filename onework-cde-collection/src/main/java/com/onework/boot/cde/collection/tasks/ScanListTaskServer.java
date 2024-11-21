@@ -1,9 +1,9 @@
-package com.onework.boot.cde.collection.process;
+package com.onework.boot.cde.collection.tasks;
 
-import com.onework.boot.cde.collection.CollectionHelper;
 import com.onework.boot.cde.collection.OneworkCDECollectionApplication;
 import com.onework.boot.cde.collection.RegistrationNumberStore;
 import com.onework.boot.cde.collection.ServerConfiguration;
+import com.onework.boot.cde.collection.WebDriverHelper;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -21,7 +21,7 @@ import java.util.List;
  *  检索项目列表，记录项目数据
  */
 @Component
-public class ScanListProcessServer implements IProcessServer {
+public class ScanListTaskServer implements ITaskServer {
 
     private static final Logger LOG = LoggerFactory
             .getLogger(OneworkCDECollectionApplication.class);
@@ -30,7 +30,7 @@ public class ScanListProcessServer implements IProcessServer {
 
     private final RegistrationNumberStore registrationNumberStore;
 
-    public ScanListProcessServer(ServerConfiguration serverConfiguration, RegistrationNumberStore registrationNumberStore) {
+    public ScanListTaskServer(ServerConfiguration serverConfiguration, RegistrationNumberStore registrationNumberStore) {
         this.serverConfiguration = serverConfiguration;
         this.registrationNumberStore = registrationNumberStore;
     }
@@ -40,9 +40,9 @@ public class ScanListProcessServer implements IProcessServer {
         LOG.info("启动检索项目列表，记录项目数据服务（AllProjectProcessServer）");
         registrationNumberStore.initData();
         try {
-            WebDriver webDriver = CollectionHelper.getWebDriver(serverConfiguration.isOpenWindow(), serverConfiguration.isIncognito());
+            WebDriver webDriver = WebDriverHelper.getWebDriver(serverConfiguration);
             webDriver.get(serverConfiguration.getCollectionUrl());
-            int totalPage = CollectionHelper.getProjectPageTotal(webDriver);
+            int totalPage = WebDriverHelper.getProjectPageTotal(webDriver);
             for (int i = 1; i <= totalPage; i++) {
                 LOG.info("启动检索项目列表，记录项目数据服务（AllProjectProcessServer），处理第{}页", i);
                 try {

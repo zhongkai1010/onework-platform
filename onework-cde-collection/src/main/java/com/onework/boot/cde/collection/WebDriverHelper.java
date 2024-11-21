@@ -17,7 +17,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
-public class CollectionHelper {
+public class WebDriverHelper {
 
     private static final Logger LOG = LoggerFactory
             .getLogger(OneworkCDECollectionApplication.class);
@@ -125,10 +125,10 @@ public class CollectionHelper {
 
     /**
      * 配置 ChromeOptions 默认参数，获取 ChromeDriver 对象
-     * @param window 是否无界面模式 true:开启界面，false：无界面
+     * @param serverConfiguration 是否无界面模式 true:开启界面，false：无界面
      * @return ChromeDriver 对象
      */
-    public static ChromeDriver getWebDriver(boolean window, boolean incognito) {
+    public static ChromeDriver getWebDriver(ServerConfiguration serverConfiguration) {
 
         System.setProperty("webdriver.chrome.driver", "D:\\tools\\chromedriver-win64\\chromedriver.exe");
         // 禁用 Selenium 的日志输出
@@ -154,11 +154,11 @@ public class CollectionHelper {
         // 禁用浏览器扩展程序
         chromeOptions.addArguments("--disable-extensions");
         // 启用无痕模式
-        if (incognito) {
+        if (serverConfiguration.isIncognito()) {
             chromeOptions.addArguments("--incognito");
         }
         // 开启无界面模式
-        if (!window) {
+        if (!serverConfiguration.isOpenWindow()) {
             chromeOptions.addArguments("--headless");
         }
 
@@ -172,7 +172,7 @@ public class CollectionHelper {
      */
     public static int getProjectTotal(ServerConfiguration configuration) {
         System.setProperty("webdriver.chrome.driver", configuration.getDrivePath());
-        WebDriver webDriver = CollectionHelper.getWebDriver(configuration.isOpenWindow(), configuration.isIncognito());
+        WebDriver webDriver = WebDriverHelper.getWebDriver(configuration);
         webDriver.get(configuration.getCollectionUrl());
         while (true) {
             try {
@@ -189,7 +189,7 @@ public class CollectionHelper {
     }
 
     /**
-     *  获取页面分页总数
+     * 获取当前页面分页总数
      * @param webDriver 浏览器驱动
      * @return 分页总数
      */
@@ -200,8 +200,8 @@ public class CollectionHelper {
                 WebElement pageInfoElement = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/main/div[2]/div/div/div/div/div[6]/div/i[2]")));
                 return Integer.parseInt(pageInfoElement.getText());
             } catch (Exception exception) {
-//                LOG.warn("获取页面总分页数(getProjectPageTotal)异常，刷新页面，错误消息：{}", exception.getMessage());
-                webDriver.navigate().refresh(); // 如果没有找到元素，刷新页面
+                // 如果没有找到元素，刷新页面
+                webDriver.navigate().refresh();
             }
         }
     }
@@ -217,14 +217,13 @@ public class CollectionHelper {
                 WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(5)); // 设置等待时间为5秒
                 WebElement linkElement = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/main/div[2]/div/div/div/div/div[5]/table/tbody/tr[2]/td[2]/a")));
                 linkElement.click();
-
                 // 切换到新打开的页面
                 Object[] windowHandles = webDriver.getWindowHandles().toArray();
                 webDriver.switchTo().window((String) windowHandles[1]);
                 break;
             } catch (Exception exception) {
-                webDriver.navigate().refresh(); // 如果没有找到元素，刷新页面
-//                LOG.warn("点击表格第一行链接，跳转项目详情页面(goToDetails)异常，刷新页面，错误消息：{}", exception.getMessage());
+                // 如果没有找到元素，刷新页面
+                webDriver.navigate().refresh();
             }
         }
     }
@@ -244,9 +243,8 @@ public class CollectionHelper {
                 executor.executeScript("gotopage(" + page + ")");
                 break;
             } catch (Exception exception) {
-
-                webDriver.navigate().refresh(); // 如果没有找到元素，刷新页面
-//                LOG.warn("执行JavaScript脚本，跳转指定页码页码(goToPage)异常，刷新页面，错误消息：{}", exception.getMessage());
+                // 如果没有找到元素，刷新页面
+                webDriver.navigate().refresh();
             }
         }
     }

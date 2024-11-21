@@ -56,6 +56,7 @@
           <option value="onework-common" />
           <option value="onework-common" />
           <option value="onework-spring-boot-starter-mybatis" />
+          <option value="onework-cde-collection" />
         </list>
       </option>
       <option name="ignoredPackages">
@@ -72,10 +73,12 @@
           <option value="org.springframework:spring-context:6.1.13" />
           <option value="org.xmlunit:xmlunit-core:2.9.1" />
           <option value="org.springframework:spring-context:6.1.13" />
+          <option value="com.google.protobuf:protobuf-java:3.11.4" />
         </list>
       </option>
       <option name="ignoredReasons">
         <list>
+          <option value="不可利用" />
           <option value="不可利用" />
           <option value="不可利用" />
           <option value="不可利用" />

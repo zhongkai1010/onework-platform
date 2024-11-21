@@ -1,4 +1,4 @@
-package com.onework.boot.cde.collection.thread;
+package com.onework.boot.cde.collection.threads;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.onework.boot.cde.collection.FileParseHelper;
@@ -41,10 +41,11 @@ public class FileParseThread extends Thread {
 
     @Override
     public void run() {
+        LOG.info("项目文件解析服务（FileParseProcessServer），[线程（{}-{}）],开始处理", start, end + 1);
         for (CDECollectionRecord record : records) {
             File file = new File(record.getFilePath());
             if (!file.exists()) {
-                LOG.warn("[线程（{}-{}）]，{}文件不存在，", start, end, record.getFilePath());
+                LOG.warn("项目文件解析服务（FileParseProcessServer），[线程（{}-{}）]，{}文件不存在，", start, end, record.getFilePath());
             } else {
                 try {
                     Document document = Jsoup.parse(file);
@@ -56,13 +57,13 @@ public class FileParseThread extends Thread {
                     record.setParseHandle(true);
                     record.setParseDate(LocalDateTime.now());
                     recordMapper.updateById(record);
-                    LOG.warn("[线程（{}-{}）]，{}文件已经解析完成，", start, end, record.getFilePath());
+                    LOG.warn("项目文件解析服务（FileParseProcessServer），[线程（{}-{}）]，{}文件已经解析完成，", start, end, record.getFilePath());
 
                 } catch (Exception exception) {
-                    LOG.warn("[线程（{}-{}）]，解析{}文件异常，错误消息：{}", start, end, record.getFilePath(), exception.getMessage());
+                    LOG.warn("项目文件解析服务（FileParseProcessServer），[线程（{}-{}）]，解析{}文件异常，错误消息：{}", start, end, record.getFilePath(), exception.getMessage());
                 }
             }
         }
-        LOG.warn("[线程（{}-{}）]，线程处理完成，", start, end);
+        LOG.info("项目文件解析服务（FileParseProcessServer），[线程（{}-{}）],处理完成", start, end + 1);
     }
 }

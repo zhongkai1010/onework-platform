@@ -7,7 +7,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: 123456
-    url: jdbc:mysql://127.0.0.1:33061/onework_platform?characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false
+    url: jdbc:mysql://127.0.0.1:33061/onework_platform?useSSL=false&useUnicode=true&characterEncoding=UTF-8
 onework:
   info:
     base-package: com.onework.boot
@@ -21,5 +21,16 @@ onework:
       init-data: false
       open-window: false
       incognito: false
-      server-type: all
+      server-type: scan_list
       max-page: 10
+mybatis-plus:
+  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    # MyBatis 配置
+    map-underscore-to-camel-case: true
+  global-config:
+    # 全局配置
+    db-config:
+      # 数据库配置
+      id-type: assign_id
+  type-aliases-package: ${onework.info.base-package}.data

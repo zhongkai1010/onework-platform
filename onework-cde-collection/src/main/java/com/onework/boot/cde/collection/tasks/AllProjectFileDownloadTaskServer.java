@@ -1,11 +1,10 @@
-package com.onework.boot.cde.collection.process;
+package com.onework.boot.cde.collection.tasks;
 
-
-import com.onework.boot.cde.collection.CollectionHelper;
 import com.onework.boot.cde.collection.OneworkCDECollectionApplication;
 import com.onework.boot.cde.collection.RegistrationNumberStore;
 import com.onework.boot.cde.collection.ServerConfiguration;
-import com.onework.boot.cde.collection.thread.CollectionProjectThread;
+import com.onework.boot.cde.collection.WebDriverHelper;
+import com.onework.boot.cde.collection.threads.FileDownloadThread;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -14,7 +13,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Component
-public class AllProjectProcessServer implements IProcessServer {
+public class AllProjectFileDownloadTaskServer implements ITaskServer {
 
     private final ServerConfiguration serverConfiguration;
 
@@ -23,7 +22,7 @@ public class AllProjectProcessServer implements IProcessServer {
     private static final Logger LOG = LoggerFactory
             .getLogger(OneworkCDECollectionApplication.class);
 
-    public AllProjectProcessServer(ServerConfiguration serverConfiguration, RegistrationNumberStore registrationNumberStore) {
+    public AllProjectFileDownloadTaskServer(ServerConfiguration serverConfiguration, RegistrationNumberStore registrationNumberStore) {
         this.serverConfiguration = serverConfiguration;
         this.registrationNumberStore = registrationNumberStore;
     }
@@ -33,7 +32,7 @@ public class AllProjectProcessServer implements IProcessServer {
         LOG.info("启动采集所有CDE项目服务（AllProjectProcessServer）");
 
         int numThreads = serverConfiguration.getThreadCount();
-        int totalData = CollectionHelper.getProjectTotal(serverConfiguration);
+        int totalData = WebDriverHelper.getProjectTotal(serverConfiguration);
         LOG.info("启动采集所有CDE项目服务（AllProjectProcessServer），共有{}项", totalData);
         // 初始化登记号数据，过滤已处理登记号
         registrationNumberStore.initData();
@@ -48,7 +47,7 @@ public class AllProjectProcessServer implements IProcessServer {
         for (int i = 0; i < numThreads; i++) {
             // 计算每个线程需要处理的数据条数
             int end = start + baseCount + (i < remainder ? 1 : 0) - 1;
-            executor.execute(new CollectionProjectThread(serverConfiguration, registrationNumberStore, start, end));
+            executor.execute(new FileDownloadThread(serverConfiguration, registrationNumberStore, start, end));
             // 更新下一个线程的起始条数
             start = end + 1;
         }
