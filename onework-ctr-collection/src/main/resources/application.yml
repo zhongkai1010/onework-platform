@@ -15,7 +15,8 @@ onework:
       drive-path: D:\tools\chromedriver-win64\chromedriver.exe
       incognito: true
       open-window: true
-      thread-count: 10
+      thread-count: 5
       save-path: D:\中国临床试验注册中心
-      server-type: scan_list
+      server-type: file_parse
       max-page: 10000
+      init-data: false

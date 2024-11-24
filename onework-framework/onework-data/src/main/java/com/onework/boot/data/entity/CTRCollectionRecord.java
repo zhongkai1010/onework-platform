@@ -16,7 +16,7 @@ import lombok.Setter;
  * </p>
  *
  * @author baomidou
- * @since 2024-11-20
+ * @since 2024-11-24
  */
 @Getter
 @Setter
@@ -68,10 +68,22 @@ public class CTRCollectionRecord implements Serializable {
     private String projectLink;
 
     /**
+     * 历史版本链接
+     */
+    @TableField("history_version_link")
+    private String historyVersionLink;
+
+    /**
      * 项目采集时间
      */
-    @TableField("project_collection_time")
-    private LocalDateTime projectCollectionTime;
+    @TableField("record_date")
+    private LocalDateTime recordDate;
+
+    /**
+     * 是否下载
+     */
+    @TableField("is_download")
+    private Boolean isDownload;
 
     /**
      * 文件路径
@@ -80,22 +92,22 @@ public class CTRCollectionRecord implements Serializable {
     private String filePath;
 
     /**
-     * 表格采集时间
+     * 下载时间
      */
-    @TableField("table_collection_time")
-    private LocalDateTime tableCollectionTime;
-
-    /**
-     * 历史版本链接
-     */
-    @TableField("history_version_link")
-    private String historyVersionLink;
+    @TableField("download_date")
+    private LocalDateTime downloadDate;
 
     /**
      * 是否解析
      */
-    @TableField("is_parsed")
-    private Boolean isParsed;
+    @TableField("is_parse")
+    private Boolean isParse;
+
+    /**
+     * 解析时间
+     */
+    @TableField("parse_date")
+    private LocalDateTime parseDate;
 
     /**
      * 创建时间

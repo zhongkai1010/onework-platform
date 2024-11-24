@@ -60,5 +60,10 @@ public class ServerConfiguration {
     /**
      *  采集类型
      */
-    private CollectionServerType serverType;
+    private TaskServerType serverType;
+
+    /**
+     *  是否初次加载数据
+     */
+    private boolean initData;
 }

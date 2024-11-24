@@ -1,9 +1,10 @@
 package com.onework.boot.cde.collection.tasks;
 
 import com.onework.boot.cde.collection.OneworkCDECollectionApplication;
-import com.onework.boot.cde.collection.RegistrationNumberStore;
+import com.onework.boot.cde.collection.ProjectRecordStore;
 import com.onework.boot.cde.collection.ServerConfiguration;
 import com.onework.boot.cde.collection.WebDriverHelper;
+import com.onework.boot.data.entity.CDECollectionRecord;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -15,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -28,17 +30,17 @@ public class ScanListTaskServer implements ITaskServer {
 
     private final ServerConfiguration serverConfiguration;
 
-    private final RegistrationNumberStore registrationNumberStore;
+    private final ProjectRecordStore projectRecordStore;
 
-    public ScanListTaskServer(ServerConfiguration serverConfiguration, RegistrationNumberStore registrationNumberStore) {
+    public ScanListTaskServer(ServerConfiguration serverConfiguration, ProjectRecordStore projectRecordStore) {
         this.serverConfiguration = serverConfiguration;
-        this.registrationNumberStore = registrationNumberStore;
+        this.projectRecordStore = projectRecordStore;
     }
 
     @Override
     public void run() {
         LOG.info("启动检索项目列表，记录项目数据服务（AllProjectProcessServer）");
-        registrationNumberStore.initData();
+        projectRecordStore.initData();
         try {
             WebDriver webDriver = WebDriverHelper.getWebDriver(serverConfiguration);
             webDriver.get(serverConfiguration.getCollectionUrl());
@@ -59,8 +61,12 @@ public class ScanListTaskServer implements ITaskServer {
                         }
                         WebElement trWebElement = trsWebElement.get(j);
                         String registrationNumber = trWebElement.findElement(By.cssSelector("td:nth-child(2)")).getText();
-                        if (registrationNumberStore.exist(registrationNumber)) {
-                            registrationNumberStore.add(registrationNumber, null);
+                        if (projectRecordStore.exist(registrationNumber)) {
+
+                            CDECollectionRecord record = new CDECollectionRecord();
+                            record.setRegistrationNumber(registrationNumber);
+                            record.setRecordDate(LocalDateTime.now());
+                            projectRecordStore.add(record);
                             LOG.info("检索项目列表，记录项目数据服务（AllProjectProcessServer），第{}页，发现新登记号：{}", i, registrationNumber);
                         } else {
                             LOG.info("检索项目列表，记录项目数据服务（AllProjectProcessServer），第{}页，登记号：{}，已存在", i, registrationNumber);

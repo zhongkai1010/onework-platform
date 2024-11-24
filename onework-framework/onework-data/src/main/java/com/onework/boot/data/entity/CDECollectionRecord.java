@@ -16,7 +16,7 @@ import lombok.Setter;
  * </p>
  *
  * @author baomidou
- * @since 2024-11-20
+ * @since 2024-11-24
  */
 @Getter
 @Setter
@@ -38,28 +38,40 @@ public class CDECollectionRecord implements Serializable {
     private String registrationNumber;
 
     /**
-     * 采集时间
+     * 记录时间
      */
-    @TableField("collection_date")
-    private LocalDateTime collectionDate;
+    @TableField("record_date")
+    private LocalDateTime recordDate;
 
     /**
-     * 是否解析处理
+     * 是否下载页面
      */
-    @TableField("parse_handle")
-    private Boolean parseHandle;
-
-    /**
-     * 解析的时间
-     */
-    @TableField("parse_date")
-    private LocalDateTime parseDate;
+    @TableField("is_download")
+    private Boolean isDownload;
 
     /**
      * 文件地址
      */
     @TableField("file_path")
     private String filePath;
+
+    /**
+     * 文件下载时间
+     */
+    @TableField("download_date")
+    private LocalDateTime downloadDate;
+
+    /**
+     * 是否解析处理
+     */
+    @TableField("is_parse")
+    private Boolean isParse;
+
+    /**
+     * 解析的时间
+     */
+    @TableField("parse_date")
+    private LocalDateTime parseDate;
 
     /**
      * 创建时间

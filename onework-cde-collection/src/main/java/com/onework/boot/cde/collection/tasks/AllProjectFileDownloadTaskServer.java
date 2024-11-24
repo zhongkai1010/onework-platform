@@ -1,7 +1,7 @@
 package com.onework.boot.cde.collection.tasks;
 
 import com.onework.boot.cde.collection.OneworkCDECollectionApplication;
-import com.onework.boot.cde.collection.RegistrationNumberStore;
+import com.onework.boot.cde.collection.ProjectRecordStore;
 import com.onework.boot.cde.collection.ServerConfiguration;
 import com.onework.boot.cde.collection.WebDriverHelper;
 import com.onework.boot.cde.collection.threads.FileDownloadThread;
@@ -12,19 +12,22 @@ import org.springframework.stereotype.Component;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ *  下载所有项目文件
+ */
 @Component
 public class AllProjectFileDownloadTaskServer implements ITaskServer {
 
     private final ServerConfiguration serverConfiguration;
 
-    private final RegistrationNumberStore registrationNumberStore;
+    private final ProjectRecordStore projectRecordStore;
 
     private static final Logger LOG = LoggerFactory
             .getLogger(OneworkCDECollectionApplication.class);
 
-    public AllProjectFileDownloadTaskServer(ServerConfiguration serverConfiguration, RegistrationNumberStore registrationNumberStore) {
+    public AllProjectFileDownloadTaskServer(ServerConfiguration serverConfiguration, ProjectRecordStore projectRecordStore) {
         this.serverConfiguration = serverConfiguration;
-        this.registrationNumberStore = registrationNumberStore;
+        this.projectRecordStore = projectRecordStore;
     }
 
     @Override
@@ -35,7 +38,7 @@ public class AllProjectFileDownloadTaskServer implements ITaskServer {
         int totalData = WebDriverHelper.getProjectTotal(serverConfiguration);
         LOG.info("启动采集所有CDE项目服务（AllProjectProcessServer），共有{}项", totalData);
         // 初始化登记号数据，过滤已处理登记号
-        registrationNumberStore.initData();
+        projectRecordStore.initData();
         // 计算每个线程处理的基本条数
         int baseCount = totalData / numThreads;
         // 计算剩余条数，分配给部分线程
@@ -47,7 +50,7 @@ public class AllProjectFileDownloadTaskServer implements ITaskServer {
         for (int i = 0; i < numThreads; i++) {
             // 计算每个线程需要处理的数据条数
             int end = start + baseCount + (i < remainder ? 1 : 0) - 1;
-            executor.execute(new FileDownloadThread(serverConfiguration, registrationNumberStore, start, end));
+            executor.execute(new FileDownloadThread(serverConfiguration, projectRecordStore, start, end));
             // 更新下一个线程的起始条数
             start = end + 1;
         }

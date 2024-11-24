@@ -1,10 +1,11 @@
-package com.onework.boot.cde.collection.threads;
+package com.onework.boot.ctr.collection.threads;
 
-import com.onework.boot.cde.collection.FileParseHelper;
-import com.onework.boot.cde.collection.OneworkCDECollectionApplication;
-import com.onework.boot.cde.collection.ProjectRecordStore;
-import com.onework.boot.data.entity.CDECollectionRecord;
+import com.onework.boot.ctr.collection.FileParseHelper;
+import com.onework.boot.ctr.collection.OneworkCTRCollectionApplication;
+import com.onework.boot.ctr.collection.ProjectRecordStore;
 import com.onework.boot.data.entity.CDEProject;
+import com.onework.boot.data.entity.CTRCollectionRecord;
+import com.onework.boot.data.entity.CTRProject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
@@ -15,18 +16,18 @@ import java.util.List;
 
 public class FileParseThread extends Thread {
 
-    private final List<CDECollectionRecord> records;
+    private final List<CTRCollectionRecord> records;
 
     private final int start;
 
     private final int end;
 
     private static final Logger LOG = LoggerFactory
-            .getLogger(OneworkCDECollectionApplication.class);
+            .getLogger(OneworkCTRCollectionApplication.class);
 
     private final ProjectRecordStore projectRecordStore;
 
-    public FileParseThread(int start, int end, List<CDECollectionRecord> records, ProjectRecordStore projectRecordStore) {
+    public FileParseThread(int start, int end, List<CTRCollectionRecord> records, ProjectRecordStore projectRecordStore) {
         this.records = records;
         this.start = start;
         this.end = end;
@@ -36,14 +37,15 @@ public class FileParseThread extends Thread {
     @Override
     public void run() {
         LOG.info("项目文件解析服务（FileParseProcessServer），[线程（{}-{}）],开始处理", start, end + 1);
-        for (CDECollectionRecord record : records) {
+        for (CTRCollectionRecord record : records) {
             File file = new File(record.getFilePath());
             if (!file.exists()) {
                 LOG.warn("项目文件解析服务（FileParseProcessServer），[线程（{}-{}）]，{}文件不存在，", start, end, record.getFilePath());
             } else {
                 try {
                     Document document = Jsoup.parse(file);
-                    CDEProject project = FileParseHelper.createProject(document);
+                    CTRProject project = FileParseHelper.createProject(document);
+
                     projectRecordStore.markParse(record.getRegistrationNumber(), project);
                     LOG.warn("项目文件解析服务（FileParseProcessServer），[线程（{}-{}）]，{}文件已经解析完成，", start, end, record.getFilePath());
 

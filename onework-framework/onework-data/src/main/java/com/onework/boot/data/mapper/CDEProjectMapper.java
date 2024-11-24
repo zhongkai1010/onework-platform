@@ -9,7 +9,7 @@ import com.onework.boot.framework.mybatis.core.mapper.BaseMapperX;
  * </p>
  *
  * @author baomidou
- * @since 2024-11-20
+ * @since 2024-11-24
  */
 public interface CDEProjectMapper extends BaseMapperX<CDEProject> {
 

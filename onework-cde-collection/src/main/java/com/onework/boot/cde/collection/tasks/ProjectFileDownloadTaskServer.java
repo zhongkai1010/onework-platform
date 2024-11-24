@@ -1,12 +1,11 @@
 package com.onework.boot.cde.collection.tasks;
 
 import cn.hutool.core.io.FileUtil;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.onework.boot.cde.collection.OneworkCDECollectionApplication;
+import com.onework.boot.cde.collection.ProjectRecordStore;
 import com.onework.boot.cde.collection.ServerConfiguration;
 import com.onework.boot.cde.collection.WebDriverHelper;
 import com.onework.boot.data.entity.CDECollectionRecord;
-import com.onework.boot.data.mapper.CDECollectionRecordMapper;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,19 +23,20 @@ public class ProjectFileDownloadTaskServer implements ITaskServer {
     private static final Logger LOG = LoggerFactory
             .getLogger(OneworkCDECollectionApplication.class);
 
-    private final CDECollectionRecordMapper recordMapper;
+    private final ProjectRecordStore projectRecordStore;
 
     private final ServerConfiguration serverConfiguration;
 
-    public ProjectFileDownloadTaskServer(CDECollectionRecordMapper recordMapper, ServerConfiguration serverConfiguration) {
-        this.recordMapper = recordMapper;
+    public ProjectFileDownloadTaskServer(ProjectRecordStore projectRecordStore, ServerConfiguration serverConfiguration) {
+        this.projectRecordStore = projectRecordStore;
+
         this.serverConfiguration = serverConfiguration;
     }
 
     @Override
     public void run() {
         LOG.info("启动下载项目文件服务（FileDownloadProcessServer）");
-        List<CDECollectionRecord> records = recordMapper.selectList(Wrappers.<CDECollectionRecord>lambdaQuery().isNull(CDECollectionRecord::getFilePath));
+        List<CDECollectionRecord> records = projectRecordStore.getNotDownloadProjects();
         if (records.isEmpty()) {
             LOG.info("下载项目文件服务（FileDownloadProcessServer），无最新记录，退出服务");
         } else {
@@ -53,8 +53,7 @@ public class ProjectFileDownloadTaskServer implements ITaskServer {
                         String html = webDriver.getPageSource();
                         String filePathName = String.format("%s\\%s.html", serverConfiguration.getSavePath(), registrationNo);
                         FileUtil.writeString(html, filePathName, StandardCharsets.UTF_8);
-                        record.setFilePath(filePathName);
-                        recordMapper.updateById(record);
+                        projectRecordStore.markDownload(record.getRegistrationNumber(), filePathName);
                         WebDriverHelper.backListPage(webDriver);
                         LOG.info("下载项目文件服务（FileDownloadProcessServer），{}，下载成功", record.getFilePath());
                     }

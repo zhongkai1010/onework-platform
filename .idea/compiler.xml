@@ -20,6 +20,7 @@
         </processorPath>
         <module name="onework-common" />
         <module name="onework-spring-boot-starter-mybatis" />
+        <module name="onework-tools-generator" />
       </profile>
       <profile name="Annotation profile for onework-ctr-collection" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -52,22 +53,6 @@
           <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/mapstruct/mapstruct/1.6.2/mapstruct-1.6.2.jar" />
         </processorPath>
         <module name="onework-data" />
-      </profile>
-      <profile name="Annotation profile for onework-tools-generator" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/springframework/boot/spring-boot-configuration-processor/3.3.4/spring-boot-configuration-processor-3.3.4.jar" />
-          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/projectlombok/lombok/1.18.34/lombok-1.18.34.jar" />
-          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/mapstruct/mapstruct-processor/1.6.2/mapstruct-processor-1.6.2.jar" />
-          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/mapstruct/mapstruct/1.6.2/mapstruct-1.6.2.jar" />
-          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/springframework/boot/spring-boot-configuration-processor/3.3.4/spring-boot-configuration-processor-3.3.4.jar" />
-          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/projectlombok/lombok/1.18.34/lombok-1.18.34.jar" />
-          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/mapstruct/mapstruct-processor/1.6.2/mapstruct-processor-1.6.2.jar" />
-          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/mapstruct/mapstruct/1.6.2/mapstruct-1.6.2.jar" />
-        </processorPath>
-        <module name="onework-tools-generator" />
       </profile>
       <profile name="Annotation profile for onework-cde-collection" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />

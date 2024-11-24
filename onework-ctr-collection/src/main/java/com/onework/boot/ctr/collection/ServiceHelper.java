@@ -13,12 +13,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -230,9 +225,6 @@ public class ServiceHelper {
                     String url = aWebElement.getAttribute("href");
                     record.setProjectLink(url);
 
-                    record.setTableCollectionTime(LocalDateTime.now());
-                    record.setIsParsed(false);
-
                     records.add(record);
                 }
                 return records;
@@ -283,57 +275,7 @@ public class ServiceHelper {
         }
     }
 
-
-    public static List<String> readLines(String filePath, int startLine, int endLine) {
-        List<String> lines = new ArrayList<>();
-
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(filePath)), StandardCharsets.UTF_8))) {
-            String line;
-            int currentLine = 1;
-
-            while ((line = reader.readLine()) != null) {
-                if (currentLine >= startLine && currentLine <= endLine) {
-                    lines.add(line);
-                }
-
-                currentLine++;
-
-                if (currentLine > endLine) {
-                    break;
-                }
-            }
-        } catch (IOException e) {
-            System.err.println("Error reading file: " + e.getMessage());
-        }
-
-        return lines;
-    }
-
-    public static int getTotalLine(String filePath) {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(filePath)), StandardCharsets.UTF_8))) {
-            int lines = 0;
-            while (reader.readLine() != null) {
-                lines++;
-            }
-            return lines;
-        } catch (IOException e) {
-            System.err.println("文件读取出错: " + e.getMessage());
-            return 0;
-        }
-    }
-
-    public static String getUrl(String context) {
-
-        String[] items = context.split("，");
-        if (items.length > 0) {
-            return items[0];
-        } else {
-            return null;
-        }
-    }
-
-    public static void saveProject(WebDriver webDriver, ServerConfiguration serverConfiguration, CTRCollectionRecord record) {
-        webDriver.get(record.getProjectLink());
+    public static String saveProject(WebDriver webDriver, ServerConfiguration serverConfiguration) {
         while (true) {
             try {
                 WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(10)); // 设置等待时间
@@ -349,8 +291,8 @@ public class ServiceHelper {
                 String registrationNumber = registrationNumberWebElement.getText();
                 String filePathName = String.format("%s\\%s.html", serverConfiguration.getSavePath(), registrationNumber.trim());
                 FileUtil.writeString(newHtmlContent, filePathName, StandardCharsets.UTF_8);
-                record.setFilePath(filePathName);
-                break;
+                return filePathName;
+
             } catch (Exception exception) {
                 ArrayList<String> tabs = new ArrayList<>(webDriver.getWindowHandles());
                 webDriver.switchTo().window(tabs.get(tabs.size() - 1));

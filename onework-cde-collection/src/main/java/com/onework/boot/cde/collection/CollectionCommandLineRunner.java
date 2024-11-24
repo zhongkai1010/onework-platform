@@ -22,17 +22,23 @@ public class CollectionCommandLineRunner implements CommandLineRunner {
 
     private final ScanListTaskServer scanListProcessServer;
 
-    public CollectionCommandLineRunner(ServerConfiguration serverConfiguration, AllProjectFileDownloadTaskServer allProjectProcessServer, ProjectFileDownloadTaskServer fileDownloadProcessServer, FileParseTaskServer fileParseProcessServer, ScanListTaskServer scanListProcessServer) {
+    private final ProjectRecordStore recordStore;
+
+    public CollectionCommandLineRunner(ServerConfiguration serverConfiguration, AllProjectFileDownloadTaskServer allProjectProcessServer, ProjectFileDownloadTaskServer fileDownloadProcessServer, FileParseTaskServer fileParseProcessServer, ScanListTaskServer scanListProcessServer, ProjectRecordStore recordStore) {
         this.serverConfiguration = serverConfiguration;
         this.allProjectProcessServer = allProjectProcessServer;
         this.fileDownloadProcessServer = fileDownloadProcessServer;
         this.fileParseProcessServer = fileParseProcessServer;
         this.scanListProcessServer = scanListProcessServer;
+        this.recordStore = recordStore;
     }
 
 
     @Override
     public void run(String... args) {
+
+        // 加载初始化数据
+        recordStore.initData();
 
         switch (serverConfiguration.getServerType()) {
             case ALL_FILE_DOWNLOAD:

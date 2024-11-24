@@ -1,10 +1,10 @@
-package com.onework.boot.ctr.collection.process;
+package com.onework.boot.ctr.collection.tasks;
 
 import com.onework.boot.ctr.collection.OneworkCTRCollectionApplication;
-import com.onework.boot.ctr.collection.RegistrationNumberStore;
+import com.onework.boot.ctr.collection.ProjectRecordStore;
 import com.onework.boot.ctr.collection.ServerConfiguration;
 import com.onework.boot.ctr.collection.ServiceHelper;
-import com.onework.boot.ctr.collection.thread.CollectionListThread;
+import com.onework.boot.ctr.collection.threads.ScanListThread;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -13,21 +13,21 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Component
-public class ScanListProcessServer implements IProcessServer {
+public class ScanListTaskServer implements ITaskServer {
 
     private static final Logger LOG = LoggerFactory
             .getLogger(OneworkCTRCollectionApplication.class);
-    private final RegistrationNumberStore registrationNumberStore;
+    private final ProjectRecordStore projectRecordStore;
     private final ServerConfiguration serverConfiguration;
 
-    public ScanListProcessServer(RegistrationNumberStore registrationNumberStore, ServerConfiguration serverConfiguration) {
-        this.registrationNumberStore = registrationNumberStore;
+    public ScanListTaskServer(ProjectRecordStore projectRecordStore, ServerConfiguration serverConfiguration) {
+        this.projectRecordStore = projectRecordStore;
         this.serverConfiguration = serverConfiguration;
     }
 
     @Override
     public void run() {
-        registrationNumberStore.initData();
+        projectRecordStore.initData();
         LOG.info("启动检索项目列表，记录项目数据服务（AllProjectProcessServer）");
         int totalDataCount = ServiceHelper.getTotalPage(serverConfiguration);
         LOG.info("启动检索项目列表，记录项目数据服务（AllProjectProcessServer），共计{}条", totalDataCount);
@@ -43,7 +43,7 @@ public class ScanListProcessServer implements IProcessServer {
             if (i < remainder) {
                 end++;
             }
-            executor.execute(new CollectionListThread(serverConfiguration, registrationNumberStore, start, end));
+            executor.execute(new ScanListThread(serverConfiguration, projectRecordStore, start, end));
             start = end + 1;
         }
         executor.shutdown();

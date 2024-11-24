@@ -38,9 +38,10 @@ public class InitializeCommandLineRunner implements CommandLineRunner {
                         if (!exist) {
                             CDECollectionRecord record = new CDECollectionRecord();
                             record.setRegistrationNumber(registrationNumber);
-                            record.setCollectionDate(LocalDateTime.now());
-                            record.setParseHandle(false);
+                            record.setIsDownload(true);
+                            record.setDownloadDate(LocalDateTime.now());
                             record.setFilePath(filePath);
+                            record.setIsParse(false);
                             recordMapper.insert(record);
                         }
                     });
