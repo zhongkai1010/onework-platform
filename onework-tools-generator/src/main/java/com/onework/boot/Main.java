@@ -17,7 +17,7 @@ public class Main {
         String url = "jdbc:mysql://127.0.0.1:33061/onework_platform?allowPublicKeyRetrieval=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false";
         String user = "root";
         String password = "123456";
-        String projectPath = Paths.get(System.getProperty("user.dir")) + "\\onework-framework\\onework-data";
+        String projectPath = Paths.get(System.getProperty("user.dir")) + "\\onework-scrape";
         System.out.println(projectPath);
 
         FastAutoGenerator.create(url, user, password)
@@ -26,7 +26,7 @@ public class Main {
                         .disableOpenDir()
                 )
                 .packageConfig(builder -> builder
-                        .parent("com.onework.boot.data")
+                        .parent("com.onework.boot.scrape.data")
                         .entity("entity")
                         .mapper("mapper")
                         .service("service")
@@ -46,6 +46,9 @@ public class Main {
                             if (fileName.toLowerCase().startsWith("ctr")) {
                                 return "CTR" + fileName.substring(3) + "Service";
                             }
+                            if (fileName.toLowerCase().startsWith("ctmds")) {
+                                return "CTMDS" + fileName.substring(5) + "Service";
+                            }
                             return fileName;
                         })
                         .convertServiceImplFileName(fileName -> {
@@ -55,6 +58,9 @@ public class Main {
                             }
                             if (fileName.toLowerCase().startsWith("ctr")) {
                                 return "CTR" + fileName.substring(3) + "ServiceImpl";
+                            }
+                            if (fileName.toLowerCase().startsWith("ctmds")) {
+                                return "CTMDS" + fileName.substring(5) + "ServiceImpl";
                             }
                             return fileName;
                         })
@@ -70,6 +76,9 @@ public class Main {
                             if (fileName.toLowerCase().startsWith("ctr")) {
                                 return "CTR" + fileName.substring(3) + "Mapper";
                             }
+                            if (fileName.toLowerCase().startsWith("ctmds")) {
+                                return "CTMDS" + fileName.substring(5) + "Mapper";
+                            }
                             return fileName;
                         })
                         .enableFileOverride()
@@ -80,6 +89,9 @@ public class Main {
                             }
                             if (fileName.toLowerCase().startsWith("ctr")) {
                                 return "CTR" + fileName.substring(3) + "Mapper";
+                            }
+                            if (fileName.toLowerCase().startsWith("ctmds")) {
+                                return "CTMDS" + fileName.substring(5) + "Mapper";
                             }
                             return fileName;
                         })
@@ -92,6 +104,9 @@ public class Main {
                             }
                             if (fileName.toLowerCase().startsWith("ctr")) {
                                 return "CTR" + fileName.substring(3);
+                            }
+                            if (fileName.toLowerCase().startsWith("ctmds")) {
+                                return "CTMDS" + fileName.substring(5) ;
                             }
                             return fileName;
                         })

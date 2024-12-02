@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 
 
 @AutoConfiguration(before = MybatisPlusAutoConfiguration.class)
-@MapperScan(value = "${onework.info.base-package}.*.mapper") // Mapper 懒加载，目前仅用于单元测试
+@MapperScan(value = "${onework.info.base-package}.*.*.mapper") // Mapper 懒加载，目前仅用于单元测试
 public class OneWorkMybatisAutoConfiguration {
 
     @Bean

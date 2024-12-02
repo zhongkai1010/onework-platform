@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: onework-scrape
+  main:
+    allow-circular-references: true # 允许循环依赖，因为项目是三层架构，无法避免这个情况。
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
+    url: jdbc:mysql://127.0.0.1:33061/onework_platform?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+  shell:
+    interactive:
+      enabled: false
+    help:
+      enabled: false
+onework:
+  info:
+    base-package: com.onework.boot
+  scrape:
+    drive-path: D:\tools\chromedriver-win64\chromedriver.exe
+    max-error-count: 1
+    thread-count: 10
+    open-window: false
+    incognito: false
+    max-page: 100
+    cde-collection-url: http://www.chinadrugtrials.org.cn/clinicaltrials.searchlist.dhtml
+    cde-save-path: D:\药物临床试验登记与信息公示平台
+    ctmds-collection-url: https://beian.cfdi.org.cn/CTMDS/apps/pub/drugPublic.jsp
+    ctmds-save-path: D:\药物和医疗器械临床试验机构备案系统
+    ctr-collection-url: https://www.chictr.org.cn/searchproj.html
+    ctr-save-path: D:\中国临床试验注册中心
+

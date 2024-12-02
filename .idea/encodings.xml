@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/onework-cde-analysis/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/onework-cde-analysis/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/onework-cde-collection/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/onework-cde-collection/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/onework-cde-collection/src/main/resources/application.yml" charset="UTF-8" />
@@ -9,6 +11,8 @@
     <file url="file://$PROJECT_DIR$/onework-cde/onework-cde-parse/src/main/resources/application.yml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/onework-cde/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/onework-cde/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/onework-ctmds-collection/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/onework-ctmds-collection/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/onework-ctr-collection/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/onework-ctr-collection/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/onework-ctr/src/main/java" charset="UTF-8" />
@@ -21,6 +25,8 @@
     <file url="file://$PROJECT_DIR$/onework-framework/onework-spring-boot-starter-mybatis/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/onework-framework/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/onework-framework/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/onework-scrape/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/onework-scrape/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/onework-scraper-ctr/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/onework-scraper-ctr/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/onework-tools-generator/src/main/java" charset="UTF-8" />

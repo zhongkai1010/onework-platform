@@ -12,7 +12,6 @@
     <!-- 子模块 -->
     <modules>
         <module>onework-common</module>
-        <module>onework-data</module>
         <module>onework-spring-boot-starter-mybatis</module>
     </modules>
     <!-- 基础信息 -->
