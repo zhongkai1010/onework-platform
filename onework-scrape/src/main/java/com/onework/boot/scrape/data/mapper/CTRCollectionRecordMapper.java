@@ -9,7 +9,7 @@ import com.onework.boot.framework.mybatis.core.mapper.BaseMapperX;
  * </p>
  *
  * @author baomidou
- * @since 2024-11-29
+ * @since 2024-12-03
  */
 public interface CTRCollectionRecordMapper extends BaseMapperX<CTRCollectionRecord> {
 

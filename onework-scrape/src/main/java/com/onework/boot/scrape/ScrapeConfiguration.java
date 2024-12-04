@@ -9,7 +9,7 @@ import org.springframework.validation.annotation.Validated;
 @ConfigurationProperties("onework.scrape")
 @Data
 @Validated
-public class ServerConfiguration {
+public class ScrapeConfiguration {
 
     /**
      *  线程数
@@ -43,6 +43,11 @@ public class ServerConfiguration {
      *  采集最大页数
      */
     private int maxPage;
+
+    /**
+     *  是否初始化数据
+     */
+    private boolean initData;
 
     /**
      *  采集链接

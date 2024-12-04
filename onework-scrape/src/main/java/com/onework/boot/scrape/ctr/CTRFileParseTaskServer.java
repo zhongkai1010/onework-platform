@@ -1,8 +1,8 @@
-package com.onework.boot.scrape.ctr.tasks;
+package com.onework.boot.scrape.ctr;
 
 import com.onework.boot.scrape.OneworkScrapeApplication;
 import com.onework.boot.scrape.ITaskServer;
-import com.onework.boot.scrape.ServerConfiguration;
+import com.onework.boot.scrape.ScrapeConfiguration;
 import com.onework.boot.scrape.ctr.store.CTRProjectRecordStore;
 import com.onework.boot.scrape.ctr.threads.FileParseThread;
 import com.onework.boot.scrape.data.entity.CTRCollectionRecord;
@@ -18,28 +18,29 @@ import java.util.concurrent.Executors;
 public class CTRFileParseTaskServer implements ITaskServer {
 
 
-    private final ServerConfiguration serverConfiguration;
+    private final ScrapeConfiguration scrapeConfiguration;
 
-    private final CTRProjectRecordStore CTRProjectRecordStore;
+    private final CTRProjectRecordStore ctrProjectRecordStore;
 
     private static final Logger LOG = LoggerFactory
             .getLogger(OneworkScrapeApplication.class);
 
-    public CTRFileParseTaskServer(ServerConfiguration serverConfiguration, CTRProjectRecordStore CTRProjectRecordStore) {
-        this.serverConfiguration = serverConfiguration;
-        this.CTRProjectRecordStore = CTRProjectRecordStore;
+    public CTRFileParseTaskServer(ScrapeConfiguration scrapeConfiguration, CTRProjectRecordStore ctrProjectRecordStore) {
+        this.scrapeConfiguration = scrapeConfiguration;
+        this.ctrProjectRecordStore = ctrProjectRecordStore;
+        this.ctrProjectRecordStore.initData();
     }
 
     @Override
     public void run() {
         LOG.info("启动项目文件解析服务（FileParseProcessServer）");
 
-        List<CTRCollectionRecord> records = CTRProjectRecordStore.getNotParseProjects();
+        List<CTRCollectionRecord> records = ctrProjectRecordStore.getNotParseProjects();
 
         long totalData = records.size();
         LOG.info("项目文件解析服务（FileParseProcessServer），共{}条数据处理", totalData);
 
-        int numThreads = serverConfiguration.getThreadCount();
+        int numThreads = scrapeConfiguration.getThreadCount();
         // 基础分配数量
         int dataPerPage = Math.toIntExact(totalData / numThreads);
         // 余数（需要多处理的项数）
@@ -54,7 +55,7 @@ public class CTRFileParseTaskServer implements ITaskServer {
             startItem = Math.max(0, startItem);
             endItem = Math.min(records.size() - 1, endItem);
             List<CTRCollectionRecord> pageData = records.subList(startItem, endItem + 1);  // 获取数据区间
-            executor.execute(new FileParseThread(startItem, endItem + 1, pageData, CTRProjectRecordStore));
+            executor.execute(new FileParseThread(startItem, endItem + 1, pageData, ctrProjectRecordStore));
         }
         executor.shutdown();
     }

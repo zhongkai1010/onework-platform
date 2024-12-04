@@ -1,6 +1,6 @@
 package com.onework.boot.scrape.data.mapper;
 
-import com.onework.boot.scrape.data.entity.CDERelationship;
+import com.onework.boot.scrape.data.entity.BoheCompany;
 import com.onework.boot.framework.mybatis.core.mapper.BaseMapperX;
 
 /**
@@ -9,8 +9,8 @@ import com.onework.boot.framework.mybatis.core.mapper.BaseMapperX;
  * </p>
  *
  * @author baomidou
- * @since 2024-11-29
+ * @since 2024-12-03
  */
-public interface CDERelationshipMapper extends BaseMapperX<CDERelationship> {
+public interface BoheCompanyMapper extends BaseMapperX<BoheCompany> {
 
 }

@@ -1,12 +1,11 @@
-package com.onework.boot.scrape.cde.tasks;
+package com.onework.boot.scrape.cde;
 
 import cn.hutool.core.io.FileUtil;
-import com.onework.boot.scrape.OneworkScrapeApplication;
-import com.onework.boot.scrape.cde.CDEWebDriverHelper;
-import com.onework.boot.scrape.cde.store.CDEProjectRecordStore;
 import com.onework.boot.scrape.ITaskServer;
-import com.onework.boot.scrape.ServerConfiguration;
-import com.onework.boot.scrape.WebDriverHelper;
+import com.onework.boot.scrape.OneworkScrapeApplication;
+import com.onework.boot.scrape.ScrapeConfiguration;
+import com.onework.boot.scrape.ScrapeHelper;
+import com.onework.boot.scrape.cde.store.CDEProjectRecordStore;
 import com.onework.boot.scrape.data.entity.CDECollectionRecord;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
@@ -25,37 +24,39 @@ public class CDEProjectFileDownloadTaskServer implements ITaskServer {
     private static final Logger LOG = LoggerFactory
             .getLogger(OneworkScrapeApplication.class);
 
-    private final CDEProjectRecordStore CDEProjectRecordStore;
+    private final CDEProjectRecordStore cdeProjectRecordStore;
 
-    private final ServerConfiguration serverConfiguration;
+    private final ScrapeConfiguration scrapeConfiguration;
 
-    public CDEProjectFileDownloadTaskServer(CDEProjectRecordStore CDEProjectRecordStore, ServerConfiguration serverConfiguration) {
-        this.CDEProjectRecordStore = CDEProjectRecordStore;
+    public CDEProjectFileDownloadTaskServer(CDEProjectRecordStore cdeProjectRecordStore, ScrapeConfiguration scrapeConfiguration) {
+        this.cdeProjectRecordStore = cdeProjectRecordStore;
+        this.scrapeConfiguration = scrapeConfiguration;
 
-        this.serverConfiguration = serverConfiguration;
+        this.cdeProjectRecordStore.initData();
     }
 
     @Override
     public void run() {
         LOG.info("启动下载项目文件服务（FileDownloadProcessServer）");
-        List<CDECollectionRecord> records = CDEProjectRecordStore.getNotDownloadProjects();
+
+        List<CDECollectionRecord> records = cdeProjectRecordStore.getNotDownloadProjects();
         if (records.isEmpty()) {
             LOG.info("下载项目文件服务（FileDownloadProcessServer），无最新记录，退出服务");
         } else {
             LOG.info("下载项目文件服务（FileDownloadProcessServer），共{}条，开始处理", records.size());
             while (true) {
-                WebDriver webDriver = WebDriverHelper.getWebDriver(serverConfiguration);
+                WebDriver webDriver = ScrapeHelper.getWebDriver(scrapeConfiguration);
                 try {
-                    webDriver.get(serverConfiguration.getCdeCollectionUrl());
+                    webDriver.get(scrapeConfiguration.getCdeCollectionUrl());
                     LOG.info("下载项目文件服务（FileDownloadProcessServer），共{}条，成功打开链接", records.size());
                     for (CDECollectionRecord record : records) {
                         CDEWebDriverHelper.searchRegistrationNo(webDriver, record.getRegistrationNumber());
                         CDEWebDriverHelper.goToDetails(webDriver);
                         String registrationNo = CDEWebDriverHelper.getRegistrationNo(webDriver);
                         String html = webDriver.getPageSource();
-                        String filePathName = String.format("%s\\%s.html", serverConfiguration.getCdeSavePath(), registrationNo);
+                        String filePathName = String.format("%s\\%s.html", scrapeConfiguration.getCdeSavePath(), registrationNo);
                         FileUtil.writeString(html, filePathName, StandardCharsets.UTF_8);
-                        CDEProjectRecordStore.markDownload(record.getRegistrationNumber(), filePathName);
+                        cdeProjectRecordStore.markDownload(record.getRegistrationNumber(), filePathName);
                         CDEWebDriverHelper.backListPage(webDriver);
                         LOG.info("下载项目文件服务（FileDownloadProcessServer），{}，下载成功", record.getFilePath());
                     }

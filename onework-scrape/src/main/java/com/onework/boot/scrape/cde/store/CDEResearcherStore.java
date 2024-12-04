@@ -24,10 +24,9 @@ public class CDEResearcherStore {
 
     public CDEResearcherStore(CDEResearcherMapper researcherMapper) {
         this.researcherMapper = researcherMapper;
-        initDate();
     }
 
-    private void initDate() {
+    public void initDate() {
         List<CDEResearcher> researchers = researcherMapper.selectList(null);
         for (CDEResearcher researcher : researchers) {
             String key = String.format("%s-%s", researcher.getInstitutionName(), researcher.getResearcherName());

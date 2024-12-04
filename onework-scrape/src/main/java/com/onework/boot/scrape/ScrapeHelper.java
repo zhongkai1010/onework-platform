@@ -1,14 +1,16 @@
 package com.onework.boot.scrape;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Random;
+import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-public class WebDriverHelper {
+public class ScrapeHelper {
 
     private static final ArrayList<String> userAgents = new ArrayList<>(Arrays.asList("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2227.0 Safari/537.36",
             "Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36",
@@ -113,12 +115,12 @@ public class WebDriverHelper {
 
     /**
      * 配置 ChromeOptions 默认参数，获取 ChromeDriver 对象
-     * @param serverConfiguration 是否无界面模式 true:开启界面，false：无界面
+     * @param scrapeConfiguration 是否无界面模式 true:开启界面，false：无界面
      * @return ChromeDriver 对象
      */
-    public static ChromeDriver getWebDriver(ServerConfiguration serverConfiguration) {
+    public static ChromeDriver getWebDriver(ScrapeConfiguration scrapeConfiguration) {
 
-        System.setProperty("webdriver.chrome.driver", serverConfiguration.getDrivePath());
+        System.setProperty("webdriver.chrome.driver", scrapeConfiguration.getDrivePath());
         // 禁用 Selenium 的日志输出
         System.setProperty("webdriver.chrome.silentOutput", "true");
 
@@ -141,14 +143,169 @@ public class WebDriverHelper {
         // 禁用浏览器扩展程序
         chromeOptions.addArguments("--disable-extensions");
         // 启用无痕模式
-        if (serverConfiguration.isIncognito()) {
+        if (scrapeConfiguration.isIncognito()) {
             chromeOptions.addArguments("--incognito");
         }
         // 开启无界面模式
-        if (!serverConfiguration.isOpenWindow()) {
+        if (!scrapeConfiguration.isOpenWindow()) {
             chromeOptions.addArguments("--headless");
         }
 
         return new ChromeDriver(chromeOptions);
+    }
+
+    /**
+     *  循环执行
+     * @param execute 执行方法
+     */
+    public static void whileExecute(IWhileExecute execute) {
+        while (true) {
+            try {
+                if (execute.execute()) {
+                    break;
+                }
+            } catch (Exception exception) {
+                if (execute.errorHandle(exception)) {
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
+     *
+     * @param items 数据集合
+     * @param workerNum 线程数
+     * @param execute 处理方法
+     * @param <T> 数据类型
+     */
+    public static <T> void listWorkerExecute(List<T> items, int workerNum, IListWorkerExecute<T> execute) {
+        if (items.isEmpty()) {
+            return;
+        }
+        if (items.size() <= workerNum) {
+            execute.execute(1, items.size(), items);
+            return;
+        }
+        ExecutorService executor = Executors.newFixedThreadPool(workerNum);
+        int n = items.size();
+        int chunkSize = n / workerNum;
+        int remainder = n % workerNum;
+        for (int i = 0; i < workerNum; i++) {
+            int start = i * chunkSize + Math.min(i, remainder);  // 处理区间的开始索引
+            int end = (i + 1) * chunkSize + Math.min(i + 1, remainder);  // 处理区间的结束索引
+            // 确保结束索引不越界
+            end = Math.min(end, n);
+            List<T> data = items.subList(start, end);
+
+            int finalEnd = end;
+            executor.execute(() -> execute.execute(start, finalEnd, data));
+        }
+        executor.shutdown();
+    }
+
+    /**
+     *
+     * @param total 数据总量
+     * @param workerNum 线程数
+     * @param execute 处理方法
+     */
+    public static void workerExecute(int total, int workerNum, IWorkerExecute execute) {
+        if (total == 0) {
+            return;
+        }
+        if (total <= workerNum) {
+            execute.execute(1, total);
+            return;
+        }
+        int chunkSize = total / workerNum;
+        int remainder = total % workerNum;
+        ExecutorService executor = Executors.newFixedThreadPool(workerNum);
+        for (int i = 0; i < workerNum; i++) {
+            int start = (i * chunkSize) + 1 + Math.min(i, remainder);  // 从1开始的起始索引
+            int end = (i + 1) * chunkSize + Math.min(i + 1, remainder); // 结束索引
+            // 确保结束索引不越界
+            end = Math.min(end, total);
+
+            int finalEnd = end;
+            executor.execute(() -> execute.execute(start, finalEnd));
+        }
+        executor.shutdown();
+    }
+
+    /**
+     *
+     * @param webDriver 驱动
+     * @param value 值
+     * @return 返回节点
+     */
+    public static WebElement find(WebDriver webDriver, String value) {
+        return webDriver.findElement(By.cssSelector(value));
+    }
+
+    /**
+     *
+     * @param webElement 节点
+     * @param value 值
+     * @return 返回节点
+     */
+    public static WebElement find(WebElement webElement, String value) {
+        return webElement.findElement(By.cssSelector(value));
+    }
+
+    /**
+     *
+     * @param webElement 节点
+     * @param value 值
+     * @return 值
+     */
+    public static String findValue(WebElement webElement, String value) {
+        return webElement.findElement(By.cssSelector(value)).getText();
+    }
+
+    /**
+     *
+     * @param webElement 节点
+     * @param selector 筛选器
+     * @param value 替换值
+     * @return 值
+     */
+    public static String findReplaceValue(WebElement webElement, String selector, String value) {
+        return webElement.findElement(By.cssSelector(selector)).getText().replaceAll(value, "");
+    }
+
+    /**
+     *
+     * @param webElement 节点
+     * @param selector 筛选器
+     * @param attribute 属性
+     * @return 值
+     */
+    public static String findAttributeValue(WebElement webElement, String selector, String attribute) {
+        try {
+            return webElement.findElement(By.cssSelector(selector)).getAttribute(attribute);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
+     *
+     * @param webDriver 驱动
+     * @param value 值
+     * @return 值
+     */
+    public static List<WebElement> findList(WebDriver webDriver, String value) {
+        return webDriver.findElements(By.cssSelector(value));
+    }
+
+    /**
+     *
+     * @param webElement 节点
+     * @param value 值
+     * @return 值
+     */
+    public static List<WebElement> findList(WebElement webElement, String value) {
+        return webElement.findElements(By.cssSelector(value));
     }
 }

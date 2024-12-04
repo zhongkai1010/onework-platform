@@ -1,4 +1,4 @@
-package com.onework.boot.scrape.cde.tasks;
+package com.onework.boot.scrape.cde;
 
 import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -22,17 +22,22 @@ public class CDEAnalysisTaskServer implements ITaskServer {
 
     private final CDEProjectMapper projectMapper;
 
-    private final CDESponsorStore CDESponsorStore;
+    private final CDESponsorStore cdeSponsorStore;
 
-    private final CDEInstitutionStore CDEInstitutionStore;
+    private final CDEInstitutionStore cdeInstitutionStore;
 
-    private final CDEResearcherStore CDEResearcherStore;
+    private final CDEResearcherStore cdeResearcherStore;
 
-    public CDEAnalysisTaskServer(CDEProjectMapper projectMapper, CDESponsorStore CDESponsorStore, CDEInstitutionStore CDEInstitutionStore, CDEResearcherStore CDEResearcherStore) {
+    public CDEAnalysisTaskServer(CDEProjectMapper projectMapper, CDESponsorStore cdeSponsorStore, CDEInstitutionStore cdeInstitutionStore, CDEResearcherStore cdeResearcherStore) {
         this.projectMapper = projectMapper;
-        this.CDESponsorStore = CDESponsorStore;
-        this.CDEInstitutionStore = CDEInstitutionStore;
-        this.CDEResearcherStore = CDEResearcherStore;
+        this.cdeSponsorStore = cdeSponsorStore;
+        this.cdeInstitutionStore = cdeInstitutionStore;
+        this.cdeResearcherStore = cdeResearcherStore;
+
+        this.cdeSponsorStore.initDate();
+        this.cdeInstitutionStore.initData();
+        this.cdeResearcherStore.initDate();
+
     }
 
     @Override
@@ -50,7 +55,7 @@ public class CDEAnalysisTaskServer implements ITaskServer {
                 sponsor.setContactEmail(project.getContactEmail());
                 sponsor.setContactAddress(project.getContactAddress());
                 sponsor.setContactPostcode(project.getContactZipCode());
-                CDESponsorStore.checkAndInsertIfNotExist(sponsor);
+                cdeSponsorStore.checkAndInsertIfNotExist(sponsor);
             }
             // 机构与研究者
             List<ParticipatingOrganizationsInformation> informations = JSON.parseArray(project.getParticipatingInstitutionsInfo(), ParticipatingOrganizationsInformation.class);
@@ -60,12 +65,12 @@ public class CDEAnalysisTaskServer implements ITaskServer {
                 cdeInstitution.setCountry(information.getRegion());
                 cdeInstitution.setProvince(information.getProvince());
                 cdeInstitution.setCity(information.getCity());
-                CDEInstitutionStore.checkAndInsertIfNotExist(cdeInstitution);
+                cdeInstitutionStore.checkAndInsertIfNotExist(cdeInstitution);
 
                 CDEResearcher researcher = new CDEResearcher();
                 researcher.setInstitutionName(information.getOrganizationName());
                 researcher.setResearcherName(information.getPrincipal());
-                CDEResearcherStore.checkAndInsertIfNotExist(researcher);
+                cdeResearcherStore.checkAndInsertIfNotExist(researcher);
             }
 
             // 主要研究者
@@ -77,7 +82,7 @@ public class CDEAnalysisTaskServer implements ITaskServer {
                 researcher.setDegree(information.getDegree());
                 researcher.setPhone(information.getPhone());
                 researcher.setEmail(information.getEmail());
-                CDEResearcherStore.checkAndInsertIfNotExist(researcher);
+                cdeResearcherStore.checkAndInsertIfNotExist(researcher);
             }
         }
     }

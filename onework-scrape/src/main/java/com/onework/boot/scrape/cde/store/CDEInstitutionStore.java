@@ -25,10 +25,10 @@ public class CDEInstitutionStore {
 
     public CDEInstitutionStore(CDEInstitutionMapper institutionMapper) {
         this.institutionMapper = institutionMapper;
-        initData();
+
     }
 
-    private void initData() {
+    public void initData() {
         List<CDEInstitution> institutions = institutionMapper.selectList(null);
         for (CDEInstitution institution : institutions) {
             institutionStore.put(institution.getInstitutionName(), institution);

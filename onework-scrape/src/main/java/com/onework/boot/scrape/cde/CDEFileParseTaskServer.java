@@ -1,10 +1,10 @@
-package com.onework.boot.scrape.cde.tasks;
+package com.onework.boot.scrape.cde;
 
+import com.onework.boot.scrape.ITaskServer;
 import com.onework.boot.scrape.OneworkScrapeApplication;
+import com.onework.boot.scrape.ScrapeConfiguration;
 import com.onework.boot.scrape.cde.store.CDEProjectRecordStore;
 import com.onework.boot.scrape.cde.threads.FileParseThread;
-import com.onework.boot.scrape.ITaskServer;
-import com.onework.boot.scrape.ServerConfiguration;
 import com.onework.boot.scrape.data.entity.CDECollectionRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,28 +20,30 @@ import java.util.concurrent.Executors;
 @Component
 public class CDEFileParseTaskServer implements ITaskServer {
 
-    private final ServerConfiguration serverConfiguration;
+    private final ScrapeConfiguration scrapeConfiguration;
 
-    private final CDEProjectRecordStore CDEProjectRecordStore;
+    private final CDEProjectRecordStore cdeProjectRecordStore;
 
     private static final Logger LOG = LoggerFactory
             .getLogger(OneworkScrapeApplication.class);
 
-    public CDEFileParseTaskServer(ServerConfiguration serverConfiguration, CDEProjectRecordStore CDEProjectRecordStore) {
-        this.serverConfiguration = serverConfiguration;
-        this.CDEProjectRecordStore = CDEProjectRecordStore;
+    public CDEFileParseTaskServer(ScrapeConfiguration scrapeConfiguration, CDEProjectRecordStore cdeProjectRecordStore) {
+        this.scrapeConfiguration = scrapeConfiguration;
+        this.cdeProjectRecordStore = cdeProjectRecordStore;
+
+        this.cdeProjectRecordStore.initData();
     }
 
     @Override
     public void run() {
         LOG.info("启动项目文件解析服务（FileParseProcessServer）");
 
-        List<CDECollectionRecord> records = CDEProjectRecordStore.getNotParseProjects();
+        List<CDECollectionRecord> records = cdeProjectRecordStore.getNotParseProjects();
 
         long totalData = records.size();
         LOG.info("项目文件解析服务（FileParseProcessServer），共{}条数据处理", totalData);
 
-        int numThreads = serverConfiguration.getThreadCount();
+        int numThreads = scrapeConfiguration.getThreadCount();
         // 基础分配数量
         int dataPerPage = Math.toIntExact(totalData / numThreads);
         // 余数（需要多处理的项数）
@@ -56,7 +58,7 @@ public class CDEFileParseTaskServer implements ITaskServer {
             startItem = Math.max(0, startItem);
             endItem = Math.min(records.size() - 1, endItem);
             List<CDECollectionRecord> pageData = records.subList(startItem, endItem + 1);  // 获取数据区间
-            executor.execute(new FileParseThread(startItem, endItem + 1, pageData, CDEProjectRecordStore));
+            executor.execute(new FileParseThread(startItem, endItem + 1, pageData, cdeProjectRecordStore));
         }
         executor.shutdown();
     }

@@ -1,12 +1,12 @@
-package com.onework.boot.scrape.ctmds.tasks;
+package com.onework.boot.scrape.ctmds;
 
 import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.io.FileUtil;
 import com.alibaba.fastjson2.JSON;
 import com.onework.boot.scrape.ITaskServer;
 import com.onework.boot.scrape.OneworkScrapeApplication;
-import com.onework.boot.scrape.ServerConfiguration;
-import com.onework.boot.scrape.ctmds.dtos.InspectionInfo;
+import com.onework.boot.scrape.ScrapeConfiguration;
+import com.onework.boot.scrape.ScrapeHelper;
 import com.onework.boot.scrape.ctmds.dtos.SpecializationAndResearcher;
 import com.onework.boot.scrape.ctmds.store.CTMDSRecordStore;
 import com.onework.boot.scrape.data.entity.CTMDSCollectionRecord;
@@ -24,30 +24,37 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class FileParseTaskServer implements ITaskServer {
+public class CTMDSInstrumentFileParseTaskServer implements ITaskServer {
 
-    private final ServerConfiguration serverConfiguration;
+    private final ScrapeConfiguration scrapeConfiguration;
 
-    private final CTMDSRecordStore CTMDSRecordStore;
+    private final CTMDSRecordStore ctmdsRecordStore;
 
     private static final Logger LOG = LoggerFactory
             .getLogger(OneworkScrapeApplication.class);
 
-    public FileParseTaskServer(ServerConfiguration serverConfiguration, CTMDSRecordStore CTMDSRecordStore) {
-        this.serverConfiguration = serverConfiguration;
-        this.CTMDSRecordStore = CTMDSRecordStore;
+    public CTMDSInstrumentFileParseTaskServer(ScrapeConfiguration scrapeConfiguration, CTMDSRecordStore ctmdsRecordStore) {
+        this.scrapeConfiguration = scrapeConfiguration;
+        this.ctmdsRecordStore = ctmdsRecordStore;
+
+        this.ctmdsRecordStore.initData();
     }
 
     @Override
     public void run() {
-        List<CTMDSCollectionRecord> records = CTMDSRecordStore.getRecords();
-        for (CTMDSCollectionRecord record : records) {
-            String filePathName = String.format("%s\\%s.html", serverConfiguration.getCtmdsSavePath(), record.getInstitutionName());
-            boolean exist = FileUtil.exist(filePathName);
-            if (!exist) {
-                LOG.info("机构：{}文件不存在，解析失败", filePathName);
-            } else {
 
+        List<CTMDSCollectionRecord> records = ctmdsRecordStore.getInstrumentRecords();
+        LOG.info("药物和医疗器械临床试验机构备案系统,械临机构备,共{}条", records.size());
+
+        ScrapeHelper.listWorkerExecute(records, 50, (start, end, items) -> {
+            for (int i = 1; i <= items.size(); i++) {
+                CTMDSCollectionRecord record = items.get(i - 1);
+                String filePathName = String.format("%s\\械-%s.html", scrapeConfiguration.getCtmdsSavePath(), record.getInstitutionName());
+                boolean exist = FileUtil.exist(filePathName);
+                if (!exist) {
+                    LOG.info("[{}~{}],第{}项，机构：{}，文件不存在，解析失败", start, end, start + i, record.getInstitutionName());
+                    return;
+                }
                 String html = FileUtil.readUtf8String(filePathName);
                 Document document = Jsoup.parse(html);
                 // 机构级别
@@ -70,11 +77,10 @@ public class FileParseTaskServer implements ITaskServer {
                 // 备案状态
                 String recordStatus = document.select("div > div:nth-of-type(1) > div > div:nth-of-type(" + (4 + alternateAddressElements.size() + 5) + ") > div").text();
                 record.setRecordStatus(recordStatus);
-
                 // LOG.info("机构级别:{},其他地址:{},备案时间（首次）:{},备案时间:{},备案状态:{}", institutionLevel, String.join("；", alternateAddress), firstRecordDate, recordDate, recordStatus);
 
                 // 专业与研究者
-                Elements specializationAndResearcherElements = document.select("#tabContent2 tr");
+                Elements specializationAndResearcherElements = document.select("tbody tr");
                 List<SpecializationAndResearcher> specializationAndResearchers = new ArrayList<>();
                 for (Element element : specializationAndResearcherElements) {
                     SpecializationAndResearcher specializationAndResearcher = new SpecializationAndResearcher();
@@ -88,45 +94,17 @@ public class FileParseTaskServer implements ITaskServer {
                     String professionalTitle = element.select("td:nth-of-type(3)").text();
                     specializationAndResearcher.setProfessionalTitle(professionalTitle);
 
-                    String filingTime = element.select("td:nth-of-type(4)").text();
-                    specializationAndResearcher.setFilingTime(filingTime);
-
                     if (!specialization.isEmpty()) {
                         specializationAndResearchers.add(specializationAndResearcher);
                     }
-
                 }
                 record.setSpecializationAndResearchers(JSON.toJSONString(specializationAndResearchers));
                 // LOG.info("专业与研究者:{}", JSON.toJSONString(specializationAndResearchers));
 
-                // 检查记录
-                Elements inspectionInfoElements = document.select("#tabContent3 tr");
-                List<InspectionInfo> inspectionInfos = new ArrayList<>();
-                for (Element element : inspectionInfoElements) {
-                    InspectionInfo inspectionInfo = new InspectionInfo();
-
-                    String inspectionDate = element.select("td:nth-of-type(1)").text();
-                    inspectionInfo.setInspectionDate(inspectionDate);
-
-                    String inspectionCategory = element.select("td:nth-of-type(2)").text();
-                    inspectionInfo.setInspectionCategory(inspectionCategory);
-
-                    String inspectionResult = element.select("td:nth-of-type(3)").text();
-                    inspectionInfo.setInspectionResult(inspectionResult);
-
-                    String processingStatus = element.select("td:nth-of-type(4)").text();
-                    inspectionInfo.setProcessingStatus(processingStatus);
-
-                    if (!inspectionDate.isEmpty()) {
-                        inspectionInfos.add(inspectionInfo);
-                    }
-
-                }
-                record.setInspectionInfo(JSON.toJSONString(inspectionInfos));
-                CTMDSRecordStore.updateRecord(record);
-                LOG.info("机构：{}，解析成功，更新数据", record.getInstitutionName());
+                ctmdsRecordStore.updateRecord(record);
+                LOG.info("[{}~{}],第{}项，机构：{}，解析成功，更新数据", start, end, start + i, record.getInstitutionName());
             }
-        }
+        });
     }
 
     /**

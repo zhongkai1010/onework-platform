@@ -1,11 +1,10 @@
-package com.onework.boot.scrape.cde.tasks;
+package com.onework.boot.scrape.cde;
 
 import com.onework.boot.scrape.OneworkScrapeApplication;
-import com.onework.boot.scrape.cde.CDEWebDriverHelper;
 import com.onework.boot.scrape.cde.store.CDEProjectRecordStore;
 import com.onework.boot.scrape.cde.threads.FileDownloadThread;
 import com.onework.boot.scrape.ITaskServer;
-import com.onework.boot.scrape.ServerConfiguration;
+import com.onework.boot.scrape.ScrapeConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -21,23 +20,23 @@ public class CDEAllProjectFileDownloadTaskServer implements ITaskServer {
 
     private final CDEProjectRecordStore CDEProjectRecordStore;
 
-    private final ServerConfiguration serverConfiguration;
+    private final ScrapeConfiguration scrapeConfiguration;
 
     private static final Logger LOG = LoggerFactory
             .getLogger(OneworkScrapeApplication.class);
 
-    public CDEAllProjectFileDownloadTaskServer(ServerConfiguration serverConfiguration, CDEProjectRecordStore CDEProjectRecordStore) {
+    public CDEAllProjectFileDownloadTaskServer(ScrapeConfiguration scrapeConfiguration, CDEProjectRecordStore CDEProjectRecordStore) {
 
         this.CDEProjectRecordStore = CDEProjectRecordStore;
-        this.serverConfiguration = serverConfiguration;
+        this.scrapeConfiguration = scrapeConfiguration;
     }
 
     @Override
     public void run() {
         LOG.info("启动采集所有CDE项目服务（AllProjectProcessServer）");
 
-        int numThreads = serverConfiguration.getThreadCount();
-        int totalData = CDEWebDriverHelper.getProjectTotal(serverConfiguration);
+        int numThreads = scrapeConfiguration.getThreadCount();
+        int totalData = CDEWebDriverHelper.getProjectTotal(scrapeConfiguration);
         LOG.info("启动采集所有CDE项目服务（AllProjectProcessServer），共有{}项", totalData);
         // 初始化登记号数据，过滤已处理登记号
         CDEProjectRecordStore.initData();
@@ -52,7 +51,7 @@ public class CDEAllProjectFileDownloadTaskServer implements ITaskServer {
         for (int i = 0; i < numThreads; i++) {
             // 计算每个线程需要处理的数据条数
             int end = start + baseCount + (i < remainder ? 1 : 0) - 1;
-            executor.execute(new FileDownloadThread(serverConfiguration, CDEProjectRecordStore, start, end));
+            executor.execute(new FileDownloadThread(scrapeConfiguration, CDEProjectRecordStore, start, end));
             // 更新下一个线程的起始条数
             start = end + 1;
         }

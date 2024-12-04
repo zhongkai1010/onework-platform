@@ -24,10 +24,10 @@ public class CDESponsorStore {
 
     public CDESponsorStore(CDESponsorMapper sponsorMapper) {
         this.sponsorMapper = sponsorMapper;
-        initDate();
+
     }
 
-    private void initDate() {
+    public void initDate() {
         List<CDESponsor> sponsors = sponsorMapper.selectList(null);
         for (CDESponsor sponsor : sponsors) {
             sponsorStore.put(sponsor.getSponsorName(), sponsor);

@@ -4,8 +4,8 @@ import cn.hutool.core.io.FileUtil;
 import com.onework.boot.scrape.OneworkScrapeApplication;
 import com.onework.boot.scrape.cde.CDEWebDriverHelper;
 import com.onework.boot.scrape.cde.store.CDEProjectRecordStore;
-import com.onework.boot.scrape.ServerConfiguration;
-import com.onework.boot.scrape.WebDriverHelper;
+import com.onework.boot.scrape.ScrapeConfiguration;
+import com.onework.boot.scrape.ScrapeHelper;
 import com.onework.boot.scrape.data.entity.CDECollectionRecord;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
@@ -17,16 +17,16 @@ import java.time.LocalDateTime;
 public class FileDownloadThread extends Thread {
     private final int start;
     private final int end;
-    private final ServerConfiguration serverConfiguration;
+    private final ScrapeConfiguration scrapeConfiguration;
     private final CDEProjectRecordStore CDEProjectRecordStore;
 
     private static final Logger LOG = LoggerFactory
             .getLogger(OneworkScrapeApplication.class);
 
-    public FileDownloadThread(ServerConfiguration serverConfiguration, CDEProjectRecordStore CDEProjectRecordStore, int start, int end) {
+    public FileDownloadThread(ScrapeConfiguration scrapeConfiguration, CDEProjectRecordStore CDEProjectRecordStore, int start, int end) {
         this.start = start;
         this.end = end;
-        this.serverConfiguration = serverConfiguration;
+        this.scrapeConfiguration = scrapeConfiguration;
         this.CDEProjectRecordStore = CDEProjectRecordStore;
     }
 
@@ -35,10 +35,10 @@ public class FileDownloadThread extends Thread {
         LOG.info("采集所有CDE项目服务（AllProjectProcessServer），开始执行线程（{}-{}）", start, end);
         int errorCount = 0;
         int successCount = start;
-        while (errorCount <= serverConfiguration.getMaxErrorCount()) {
-            WebDriver webDriver = WebDriverHelper.getWebDriver(serverConfiguration);
+        while (errorCount <= scrapeConfiguration.getMaxErrorCount()) {
+            WebDriver webDriver = ScrapeHelper.getWebDriver(scrapeConfiguration);
             try {
-                webDriver.get(serverConfiguration.getCdeCollectionUrl());
+                webDriver.get(scrapeConfiguration.getCdeCollectionUrl());
                 CDEWebDriverHelper.goToDetails(webDriver);
                 LOG.info("采集所有CDE项目服务（AllProjectProcessServer），线程（{}-{}），正常打开详情页面", start, end);
                 for (int i = start; i <= end; i++) {
@@ -47,7 +47,7 @@ public class FileDownloadThread extends Thread {
                         String registrationNo = CDEWebDriverHelper.getRegistrationNo(webDriver);
                         if (CDEProjectRecordStore.exist(registrationNo)) {
                             String html = webDriver.getPageSource();
-                            String filePathName = String.format("%s\\%s.html", serverConfiguration.getCdeSavePath(), registrationNo);
+                            String filePathName = String.format("%s\\%s.html", scrapeConfiguration.getCdeSavePath(), registrationNo);
                             FileUtil.writeString(html, filePathName, StandardCharsets.UTF_8);
 
                             CDECollectionRecord record = new CDECollectionRecord();
@@ -74,7 +74,7 @@ public class FileDownloadThread extends Thread {
                 errorCount += 1;
             }
         }
-        if (errorCount > serverConfiguration.getMaxErrorCount()) {
+        if (errorCount > scrapeConfiguration.getMaxErrorCount()) {
             LOG.info("采集所有CDE项目服务（AllProjectProcessServer），线程（{}-{}），超出最大异常次数，执行退出", start, end);
         }
     }

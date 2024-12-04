@@ -2,8 +2,8 @@ package com.onework.boot.scrape.ctr;
 
 import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.io.FileUtil;
-import com.onework.boot.scrape.ServerConfiguration;
-import com.onework.boot.scrape.WebDriverHelper;
+import com.onework.boot.scrape.ScrapeConfiguration;
+import com.onework.boot.scrape.ScrapeHelper;
 import com.onework.boot.scrape.data.entity.CTRCollectionRecord;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -105,14 +105,14 @@ public class CTRWebDriverHelper {
 
     /**
      * 获取CTR网站总分页数
-     * @param serverConfiguration 服务配置
+     * @param scrapeConfiguration 服务配置
      * @return 总分页数
      */
-    public static int getTotalPage(ServerConfiguration serverConfiguration) {
-        WebDriver webDriver = WebDriverHelper.getWebDriver(serverConfiguration);
+    public static int getTotalPage(ScrapeConfiguration scrapeConfiguration) {
+        WebDriver webDriver = ScrapeHelper.getWebDriver(scrapeConfiguration);
         while (true) {
             try {
-                webDriver.get(serverConfiguration.getCtrCollectionUrl());
+                webDriver.get(scrapeConfiguration.getCtrCollectionUrl());
                 WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(10)); // 设置等待时间
                 WebElement paginationWebElement = wait.until(ExpectedConditions.visibilityOfElementLocated((By.id("pagination"))));
                 WebElement totalPageWebElement = paginationWebElement.findElements(By.className("totalPage")).get(0);
@@ -126,7 +126,7 @@ public class CTRWebDriverHelper {
         }
     }
 
-    public static String saveProject(WebDriver webDriver, ServerConfiguration serverConfiguration) {
+    public static String saveProject(WebDriver webDriver, ScrapeConfiguration scrapeConfiguration) {
         while (true) {
             try {
                 WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(10)); // 设置等待时间
@@ -140,7 +140,7 @@ public class CTRWebDriverHelper {
 
                 WebElement registrationNumberWebElement = webDriver.findElement(By.xpath("/html/body/div[1]/div/div[3]/div[3]/table/tbody/tr[1]/td[2]"));
                 String registrationNumber = registrationNumberWebElement.getText();
-                String filePathName = String.format("%s\\%s.html", serverConfiguration.getCtrSavePath(), registrationNumber.trim());
+                String filePathName = String.format("%s\\%s.html", scrapeConfiguration.getCtrSavePath(), registrationNumber.trim());
                 FileUtil.writeString(newHtmlContent, filePathName, StandardCharsets.UTF_8);
                 return filePathName;
 

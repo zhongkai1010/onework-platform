@@ -1,8 +1,8 @@
-package com.onework.boot.scrape.ctr.tasks;
+package com.onework.boot.scrape.ctr;
 
 import com.onework.boot.scrape.OneworkScrapeApplication;
 import com.onework.boot.scrape.ITaskServer;
-import com.onework.boot.scrape.ServerConfiguration;
+import com.onework.boot.scrape.ScrapeConfiguration;
 import com.onework.boot.scrape.ctr.store.CTRProjectRecordStore;
 import com.onework.boot.scrape.ctr.threads.FileDownloadThread;
 import com.onework.boot.scrape.data.entity.CTRCollectionRecord;
@@ -20,21 +20,23 @@ public class CTRFileDownloadTaskServer implements ITaskServer {
     private static final Logger LOG = LoggerFactory
             .getLogger(OneworkScrapeApplication.class);
 
-    private final ServerConfiguration serverConfiguration;
+    private final ScrapeConfiguration scrapeConfiguration;
 
-    private final CTRProjectRecordStore CTRProjectRecordStore;
+    private final CTRProjectRecordStore ctrProjectRecordStore;
 
-    public CTRFileDownloadTaskServer(ServerConfiguration serverConfiguration, CTRProjectRecordStore CTRProjectRecordStore) {
-        this.serverConfiguration = serverConfiguration;
-        this.CTRProjectRecordStore = CTRProjectRecordStore;
+    public CTRFileDownloadTaskServer(ScrapeConfiguration scrapeConfiguration, CTRProjectRecordStore ctrProjectRecordStore) {
+        this.scrapeConfiguration = scrapeConfiguration;
+        this.ctrProjectRecordStore = ctrProjectRecordStore;
+        this.ctrProjectRecordStore.initData();
     }
 
     @Override
     public void run() {
+
         LOG.info("启动CTR项目文件下载服务（FileDownloadProcessServer）");
-        List<CTRCollectionRecord> records = CTRProjectRecordStore.getNotDownloadProjects();
+        List<CTRCollectionRecord> records = ctrProjectRecordStore.getNotDownloadProjects();
         int totalDataCount = records.size();
-        int numThreads = serverConfiguration.getThreadCount();
+        int numThreads = scrapeConfiguration.getThreadCount();
         LOG.info("启动CTR项目文件下载服务（FileDownloadProcessServer），共计{}项，开启{}线程处理", totalDataCount, numThreads);
         // 基础分配数量
         int dataPerPage = Math.toIntExact(totalDataCount / numThreads);
@@ -50,7 +52,7 @@ public class CTRFileDownloadTaskServer implements ITaskServer {
             endItem = Math.min(records.size() - 1, endItem);
             List<CTRCollectionRecord> pageData = records.subList(startItem, endItem + 1);  // 获取数据区间
             LOG.info("启动CTR项目文件下载服务（FileDownloadProcessServer），[线程（{}-{}）],开始处理", startItem, endItem + 1);
-            executor.execute(new FileDownloadThread(pageData, serverConfiguration, CTRProjectRecordStore, startItem, endItem + 1));
+            executor.execute(new FileDownloadThread(pageData, scrapeConfiguration, ctrProjectRecordStore, startItem, endItem + 1));
         }
         executor.shutdown();
         LOG.info("CTR项目文件下载服务（FileDownloadProcessServer），执行完成");

@@ -1,7 +1,7 @@
 package com.onework.boot.scrape.ctr.threads;
 import com.onework.boot.scrape.OneworkScrapeApplication;
-import com.onework.boot.scrape.ServerConfiguration;
-import com.onework.boot.scrape.WebDriverHelper;
+import com.onework.boot.scrape.ScrapeConfiguration;
+import com.onework.boot.scrape.ScrapeHelper;
 import com.onework.boot.scrape.ctr.CTRWebDriverHelper;
 import com.onework.boot.scrape.ctr.store.CTRProjectRecordStore;
 import com.onework.boot.scrape.data.entity.CTRCollectionRecord;
@@ -20,12 +20,12 @@ public class ScanListThread extends Thread {
     private static final Logger LOG = LoggerFactory
             .getLogger(OneworkScrapeApplication.class);
 
-    private final ServerConfiguration serverConfiguration;
+    private final ScrapeConfiguration scrapeConfiguration;
 
     private final CTRProjectRecordStore CTRProjectRecordStore;
 
-    public ScanListThread(ServerConfiguration serverConfiguration, CTRProjectRecordStore CTRProjectRecordStore, int start, int end) {
-        this.serverConfiguration = serverConfiguration;
+    public ScanListThread(ScrapeConfiguration scrapeConfiguration, CTRProjectRecordStore CTRProjectRecordStore, int start, int end) {
+        this.scrapeConfiguration = scrapeConfiguration;
         this.start = start;
         this.end = end;
         this.CTRProjectRecordStore = CTRProjectRecordStore;
@@ -35,11 +35,11 @@ public class ScanListThread extends Thread {
         LOG.info("启动CTR项目列表检索线程（{} - {}）", start, end);
         try {
             int currentPage = start;
-            ChromeDriver webDriver = WebDriverHelper.getWebDriver(serverConfiguration);
+            ChromeDriver webDriver = ScrapeHelper.getWebDriver(scrapeConfiguration);
             while (true) {
-                webDriver.get(String.format("%s?page=%s", serverConfiguration.getCtrCollectionUrl(), currentPage));
+                webDriver.get(String.format("%s?page=%s", scrapeConfiguration.getCtrCollectionUrl(), currentPage));
                 try {
-                    if (currentPage > end || currentPage > serverConfiguration.getMaxPage()) {
+                    if (currentPage > end || currentPage > scrapeConfiguration.getMaxPage()) {
                         webDriver.quit();
                         break;
                     } else {
@@ -59,7 +59,7 @@ public class ScanListThread extends Thread {
                         currentPage += 1;
                     }
                 } catch (WebDriverException exception) {
-                    webDriver = WebDriverHelper.getWebDriver(serverConfiguration);
+                    webDriver = ScrapeHelper.getWebDriver(scrapeConfiguration);
                 } catch (Exception exception) {
                     LOG.error("CTR项目列表检索线程（{} - {}）异常，退出浏览器，异常消息：{}", start, end, exception.getMessage());
                     webDriver.quit();

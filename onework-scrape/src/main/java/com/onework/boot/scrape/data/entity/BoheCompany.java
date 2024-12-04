@@ -20,58 +20,73 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@TableName("ow_cde_collection_record")
-public class CDECollectionRecord implements Serializable {
+@TableName("ow_bohe_company")
+public class BoheCompany implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 唯一值，不重复
-     */
     @TableId("uid")
     private String uid;
 
     /**
-     * 登记号
+     * 企业名称
      */
-    @TableField("registration_number")
-    private String registrationNumber;
+    @TableField("company_name")
+    private String companyName;
 
     /**
-     * 记录时间
+     * 法定代表人
      */
-    @TableField("record_date")
-    private LocalDateTime recordDate;
+    @TableField("legal_representative")
+    private String legalRepresentative;
 
     /**
-     * 是否下载页面
+     * 注册资本
      */
-    @TableField("is_download")
-    private Boolean isDownload;
+    @TableField("registered_capital")
+    private String registeredCapital;
 
     /**
-     * 文件地址
+     * 成立时间
      */
-    @TableField("file_path")
-    private String filePath;
+    @TableField("establishment_date")
+    private LocalDateTime establishmentDate;
 
     /**
-     * 文件下载时间
+     * 企业地址
      */
-    @TableField("download_date")
-    private LocalDateTime downloadDate;
+    @TableField("address")
+    private String address;
 
     /**
-     * 是否解析处理
+     * 经营范围
      */
-    @TableField("is_parse")
-    private Boolean isParse;
+    @TableField("business_scope")
+    private String businessScope;
 
     /**
-     * 解析的时间
+     * 公司简介
      */
-    @TableField("parse_date")
-    private LocalDateTime parseDate;
+    @TableField("company_profile")
+    private String companyProfile;
+
+    /**
+     * 图标链接
+     */
+    @TableField("logo_url")
+    private String logoUrl;
+
+    /**
+     * 企业别名
+     */
+    @TableField("alias")
+    private String alias;
+
+    /**
+     * 网站地址
+     */
+    @TableField("website_url")
+    private String websiteUrl;
 
     /**
      * 创建时间

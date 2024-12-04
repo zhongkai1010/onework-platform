@@ -1,7 +1,7 @@
 package com.onework.boot.scrape.cde;
 
-import com.onework.boot.scrape.ServerConfiguration;
-import com.onework.boot.scrape.WebDriverHelper;
+import com.onework.boot.scrape.ScrapeConfiguration;
+import com.onework.boot.scrape.ScrapeHelper;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -17,10 +17,10 @@ public class CDEWebDriverHelper {
     /**
      * 创建 ChromeDriver 对象，打开链接，获取项目总数
      */
-    public static int getProjectTotal(ServerConfiguration serverConfiguration) {
+    public static int getProjectTotal(ScrapeConfiguration scrapeConfiguration) {
 
-        WebDriver webDriver = WebDriverHelper.getWebDriver(serverConfiguration);
-        webDriver.get(serverConfiguration.getCdeCollectionUrl());
+        WebDriver webDriver = ScrapeHelper.getWebDriver(scrapeConfiguration);
+        webDriver.get(scrapeConfiguration.getCdeCollectionUrl());
         while (true) {
             try {
                 WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(5)); // 设置等待时间为5秒
@@ -149,7 +149,6 @@ public class CDEWebDriverHelper {
         ArrayList<String> tabs = new ArrayList<>(webDriver.getWindowHandles());
         // 关闭当前标签页
         webDriver.close();
-        System.out.println("关闭了当前标签页");
         // 切换回第一个标签页
         webDriver.switchTo().window(tabs.get(0));
     }

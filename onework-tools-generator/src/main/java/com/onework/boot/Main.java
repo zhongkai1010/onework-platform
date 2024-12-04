@@ -49,7 +49,7 @@ public class Main {
                             if (fileName.toLowerCase().startsWith("ctmds")) {
                                 return "CTMDS" + fileName.substring(5) + "Service";
                             }
-                            return fileName;
+                            return fileName + "Service";
                         })
                         .convertServiceImplFileName(fileName -> {
                             // 自定义文件名转换规则：以 CDE 开头
@@ -62,7 +62,7 @@ public class Main {
                             if (fileName.toLowerCase().startsWith("ctmds")) {
                                 return "CTMDS" + fileName.substring(5) + "ServiceImpl";
                             }
-                            return fileName;
+                            return fileName + "ServiceImpl";
                         })
                         .enableFileOverride()
                         .mapperBuilder()
@@ -79,7 +79,7 @@ public class Main {
                             if (fileName.toLowerCase().startsWith("ctmds")) {
                                 return "CTMDS" + fileName.substring(5) + "Mapper";
                             }
-                            return fileName;
+                            return fileName + "Mapper";
                         })
                         .enableFileOverride()
                         .convertXmlFileName(fileName -> {
@@ -93,7 +93,7 @@ public class Main {
                             if (fileName.toLowerCase().startsWith("ctmds")) {
                                 return "CTMDS" + fileName.substring(5) + "Mapper";
                             }
-                            return fileName;
+                            return fileName + "Mapper";
                         })
                         .entityBuilder()
                         .naming(NamingStrategy.underline_to_camel)
@@ -106,7 +106,7 @@ public class Main {
                                 return "CTR" + fileName.substring(3);
                             }
                             if (fileName.toLowerCase().startsWith("ctmds")) {
-                                return "CTMDS" + fileName.substring(5) ;
+                                return "CTMDS" + fileName.substring(5);
                             }
                             return fileName;
                         })
