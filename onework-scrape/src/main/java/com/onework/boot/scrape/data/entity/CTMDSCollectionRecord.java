@@ -1,14 +1,11 @@
 package com.onework.boot.scrape.data.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
-import java.time.LocalDateTime;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -16,7 +13,7 @@ import lombok.Setter;
  * </p>
  *
  * @author baomidou
- * @since 2024-12-03
+ * @since 2024-12-11
  */
 @Getter
 @Setter

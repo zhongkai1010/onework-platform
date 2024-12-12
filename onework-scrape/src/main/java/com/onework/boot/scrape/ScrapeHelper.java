@@ -1,173 +1,104 @@
 package com.onework.boot.scrape;
 
+import cn.hutool.core.convert.Convert;
+import cn.hutool.core.date.LocalDateTimeUtil;
+import cn.hutool.core.io.FileUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.util.*;
+import java.nio.charset.StandardCharsets;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+@Slf4j
 public class ScrapeHelper {
 
-    private static final ArrayList<String> userAgents = new ArrayList<>(Arrays.asList("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2227.0 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36",
-            "Mozilla/5.01 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36",
-            "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; WOW64; Trident/4.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; .NET4.0C; .NET4.0E; Shuame)",
-            "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; WOW64; Trident/4.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; .NET4.0C; .NET4.0E; QQBrowser/7.3.8126.400)",
-            "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; WOW64; Trident/4.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; .NET4.0C; .NET4.0E; .NET CLR 1.1.4322)",
-            "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Win64; x64; Trident/4.0; .NET CLR 2.0.50727; SLCC2; .NET CLR 3.5.30729; .NET CLR 3.0.30729; .NET4.0C; .NET4.0E; InfoPath.3)",
-            "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.1; Win64; x64; Trident/4.0; .NET CLR 2.0.50727; SLCC2; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; .NET4.0C; .NET4.0E)",
-            "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; .NET4.0C; .NET4.0",
-            "Mozilla/5.0 (Macintosh mips64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36",
-            "Mozilla/5.0 (Macintosh mips64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36",
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_2_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36 Edg/89.0.774.75",
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_2_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36",
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_2_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.128 Safari/537.36",
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_2_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.192 Safari/537.36",
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.106 Safari/537.36",
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36",
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36",
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36",
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.80 Safari/537.36",
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36",
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36",
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.100 Safari/537.36",
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36",
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36",
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/607.3.10 (KHTML, like Gecko) Version/12.1.2 Safari/607.3.10 Maxthon/5.1.60",
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/605.1.15 (KHTML, like Gecko) MicroMessenger/6.8.0(0x16080000) MacWechat/3.0.1(0x13000110) NetType/WIFI WindowsWechat",
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36",
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/13605.3.8 (KHTML, like Gecko) Version/9.1.1 Safari/13605.3.8",
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1.1 Safari/605.1.15",
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36",
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; .NET4.0C; .NET4.0E; .NET CLR 2.0.50727; .NET CLR 3.0.30729; .NET CLR 3.5.30729; LCTE; Core/1.70.3676.400 QQBrowser/10.4.3469.400; rv:11.0) like Gecko",
-            "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; .NET4.0C; .NET4.0E; .NET CLR 2.0.50727; .NET CLR 3.0.30729; .NET CLR 3.5.30729; Core/1.70.3776.400 QQBrowser/10.6.4212.400; rv:11.0) like Gecko",
-            "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; .NET4.0C; .NET4.0E; .NET CLR 2.0.50727; .NET CLR 3.0.30729; .NET CLR 3.5.30729; Core/1.63.6788.400 QQBrowser/10.3.2727.400; rv:11.0) like Gecko",
-            "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.89 Safari/537.36 SLBrowser/7.0.0.2261 SLBChan/12",
-            "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36 XiaoBai/10.3.3217.1573 (XBCEF)",
-            "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.136 YaBrowser/20.2.4.143 Yowser/2.5 Yptp/1.23 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.87 Safari/537.36 SLBrowser/6.0.1.12161 SLBChan/103",
-            "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.200.124 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.1762.3 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.116 Safari/537.36 2345Explorer/10.15.0.21066",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/546.36 (KHTML, like Gecko) Chrome/89.0.4385.82 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/543.36 (KHTML, like Gecko) Chrome/87.0.32496.82 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/542.36 (KHTML, like Gecko) Chrome/89.0.5219.82 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/542.36 (KHTML, like Gecko) Chrome/86.0.36322.82 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/540.36 (KHTML, like Gecko) Chrome/86.0.33219.82 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/538.36 (KHTML, like Gecko) Chrome/87.0.48110.82 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4466.0 Safari/537.36 Edg/91.0.859.0",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4455.2 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.72 Safari/537.36 Edg/90.0.818.39",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.11 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.128 Safari/537.36 Edg/89.0.774.77",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4350.7 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.50 Safari/537.36 Edg/88.0.705.29",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36 Edg/88.0.705.74",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36 Edg/87.0.664.66",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.67 Safari/537.36 OPR/73.0.3856.260",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.42434.82 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.56 Safari/537.36 Edg/83.0.478.33",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/82.0.4077.0 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4023.0 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3872.0 Safari/537.36 Edg/78.0.244.0",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.104 Safari/537.36 Edge/13.18362",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/536.36 (KHTML, like Gecko) Chrome/86.0.10846.82 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/535.36 (KHTML, like Gecko) Chrome/89.0.33519.82 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/533.36 (KHTML, like Gecko) Chrome/87.0.34697.82 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/530.36 (KHTML, like Gecko) Chrome/87.0.27523.82 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/528.36 (KHTML, like Gecko) Chrome/86.0.49343.82 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/525.36 (KHTML, like Gecko) Chrome/89.0.43907.82 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/511.36 (KHTML, like Gecko) Chrome/89.0.9922.82 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/509.36 (KHTML, like Gecko) Chrome/89.0.42050.82 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/508.36 (KHTML, like Gecko) Chrome/86.0.16571.82 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/506.36 (KHTML, like Gecko) Chrome/88.0.46354.82 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/504.36 (KHTML, like Gecko) Chrome/88.0.48271.82 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/503.36 (KHTML, like Gecko) Chrome/89.0.14272.82 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/503.36 (KHTML, like Gecko) Chrome/86.0.27485.82 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/500.36 (KHTML, like Gecko) Chrome/88.0.48357.82 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/499.36 (KHTML, like Gecko) Chrome/89.0.48906.82 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/498.36 (KHTML, like Gecko) Chrome/87.0.48788.82 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/496.36 (KHTML, like Gecko) Chrome/89.0.34528.82 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/494.36 (KHTML, like Gecko) Chrome/87.0.40937.82 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/491.36 (KHTML, like Gecko) Chrome/88.0.35623.82 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/491.36 (KHTML, like Gecko) Chrome/86.0.11902.82 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/490.36 (KHTML, like Gecko) Chrome/87.0.7030.82 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/489.36 (KHTML, like Gecko) Chrome/87.0.7809.82 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/483.36 (KHTML, like Gecko) Chrome/87.0.44790.82 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/482.36 (KHTML, like Gecko) Chrome/88.0.9787.82 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/481.36 (KHTML, like Gecko) Chrome/87.0.28829.82 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/476.36 (KHTML, like Gecko) Chrome/89.0.45365.82 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/473.36 (KHTML, like Gecko) Chrome/89.0.20219.82 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/473.36 (KHTML, like Gecko) Chrome/87.0.37035.82 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/472.36 (KHTML, like Gecko) Chrome/86.0.26591.82 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/471.36 (KHTML, like Gecko) Chrome/86.0.5210.82 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/469.36 (KHTML, like Gecko) Chrome/87.0.17682.82 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/466.36 (KHTML, like Gecko) Chrome/88.0.40585.82 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/460.36 (KHTML, like Gecko) Chrome/88.0.30832.82 Safari/537.36"));
-
     /**
-     * 配置 ChromeOptions 默认参数，获取 ChromeDriver 对象
-     * @param scrapeConfiguration 是否无界面模式 true:开启界面，false：无界面
-     * @return ChromeDriver 对象
+     *  循环执行获取 WebDriver，根据 WebDriver 循环执行操作逻辑，出现错误执行 consumer 进行处理
+     * @param supplier 获取 WebDriver 方法
+     * @param predicate WebDriver 操作方法
+     * @param consumer WebDriver 操作方法
      */
-    public static ChromeDriver getWebDriver(ScrapeConfiguration scrapeConfiguration) {
-
-        System.setProperty("webdriver.chrome.driver", scrapeConfiguration.getDrivePath());
-        // 禁用 Selenium 的日志输出
-        System.setProperty("webdriver.chrome.silentOutput", "true");
-
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-logging"));
-        chromeOptions.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
-        Random random = new Random();
-        String randomUserAgent = userAgents.get(random.nextInt(userAgents.size()));
-
-        chromeOptions.addArguments("--user-agent=" + randomUserAgent);
-        chromeOptions.addArguments("--disable-blink-features=AutomationControlled");
-        // 禁用 SSL 证书错误警告
-        chromeOptions.addArguments("--ignore-certificate-errors");
-        // 禁用 Web 安全性（禁用跨站点脚本攻击的保护）
-        chromeOptions.addArguments("--disable-web-security");
-        // 允许加载不安全内容（禁用混合内容的限制）
-        chromeOptions.addArguments("--allow-running-insecure-content");
-        // 禁用浏览器的站点隔离策略
-        chromeOptions.addArguments("--disable-features=IsolateOrigins,site-per-process");
-        // 禁用浏览器扩展程序
-        chromeOptions.addArguments("--disable-extensions");
-        // 启用无痕模式
-        if (scrapeConfiguration.isIncognito()) {
-            chromeOptions.addArguments("--incognito");
+    public static void continueExecute(Supplier<WebDriver> supplier, Predicate<WebDriver> predicate, Consumer<WebDriver> consumer) {
+        Supplier<Boolean> execute = () -> {
+            try {
+                WebDriver webDriver = supplier.get();
+                while (true) {
+                    try {
+                        boolean success = predicate.test(webDriver);
+                        if (success) {
+                            break;
+                        }
+                    } catch (Exception exception) {
+                        log.warn("执行continueExecute方法,内部出现异常，错误消息:{}", exception.getMessage());
+                        consumer.accept(webDriver);
+                    }
+                }
+                webDriver.quit();
+                return true;
+            } catch (Exception exception) {
+                log.warn("执行continueExecute方法，WebDriver对象异常，错误消息:{}", exception.getMessage());
+                return false;
+            }
+        };
+        while (true) {
+            boolean result = execute.get();
+            if (result) {
+                break;
+            }
         }
-        // 开启无界面模式
-        if (!scrapeConfiguration.isOpenWindow()) {
-            chromeOptions.addArguments("--headless");
-        }
-
-        return new ChromeDriver(chromeOptions);
     }
 
     /**
-     *  循环执行
-     * @param execute 执行方法
+     * 循环执行获取 WebDriver，根据 WebDriver 循环执行操作逻辑
+     * @param supplier 获取 WebDriver 方法
+     * @param predicate WebDriver 操作方法
      */
-    public static void whileExecute(IWhileExecute execute) {
-        while (true) {
+    public static void loopExecute(Supplier<WebDriver> supplier, Predicate<WebDriver> predicate) {
+        Supplier<Boolean> execute = () -> {
             try {
-                if (execute.execute()) {
-                    break;
+                WebDriver webDriver = supplier.get();
+                while (true) {
+                    try {
+                        boolean success = predicate.test(webDriver);
+                        if (success) {
+                            break;
+                        }
+                    } catch (Exception exception) {
+                        log.warn("执行loopExecute方法,内部出现异常，错误消息:{}", exception.getMessage());
+                        webDriver.quit();
+                        return false;
+                    }
                 }
+                webDriver.quit();
+                return true;
             } catch (Exception exception) {
-                if (execute.errorHandle(exception)) {
-                    break;
-                }
+                log.warn("执行loopExecute方法，WebDriver对象异常，错误消息:{}", exception.getMessage());
+                return false;
+            }
+        };
+        while (true) {
+            boolean result = execute.get();
+            if (result) {
+                break;
             }
         }
     }
@@ -188,6 +119,7 @@ public class ScrapeHelper {
             return;
         }
         ExecutorService executor = Executors.newFixedThreadPool(workerNum);
+        List<Future<?>> futures = new ArrayList<>();
         int n = items.size();
         int chunkSize = n / workerNum;
         int remainder = n % workerNum;
@@ -197,9 +129,15 @@ public class ScrapeHelper {
             // 确保结束索引不越界
             end = Math.min(end, n);
             List<T> data = items.subList(start, end);
-
             int finalEnd = end;
-            executor.execute(() -> execute.execute(start, finalEnd, data));
+            Future<?> future = executor.submit(() -> execute.execute(start, finalEnd, data));
+            futures.add(future);
+        }
+        for (Future<?> future : futures) {
+            try {
+                future.get();
+            } catch (InterruptedException | ExecutionException ignored) {
+            }
         }
         executor.shutdown();
     }
@@ -221,67 +159,169 @@ public class ScrapeHelper {
         int chunkSize = total / workerNum;
         int remainder = total % workerNum;
         ExecutorService executor = Executors.newFixedThreadPool(workerNum);
+        List<Future<?>> futures = new ArrayList<>();
         for (int i = 0; i < workerNum; i++) {
             int start = (i * chunkSize) + 1 + Math.min(i, remainder);  // 从1开始的起始索引
             int end = (i + 1) * chunkSize + Math.min(i + 1, remainder); // 结束索引
             // 确保结束索引不越界
             end = Math.min(end, total);
-
             int finalEnd = end;
-            executor.execute(() -> execute.execute(start, finalEnd));
+            Future<?> future = executor.submit(() -> execute.execute(start, finalEnd));
+            futures.add(future);
+        }
+        for (Future<?> future : futures) {
+            try {
+                future.get();
+            } catch (InterruptedException | ExecutionException ignored) {
+            }
         }
         executor.shutdown();
     }
 
     /**
-     *
-     * @param webDriver 驱动
-     * @param value 值
-     * @return 返回节点
+     * 切换最后一个标签
+     * @param webDriver 浏览器驱动
+     * @param isClose 释放关闭其他标签
      */
-    public static WebElement find(WebDriver webDriver, String value) {
-        return webDriver.findElement(By.cssSelector(value));
+    public static void switchLastTab(WebDriver webDriver, boolean isClose) {
+        //关闭其他标签，切换详情页标签
+        String[] windowHandles = webDriver.getWindowHandles().toArray(new String[0]);
+        for (int i = 0; i < windowHandles.length; i++) {
+            webDriver.switchTo().window(windowHandles[i]);
+            if (i != windowHandles.length - 1 && isClose) {
+                webDriver.close();
+            }
+        }
     }
 
     /**
-     *
-     * @param webElement 节点
-     * @param value 值
-     * @return 返回节点
+     *  切换到第一个标签
+     * @param webDriver 浏览器驱动
+     * @param isClose 释放关闭其他标签
      */
-    public static WebElement find(WebElement webElement, String value) {
-        return webElement.findElement(By.cssSelector(value));
+    public static void switchFirstTab(WebDriver webDriver, boolean isClose) {
+        String[] windowHandles = webDriver.getWindowHandles().toArray(new String[0]);
+        // 从数组的最后一个元素开始，反向遍历
+        for (int i = windowHandles.length - 1; i >= 0; i--) {
+            webDriver.switchTo().window(windowHandles[i]);
+            if (i != 0 && isClose) {
+                webDriver.close();
+            }
+        }
     }
 
     /**
-     *
-     * @param webElement 节点
-     * @param value 值
+     *  执行脚本
+     * @param webDriver 浏览器驱动
+     * @param script 脚本
+     */
+    public static void executeScript(WebDriver webDriver, String script) {
+        JavascriptExecutor executor = (JavascriptExecutor) webDriver;
+        executor.executeScript(script);
+    }
+
+    /**
+     * 执行验证判断逻辑后，执行脚本
+     * @param webDriver 浏览器驱动
+     * @param function 验证程序，true：执行脚本，false：循环执行
+     * @param script 脚本
+     */
+    public static void executeScript(WebDriver webDriver, String script, Function<WebDriver, Boolean> function) {
+        while (true) {
+            boolean result = function.apply(webDriver);
+            if (result) {
+                JavascriptExecutor executor = (JavascriptExecutor) webDriver;
+                executor.executeScript(script);
+                break;
+            }
+        }
+    }
+
+    /**
+     * 监听指定筛选元素，等待后，返回标签元素对象
+     * @param webDriver 浏览器驱动
+     * @param selector 元素筛选器
+     * @return 标签元素
+     */
+    public static WebElement waitElement(WebDriver webDriver, String selector) {
+        ExpectedCondition<WebElement> conditions = ExpectedConditions.presenceOfElementLocated(By.cssSelector(selector));
+        return new WebDriverWait(webDriver, Duration.ofSeconds(10)).until(conditions);
+    }
+
+    /**
+     * 保存当前页面内容
+     * @param webDriver 浏览器驱动
+     * @param filePath 文件保存路径
+     */
+    public static void savePage(WebDriver webDriver, String filePath) {
+        String html = webDriver.getPageSource();
+        Pattern scriptPattern = Pattern.compile("<script.*?>.*?</script>", Pattern.DOTALL);
+        Matcher matcher = scriptPattern.matcher(html);
+        String newHtmlContent = matcher.replaceAll("");
+        FileUtil.writeString(newHtmlContent, filePath, StandardCharsets.UTF_8);
+    }
+
+    /**
+     * 监听指定筛选元素，等待后，点击操作
+     * @param webDriver 浏览器驱动
+     * @param selector 元素筛选器
+     */
+    public static void buttonElement(WebDriver webDriver, String selector) {
+        WebElement webElement = waitElement(webDriver, selector);
+        webElement.click();
+    }
+
+    /**
+     * 监听指定筛选元素，等待后，点击操作
+     * @param webDriver 浏览器驱动
+     * @param selector 元素筛选器
+     * @return 元素文本
+     */
+    public static String getText(WebDriver webDriver, String selector) {
+        WebElement webElement = waitElement(webDriver, selector);
+        return webElement.getText();
+    }
+
+    /**
+     *  判断筛选的元素是否存在
+     * @param webDriver 浏览器驱动
+     * @param selector 元素筛选器
+     * @return true：存在，false：不存在
+     */
+    public static boolean existElement(WebDriver webDriver, String selector) {
+        WebElement webElement = waitElement(webDriver, selector);
+        return webElement.isDisplayed();
+    }
+
+    /**
+     * 根据元素节点，筛选指定标签，获取文本
+     * @param webElement 父级元素节点
+     * @param selector 元素筛选器
      * @return 值
      */
-    public static String findValue(WebElement webElement, String value) {
-        return webElement.findElement(By.cssSelector(value)).getText();
+    public static String getText(WebElement webElement, String selector) {
+        return webElement.findElement(By.cssSelector(selector)).getText();
     }
 
     /**
-     *
-     * @param webElement 节点
-     * @param selector 筛选器
-     * @param value 替换值
-     * @return 值
+     *  根据元素节点，筛选指定标签，获取文本，根据规则进行替换
+     * @param webElement 父级元素节点
+     * @param selector 元素筛选器
+     * @param replaceValue 替换的值
+     * @return 文本
      */
-    public static String findReplaceValue(WebElement webElement, String selector, String value) {
-        return webElement.findElement(By.cssSelector(selector)).getText().replaceAll(value, "");
+    public static String getTextReplaceText(WebElement webElement, String selector, String replaceValue) {
+        return webElement.findElement(By.cssSelector(selector)).getText().replaceAll(replaceValue, "");
     }
 
     /**
-     *
-     * @param webElement 节点
-     * @param selector 筛选器
-     * @param attribute 属性
-     * @return 值
+     *  根据元素节点，筛选指定标签，获取元素指定属性
+     * @param webElement 父级元素节点
+     * @param selector 元素筛选器
+     * @param attribute 元素属性
+     * @return 属性值
      */
-    public static String findAttributeValue(WebElement webElement, String selector, String attribute) {
+    public static String getAttributeValue(WebElement webElement, String selector, String attribute) {
         try {
             return webElement.findElement(By.cssSelector(selector)).getAttribute(attribute);
         } catch (Exception e) {
@@ -289,23 +329,43 @@ public class ScrapeHelper {
         }
     }
 
+
     /**
-     *
-     * @param webDriver 驱动
+     *  处理异常值
      * @param value 值
-     * @return 值
+     * @return 数值
      */
-    public static List<WebElement> findList(WebDriver webDriver, String value) {
-        return webDriver.findElements(By.cssSelector(value));
+    public static Integer getTryInteger(String value) {
+        try {
+            return Convert.toInt(value);
+        } catch (Exception exception) {
+            return null;
+        }
     }
 
     /**
-     *
-     * @param webElement 节点
+     *  处理异常值
      * @param value 值
-     * @return 值
+     * @return 数值
      */
-    public static List<WebElement> findList(WebElement webElement, String value) {
-        return webElement.findElements(By.cssSelector(value));
+    public static LocalDateTime getTryLocalDateTime(String value) {
+        try {
+            return LocalDateTimeUtil.parse(value);
+        } catch (Exception exception) {
+            return null;
+        }
+    }
+
+    /**
+     *  处理异常值
+     * @param value 值
+     * @return 数值
+     */
+    public static LocalDateTime getTryLocalDateTime(String value, String formatter) {
+        try {
+            return LocalDateTimeUtil.parse(value, formatter);
+        } catch (Exception exception) {
+            return null;
+        }
     }
 }

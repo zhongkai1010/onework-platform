@@ -1,69 +1,57 @@
 package com.onework.boot.scrape.ctmds.store;
 
-import com.onework.boot.scrape.OneworkScrapeApplication;
+import com.onework.boot.scrape.BaseStore;
 import com.onework.boot.scrape.data.entity.CTMDSCollectionRecord;
 import com.onework.boot.scrape.data.mapper.CTMDSCollectionRecordMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
-@Order(0)
 @Component
-public class CTMDSRecordStore {
+public class CTMDSRecordStore extends BaseStore {
 
-    private final CTMDSCollectionRecordMapper recordMapper;
+    private final CTMDSCollectionRecordMapper mapper;
 
+    private final ConcurrentHashMap<String, CTMDSCollectionRecord> store = new ConcurrentHashMap<>();
 
-    private final Map<String, CTMDSCollectionRecord> recordMap = new HashMap<>();
-
-    private static final Logger LOG = LoggerFactory
-            .getLogger(OneworkScrapeApplication.class);
-
-    public CTMDSRecordStore(CTMDSCollectionRecordMapper recordMapper) {
-        this.recordMapper = recordMapper;
+    public CTMDSRecordStore(CTMDSCollectionRecordMapper mapper) {
+        this.mapper = mapper;
     }
 
+    @Override
     public void initData() {
-        LOG.info("初始化CTMDS系统数据");
-        List<CTMDSCollectionRecord> records = recordMapper.selectList(null);
+        store.clear();
+        List<CTMDSCollectionRecord> records = mapper.selectList(null);
         for (CTMDSCollectionRecord record : records) {
-            recordMap.put(record.getRecordNumber(), record);
+            store.put(record.getRecordNumber(), record);
         }
-        LOG.info("完成初始化CTMDS系统数据");
     }
 
-    public CTMDSCollectionRecord getRecord(String recordNumber) {
-        return recordMap.get(recordNumber);
+    public CTMDSCollectionRecord get(String recordNumber) {
+        return store.get(recordNumber);
     }
 
-    public boolean existRecord(String recordNumber) {
-        return recordMap.containsKey(recordNumber);
-    }
-
-    public List<CTMDSCollectionRecord> getRecords() {
-        return recordMap.values().stream().toList();
+    public boolean isExist(String recordNumber) {
+        return store.containsKey(recordNumber);
     }
 
     public List<CTMDSCollectionRecord> getDrugRecords() {
-        return recordMap.values().stream().filter(ctmdsCollectionRecord -> ctmdsCollectionRecord.getRecordNumber().contains("药临床机构备字")).toList();
+        return store.values().stream().filter(ctmdsCollectionRecord -> ctmdsCollectionRecord.getRecordNumber().contains("药临床机构备字")).toList();
     }
 
     public List<CTMDSCollectionRecord> getInstrumentRecords() {
-        return recordMap.values().stream().filter(ctmdsCollectionRecord -> ctmdsCollectionRecord.getRecordNumber().contains("械临机构备")).toList();
+        return store.values().stream().filter(ctmdsCollectionRecord -> ctmdsCollectionRecord.getRecordNumber().contains("械临机构备")).toList();
     }
 
-    public void updateRecord(CTMDSCollectionRecord record) {
-        recordMapper.updateById(record);
-        recordMap.replace(record.getRecordNumber(), record);
-    }
-
-    public void insertRecord(CTMDSCollectionRecord record) {
-        recordMapper.insert(record);
-        recordMap.put(record.getRecordNumber(), record);
+    public void addOrUpdate(CTMDSCollectionRecord record) {
+        String key = record.getRecordNumber();
+        if (store.containsKey(key)) {
+            mapper.updateById(record);
+            store.replace(record.getRecordNumber(), record);
+        } else {
+            mapper.insert(record);
+            store.put(record.getRecordNumber(), record);
+        }
     }
 }

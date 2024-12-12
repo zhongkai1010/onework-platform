@@ -1,137 +1,110 @@
 package com.onework.boot.scrape.bohe;
 
-import cn.hutool.core.date.LocalDateTimeUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.onework.boot.scrape.*;
+import com.onework.boot.scrape.ScrapeHelper;
+import com.onework.boot.scrape.TaskServer;
+import com.onework.boot.scrape.TaskServerType;
+import com.onework.boot.scrape.WebDriverFactory;
+import com.onework.boot.scrape.bohe.config.BoheCompanyConfiguration;
 import com.onework.boot.scrape.data.entity.BoheCompany;
 import com.onework.boot.scrape.data.mapper.BoheCompanyMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
-public class BoheCompanyTaskServer implements ITaskServer {
+@Slf4j
+public class BoheCompanyTaskServer extends TaskServer {
 
-    private final ScrapeConfiguration scrapeConfiguration;
-
-    private static final Logger LOG = LoggerFactory
-            .getLogger(OneworkScrapeApplication.class);
+    private final BoheCompanyConfiguration configuration;
 
     private final BoheCompanyMapper boheCompanyMapper;
 
-    public BoheCompanyTaskServer(ScrapeConfiguration scrapeConfiguration, BoheCompanyMapper boheCompanyMapper) {
-        this.scrapeConfiguration = scrapeConfiguration;
+    public BoheCompanyTaskServer(BoheCompanyConfiguration configuration, BoheCompanyMapper boheCompanyMapper) {
+        this.configuration = configuration;
         this.boheCompanyMapper = boheCompanyMapper;
     }
 
     @Override
-    public void run() {
-        AtomicInteger totalPages = new AtomicInteger();
+    public TaskServerType getTaskServerType() {
+        return TaskServerType.BOHE_COMPANY;
+    }
 
-        ScrapeHelper.whileExecute(() -> {
-            WebDriver webDriver = ScrapeHelper.getWebDriver(scrapeConfiguration);
-            webDriver.get("https://yao.bohe.cn/company/");
-            // 输入登记号
-            WebDriverWait inputWait = new WebDriverWait(webDriver, Duration.ofSeconds(5)); // 设置等待时间为5秒
-            WebElement pageElement = inputWait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("html > body > div:nth-of-type(2) > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(3) > ul > li:nth-of-type(6) > a")));
-            String totalPageStr = pageElement.getText();
-            totalPages.set(Integer.parseInt(totalPageStr));
-            webDriver.quit();
+    @Override
+    public void run() {
+
+        String desc = getTaskServerType().getDescription();
+        AtomicInteger totalPages = new AtomicInteger();
+        ScrapeHelper.loopExecute(() -> WebDriverFactory.getWebDriver(configuration), webDriver -> {
+            webDriver.get(configuration.getUrl());
+            String selector = "html > body > div:nth-of-type(2) > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(3) > ul > li:nth-of-type(6) > a";
+            String text = ScrapeHelper.getText(webDriver, selector);
+            totalPages.set(Integer.parseInt(text));
             return true;
         });
-        LOG.info("采集yao.bohe.cn，总页数: {}", totalPages);
+        log.info("[{}],共有{}页", desc, totalPages.get());
 
-        ScrapeHelper.workerExecute(totalPages.get(), 20, (start, end) -> {
-            WebDriver webDriver = ScrapeHelper.getWebDriver(scrapeConfiguration);
+        ScrapeHelper.workerExecute(totalPages.get(), configuration.getThreadCount(), (start, end) -> ScrapeHelper.loopExecute(() -> WebDriverFactory.getWebDriver(configuration), webDriver -> {
             for (int i = start; i <= end; i++) {
-                String url = String.format("https://yao.bohe.cn/company/page_%s/", i);
+                String url = String.format(configuration.getPageUrl(), i);
                 webDriver.get(url);
-                int finalI = i;
-                ScrapeHelper.whileExecute(new IWhileExecute() {
-                    @Override
-                    public boolean execute() {
-                        List<WebElement> webElementList = ScrapeHelper.findList(webDriver, "ul[class='cl-list'] li");
-                        for (WebElement webElement : webElementList) {
-                            // 企业名称
-                            String companyName = ScrapeHelper.findValue(webElement, "div > a");
-                            // 法定代表人
-                            String legalRepresentative = ScrapeHelper.findReplaceValue(webElement, "div > div:nth-of-type(2) > p:nth-of-type(1)", "法定代表人：");
-                            // 注册资本
-                            String registeredCapital = ScrapeHelper.findReplaceValue(webElement, "div > div:nth-of-type(2) > p:nth-of-type(2)", "注册资本：");
-                            // 成立时间
-                            String establishmentDate = ScrapeHelper.findReplaceValue(webElement, "div > div:nth-of-type(2) > p:nth-of-type(3)", "成立时间：");
-                            // 地址
-                            String address = ScrapeHelper.findReplaceValue(webElement, "div > div:nth-of-type(2) > p:nth-of-type(4)", "地址：");
-                            // 经营范围
-                            String businessScope = ScrapeHelper.findReplaceValue(webElement, "div > div:nth-of-type(2) > p:nth-of-type(5)", "经营范围：");
-                            // 图标
-                            String logoUrl = ScrapeHelper.findAttributeValue(webElement, "a > img", "src");
-                            // 链接
-                            String websiteUrl = ScrapeHelper.findAttributeValue(webElement, ("div > a"), "href");
-                            // LOG.info("企业名称：{},法定代表人：{},注册资本：{},成立时间：{},地址：{},经营范围：{},图标：{},链接：{}", companyName, legalRepresentative, registeredCapital, establishmentDate, address, businessScope, logoUrl, websiteUrl);
-                            BoheCompany boheCompany = boheCompanyMapper.selectOne(Wrappers.<BoheCompany>lambdaQuery().eq(BoheCompany::getWebsiteUrl, websiteUrl));
-                            if (boheCompany == null) {
-                                boheCompany = new BoheCompany();
-                                boheCompany.setCompanyName(companyName);
-                                boheCompany.setLegalRepresentative(legalRepresentative);
-                                boheCompany.setRegisteredCapital(registeredCapital);
-                                boheCompany.setEstablishmentDate(_getTryLocalDateTime(establishmentDate));
-                                boheCompany.setAddress(address);
-                                boheCompany.setBusinessScope(businessScope);
-                                boheCompany.setLogoUrl(logoUrl);
-                                boheCompany.setWebsiteUrl(websiteUrl);
-                                boheCompanyMapper.insert(boheCompany);
-                                LOG.info("第{}项，新增企业：{}", finalI, companyName);
-                            } else {
-                                boheCompany.setCompanyName(companyName);
-                                boheCompany.setLegalRepresentative(legalRepresentative);
-                                boheCompany.setRegisteredCapital(registeredCapital);
-                                boheCompany.setEstablishmentDate(_getTryLocalDateTime(establishmentDate));
-                                boheCompany.setAddress(address);
-                                boheCompany.setBusinessScope(businessScope);
-                                boheCompany.setLogoUrl(logoUrl);
-                                boheCompany.setWebsiteUrl(websiteUrl);
-                                boheCompanyMapper.updateById(boheCompany);
-                                LOG.info("第{}项，更新企业：{}", finalI, companyName);
-
-                            }
+                WebElement ul = ScrapeHelper.waitElement(webDriver, "ul[class='cl-list']");
+                List<WebElement> lis = ul.findElements(By.cssSelector("li"));
+                for (WebElement li : lis) {
+                    String websiteUrl = ScrapeHelper.getAttributeValue(li, ("div > a"), "href");
+                    BoheCompany boheCompany = boheCompanyMapper.selectOne(Wrappers.<BoheCompany>lambdaQuery().eq(BoheCompany::getWebsiteUrl, websiteUrl));
+                    boolean isNew = false;
+                    if (boheCompany == null) {
+                        boheCompany = new BoheCompany();
+                        isNew = true;
+                    }
+                    parseWebElement(li, boheCompany);
+                    try {
+                        if (isNew) {
+                            boheCompanyMapper.insert(boheCompany);
+                        } else {
+                            boheCompanyMapper.updateById(boheCompany);
                         }
-                        return true;
-                    }
+                        log.info("[{}],第{}页,{},记录成功", desc, i, boheCompany.getCompanyName());
 
-                    @Override
-                    public boolean errorHandle(Exception exception) {
-                        LOG.info("获取页面元素异常，错误消息：{}", exception.getMessage());
-                        return false;
+                    } catch (Exception exception) {
+                        log.warn("[{}],第{}页,{},记录失败,错误消息:{}", desc, i, boheCompany.getCompanyName(), exception.getMessage());
                     }
-                });
+                }
             }
-            webDriver.quit();
-        });
+            return true;
+        }));
     }
 
-    /**
-     *  处理异常值
-     * @param value 值
-     * @return 数值
-     */
-    private static LocalDateTime _getTryLocalDateTime(String value) {
-        try {
-            return LocalDateTimeUtil.parse(value, DateTimeFormatter.ISO_LOCAL_DATE);
-        } catch (Exception exception) {
-            return null;
-        }
+    private void parseWebElement(WebElement element, BoheCompany boheCompany) {
+        // 企业名称
+        String companyName = ScrapeHelper.getText(element, "div > a");
+        boheCompany.setCompanyName(companyName);
+        // 法定代表人
+        String legalRepresentative = ScrapeHelper.getTextReplaceText(element, "div > div:nth-of-type(2) > p:nth-of-type(1)", "法定代表人：");
+        boheCompany.setLegalRepresentative(legalRepresentative);
+        // 注册资本
+        String registeredCapital = ScrapeHelper.getTextReplaceText(element, "div > div:nth-of-type(2) > p:nth-of-type(2)", "注册资本：");
+        boheCompany.setRegisteredCapital(registeredCapital);
+        // 成立时间
+        String establishmentDate = ScrapeHelper.getTextReplaceText(element, "div > div:nth-of-type(2) > p:nth-of-type(3)", "成立时间：");
+        boheCompany.setEstablishmentDate(ScrapeHelper.getTryLocalDateTime(establishmentDate));
+        // 地址
+        String address = ScrapeHelper.getTextReplaceText(element, "div > div:nth-of-type(2) > p:nth-of-type(4)", "地址：");
+        boheCompany.setAddress(address);
+        // 经营范围
+        String businessScope = ScrapeHelper.getTextReplaceText(element, "div > div:nth-of-type(2) > p:nth-of-type(5)", "经营范围：");
+        boheCompany.setBusinessScope(businessScope);
+        // 图标
+        String logoUrl = ScrapeHelper.getAttributeValue(element, "a > img", "src");
+        boheCompany.setLogoUrl(logoUrl);
+        // 链接
+        String websiteUrl = ScrapeHelper.getAttributeValue(element, ("div > a"), "href");
+        boheCompany.setWebsiteUrl(websiteUrl);
+        // LOG.info("企业名称：{},法定代表人：{},注册资本：{},成立时间：{},地址：{},经营范围：{},图标：{},链接：{}", companyName, legalRepresentative, registeredCapital, establishmentDate, address, businessScope, logoUrl, websiteUrl);
     }
-
 }

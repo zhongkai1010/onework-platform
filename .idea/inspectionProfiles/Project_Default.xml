@@ -64,6 +64,10 @@
           <option value="onework-scrape" />
           <option value="onework-scrape" />
           <option value="onework-scrape" />
+          <option value="onework-scrape" />
+          <option value="onework-scrape" />
+          <option value="onework-scrape" />
+          <option value="onework-scrape" />
         </list>
       </option>
       <option name="ignoredPackages">
@@ -84,10 +88,18 @@
           <option value="org.springframework:spring-context:6.1.13" />
           <option value="org.xmlunit:xmlunit-core:2.9.1" />
           <option value="commons-io:commons-io:2.11.0" />
+          <option value="org.springframework:spring-beans:6.1.13" />
+          <option value="org.springframework:spring-expression:6.1.13" />
+          <option value="org.springframework:spring-core:6.1.13" />
+          <option value="org.springframework:spring-jdbc:6.1.13" />
         </list>
       </option>
       <option name="ignoredReasons">
         <list>
+          <option value="不可利用" />
+          <option value="不可利用" />
+          <option value="不可利用" />
+          <option value="不可利用" />
           <option value="不可利用" />
           <option value="不可利用" />
           <option value="不可利用" />

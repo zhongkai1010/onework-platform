@@ -1,58 +1,59 @@
 package com.onework.boot.scrape.cde.store;
 
 
-import com.onework.boot.scrape.OneworkScrapeApplication;
+import com.onework.boot.scrape.BaseStore;
 import com.onework.boot.scrape.data.entity.CDEResearcher;
 import com.onework.boot.scrape.data.mapper.CDEResearcherMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Component
-public class CDEResearcherStore {
+public class CDEResearcherStore extends BaseStore {
 
     private final CDEResearcherMapper researcherMapper;
 
-    private final Map<String, CDEResearcher> researcherStore = new HashMap<>();
+    private final ConcurrentHashMap<String, CDEResearcher> store = new ConcurrentHashMap<>();
 
-    private static final Logger LOG = LoggerFactory
-            .getLogger(OneworkScrapeApplication.class);
 
     public CDEResearcherStore(CDEResearcherMapper researcherMapper) {
         this.researcherMapper = researcherMapper;
     }
 
-    public void initDate() {
+
+    public boolean isExist(String institutionName, String researcherName) {
+        String key = getKey(institutionName, researcherName);
+        return store.containsKey(key);
+    }
+
+    public CDEResearcher get(String institutionName, String researcherName) {
+        String key = getKey(institutionName, researcherName);
+        return store.get(key);
+    }
+
+    @Override
+    public void initData() {
+        store.clear();
         List<CDEResearcher> researchers = researcherMapper.selectList(null);
         for (CDEResearcher researcher : researchers) {
-            String key = String.format("%s-%s", researcher.getInstitutionName(), researcher.getResearcherName());
-            researcherStore.put(key, researcher);
+            String key = getKey(researcher.getInstitutionName(), researcher.getResearcherName());
+            store.put(key, researcher);
         }
     }
 
-    public void checkAndInsertIfNotExist(CDEResearcher researcher) {
-        try {
-            String key = String.format("%s-%s", researcher.getInstitutionName(), researcher.getResearcherName());
-            if (researcherStore.containsKey(key)) {
-                CDEResearcher cdeResearcher = researcherStore.get(key);
-                cdeResearcher.setDegree(researcher.getDegree());
-                cdeResearcher.setTitle(researcher.getTitle());
-                cdeResearcher.setPhone(researcher.getPhone());
-                cdeResearcher.setEmail(researcher.getEmail());
-                researcherMapper.updateById(cdeResearcher);
-                researcherStore.replace(key, cdeResearcher);
-                LOG.info("更新研究者：{}，机构：{}", researcher.getResearcherName(), researcher.getInstitutionName());
-            } else {
-                researcherMapper.insert(researcher);
-                researcherStore.put(key, researcher);
-                LOG.info("新增研究者：{}，机构：{}", researcher.getResearcherName(), researcher.getInstitutionName());
-            }
-        } catch (Exception exception) {
-            LOG.error("机构：{}，研究者：{}，出现异常，错误消息：{}", researcher.getInstitutionName(), researcher.getResearcherName(), exception.getMessage());
+    public void addOrUpdate(CDEResearcher researcher) {
+        String key = getKey(researcher.getInstitutionName(), researcher.getResearcherName());
+        if (store.containsKey(key)) {
+            researcherMapper.updateById(researcher);
+            store.replace(key, researcher);
+        } else {
+            researcherMapper.insert(researcher);
+            store.put(key, researcher);
         }
+    }
+
+    public String getKey(String institutionName, String researcherName) {
+        return String.format("%s_%s", institutionName, researcherName);
     }
 }

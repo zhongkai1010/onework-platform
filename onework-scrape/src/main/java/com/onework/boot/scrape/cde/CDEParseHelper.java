@@ -1,16 +1,13 @@
 package com.onework.boot.scrape.cde;
 
-import cn.hutool.core.convert.Convert;
-import cn.hutool.core.date.LocalDateTimeUtil;
 import com.alibaba.fastjson2.JSON;
+import com.onework.boot.scrape.ScrapeHelper;
 import com.onework.boot.scrape.cde.dtos.*;
 import com.onework.boot.scrape.data.entity.CDEProject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -375,23 +372,22 @@ public class CDEParseHelper {
      * @param doc 文档
      * @return 结果
      */
-    public static List<Medicine> getTrialMedication(Document doc) {
+    public static List<CDEMedicine> getTrialMedication(Document doc) {
         Elements elements = doc.select("html > body > main > div:nth-of-type(2) > div > div > div > div > div:nth-of-type(5) > div > div:nth-of-type(2) > div:nth-of-type(2) > div > table:nth-of-type(5) > tbody > tr:nth-of-type(1) > td > table > tbody > tr");
-        List<Medicine> medicines = new ArrayList<>();
-
+        List<CDEMedicine> CDEMedicines = new ArrayList<>();
         elements.forEach(element -> {
             Elements number = element.select("td:nth-of-type(1)");
             Elements name = element.select("td:nth-of-type(2)");
             Elements usage = element.select("td:nth-of-type(3)");
             if (!number.isEmpty()) {
-                Medicine medicine = new Medicine();
-                medicine.setNumber(number.text());
-                medicine.setName(name.text());
-                medicine.setUsage(usage.text());
-                medicines.add(medicine);
+                CDEMedicine cdeMedicine = new CDEMedicine();
+                cdeMedicine.setNumber(number.text());
+                cdeMedicine.setName(name.text());
+                cdeMedicine.setUsage(usage.text());
+                CDEMedicines.add(cdeMedicine);
             }
         });
-        return medicines;
+        return CDEMedicines;
     }
 
     /**
@@ -399,22 +395,22 @@ public class CDEParseHelper {
      * @param doc 文档
      * @return 结果
      */
-    public static List<Medicine> getControlMedication(Document doc) {
+    public static List<CDEMedicine> getControlMedication(Document doc) {
         Elements elements = doc.select("html > body > main > div:nth-of-type(2) > div > div > div > div > div:nth-of-type(5) > div > div:nth-of-type(2) > div:nth-of-type(2) > div > table:nth-of-type(5) > tbody > tr:nth-of-type(2) > td > table > tbody > tr");
-        List<Medicine> medicines = new ArrayList<>();
+        List<CDEMedicine> CDEMedicines = new ArrayList<>();
         elements.forEach(element -> {
             Elements number = element.select("td:nth-of-type(1)");
             Elements name = element.select("td:nth-of-type(2)");
             Elements usage = element.select("td:nth-of-type(3)");
             if (!number.isEmpty()) {
-                Medicine medicine = new Medicine();
-                medicine.setNumber(number.text());
-                medicine.setName(name.text());
-                medicine.setUsage(usage.text());
-                medicines.add(medicine);
+                CDEMedicine cdeMedicine = new CDEMedicine();
+                cdeMedicine.setNumber(number.text());
+                cdeMedicine.setName(name.text());
+                cdeMedicine.setUsage(usage.text());
+                CDEMedicines.add(cdeMedicine);
             }
         });
-        return medicines;
+        return CDEMedicines;
     }
 
     /**
@@ -422,24 +418,24 @@ public class CDEParseHelper {
      * @param doc 文档
      * @return 结果
      */
-    public static List<EndpointMetric> getPrimaryEndpointAndTimingOfAssessment(Document doc) {
+    public static List<CDEEndpointMetric> getPrimaryEndpointAndTimingOfAssessment(Document doc) {
         Elements elements = doc.select("html > body > main > div:nth-of-type(2) > div > div > div > div > div:nth-of-type(5) > div > div:nth-of-type(2) > div:nth-of-type(2) > div > table:nth-of-type(6) > tbody > tr:nth-of-type(1) > td > table > tbody > tr");
-        List<EndpointMetric> endpointMetrics = new ArrayList<>();
+        List<CDEEndpointMetric> cdeEndpointMetrics = new ArrayList<>();
         elements.forEach(element -> {
             Elements number = element.select("td:nth-of-type(1)");
             Elements indicator = element.select("td:nth-of-type(2)");
             Elements evaluationTime = element.select("td:nth-of-type(3)");
             Elements primaryEndpoint = element.select("td:nth-of-type(3)");
             if (!number.isEmpty()) {
-                EndpointMetric endpointMetric = new EndpointMetric();
-                endpointMetric.setNumber(number.text());
-                endpointMetric.setIndicator(indicator.text());
-                endpointMetric.setEvaluationTime(evaluationTime.text());
-                endpointMetric.setPrimaryEndpoint(primaryEndpoint.text());
-                endpointMetrics.add(endpointMetric);
+                CDEEndpointMetric CDEEndpointMetric = new CDEEndpointMetric();
+                CDEEndpointMetric.setNumber(number.text());
+                CDEEndpointMetric.setIndicator(indicator.text());
+                CDEEndpointMetric.setEvaluationTime(evaluationTime.text());
+                CDEEndpointMetric.setPrimaryEndpoint(primaryEndpoint.text());
+                cdeEndpointMetrics.add(CDEEndpointMetric);
             }
         });
-        return endpointMetrics;
+        return cdeEndpointMetrics;
     }
 
     /**
@@ -447,24 +443,24 @@ public class CDEParseHelper {
      * @param doc 文档
      * @return 结果
      */
-    public static List<EndpointMetric> getSecondaryEndpointAndTimingOfAssessment(Document doc) {
+    public static List<CDEEndpointMetric> getSecondaryEndpointAndTimingOfAssessment(Document doc) {
         Elements elements = doc.select("html > body > main > div:nth-of-type(2) > div > div > div > div > div:nth-of-type(5) > div > div:nth-of-type(2) > div:nth-of-type(2) > div > table:nth-of-type(6) > tbody > tr:nth-of-type(2) > td > table > tbody > tr");
-        List<EndpointMetric> endpointMetrics = new ArrayList<>();
+        List<CDEEndpointMetric> cdeEndpointMetrics = new ArrayList<>();
         elements.forEach(element -> {
             Elements number = element.select("td:nth-of-type(1)");
             Elements indicator = element.select("td:nth-of-type(2)");
             Elements evaluationTime = element.select("td:nth-of-type(3)");
             Elements primaryEndpoint = element.select("td:nth-of-type(3)");
             if (!number.isEmpty()) {
-                EndpointMetric endpointMetric = new EndpointMetric();
-                endpointMetric.setNumber(number.text());
-                endpointMetric.setIndicator(indicator.text());
-                endpointMetric.setEvaluationTime(evaluationTime.text());
-                endpointMetric.setPrimaryEndpoint(primaryEndpoint.text());
-                endpointMetrics.add(endpointMetric);
+                CDEEndpointMetric CDEEndpointMetric = new CDEEndpointMetric();
+                CDEEndpointMetric.setNumber(number.text());
+                CDEEndpointMetric.setIndicator(indicator.text());
+                CDEEndpointMetric.setEvaluationTime(evaluationTime.text());
+                CDEEndpointMetric.setPrimaryEndpoint(primaryEndpoint.text());
+                cdeEndpointMetrics.add(CDEEndpointMetric);
             }
         });
-        return endpointMetrics;
+        return cdeEndpointMetrics;
     }
 
     /**
@@ -504,29 +500,29 @@ public class CDEParseHelper {
      * @param doc 文档
      * @return 结果
      */
-    public static List<PrincipalInvestigatorInformation> getPrincipalInvestigatorInformation(Document doc) {
+    public static List<CDEPrincipalInvestigator> getPrincipalInvestigators(Document doc) {
         Pattern pattern = Pattern.compile("<div class=\"sDPTit2\">\\s*1、主要研究者信息\\s*</div>(.*?)<div class=\"sDPTit2\">", Pattern.DOTALL);
         Matcher matcher = pattern.matcher(doc.html());
         // 查找匹配项
         if (matcher.find()) {
             String matcherHtml = matcher.group(1).trim();
             Document document = Jsoup.parse(matcherHtml);
-            List<PrincipalInvestigatorInformation> principalInvestigatorInformations = new ArrayList<>();
+            List<CDEPrincipalInvestigator> CDEPrincipalInvestigators = new ArrayList<>();
             Elements elements = document.select("table");
             elements.forEach(element -> {
-                PrincipalInvestigatorInformation principalInvestigatorInformation = new PrincipalInvestigatorInformation();
-                principalInvestigatorInformation.setNumber(element.select("tbody > tr:nth-of-type(1) > th:nth-of-type(1)").text());
-                principalInvestigatorInformation.setName(element.select(" tbody > tr:nth-of-type(1) > td:nth-of-type(1)").text());
-                principalInvestigatorInformation.setTitle(element.select("tbody > tr:nth-of-type(1) > td:nth-of-type(3)").text());
-                principalInvestigatorInformation.setDegree(element.select("tbody > tr:nth-of-type(1) > td:nth-of-type(2)").text());
-                principalInvestigatorInformation.setPhone(element.select("tbody > tr:nth-of-type(2) > td:nth-of-type(1)").text());
-                principalInvestigatorInformation.setEmail(element.select("tbody > tr:nth-of-type(2) > td:nth-of-type(2)").text());
-                principalInvestigatorInformation.setPostalAddress(element.select(" tbody > tr:nth-of-type(2) > td:nth-of-type(3)").text());
-                principalInvestigatorInformation.setPostalCode(element.select(" tbody > tr:nth-of-type(3) > td:nth-of-type(1)").text());
-                principalInvestigatorInformation.setOrganizationName(element.select("tbody > tr:nth-of-type(3) > td:nth-of-type(2)").text());
-                principalInvestigatorInformations.add(principalInvestigatorInformation);
+                CDEPrincipalInvestigator cdePrincipalInvestigator = new CDEPrincipalInvestigator();
+                cdePrincipalInvestigator.setNumber(element.select("tbody > tr:nth-of-type(1) > th:nth-of-type(1)").text());
+                cdePrincipalInvestigator.setName(element.select(" tbody > tr:nth-of-type(1) > td:nth-of-type(1)").text());
+                cdePrincipalInvestigator.setTitle(element.select("tbody > tr:nth-of-type(1) > td:nth-of-type(3)").text());
+                cdePrincipalInvestigator.setDegree(element.select("tbody > tr:nth-of-type(1) > td:nth-of-type(2)").text());
+                cdePrincipalInvestigator.setPhone(element.select("tbody > tr:nth-of-type(2) > td:nth-of-type(1)").text());
+                cdePrincipalInvestigator.setEmail(element.select("tbody > tr:nth-of-type(2) > td:nth-of-type(2)").text());
+                cdePrincipalInvestigator.setPostalAddress(element.select(" tbody > tr:nth-of-type(2) > td:nth-of-type(3)").text());
+                cdePrincipalInvestigator.setPostalCode(element.select(" tbody > tr:nth-of-type(3) > td:nth-of-type(1)").text());
+                cdePrincipalInvestigator.setOrganizationName(element.select("tbody > tr:nth-of-type(3) > td:nth-of-type(2)").text());
+                CDEPrincipalInvestigators.add(cdePrincipalInvestigator);
             });
-            return principalInvestigatorInformations;
+            return CDEPrincipalInvestigators;
         } else {
             return new ArrayList<>();
         }
@@ -537,18 +533,18 @@ public class CDEParseHelper {
      * @param doc 文档
      * @return 结果
      */
-    public static List<ParticipatingOrganizationsInformation> getInformationOnParticipatingInstitutions(Document doc) {
+    public static List<CDEClinicalInstitution> getClinicalInstitutions(Document doc) {
         Pattern pattern = Pattern.compile("<div class=\"sDPTit2\">\\s*2、各参加机构信息\\s*</div>(.*?)<div class=\"searchDetailPartTit\">", Pattern.DOTALL);
         Matcher matcher = pattern.matcher(doc.html());
         // 查找匹配项
         if (matcher.find()) {
             String matcherHtml = matcher.group(1).trim();
             Document document = Jsoup.parse(matcherHtml);
-            List<ParticipatingOrganizationsInformation> items = new ArrayList<>();
+            List<CDEClinicalInstitution> items = new ArrayList<>();
             Elements elements = document.select("tr");
             elements.forEach(element -> {
                 if (!element.select("td:nth-of-type(1)").isEmpty()) {
-                    ParticipatingOrganizationsInformation item = new ParticipatingOrganizationsInformation();
+                    CDEClinicalInstitution item = new CDEClinicalInstitution();
                     item.setNumber(element.select("td:nth-of-type(1)").text());
                     item.setOrganizationName(element.select("td:nth-of-type(2)").text());
                     item.setPrincipal(element.select("td:nth-of-type(3)").text());
@@ -569,23 +565,23 @@ public class CDEParseHelper {
      * @param doc 文档
      * @return 结果
      */
-    public static List<EthicsCommittee> getEthicsCommitteeInformation(Document doc) {
+    public static List<CDEEthicsCommittee> getEthicsCommitteeInformation(Document doc) {
         Pattern pattern = Pattern.compile("<div class=\"searchDetailPartTit\">\\s*五、伦理委员会信息\\s*</div>(.*?)<div class=\"searchDetailPartTit\">", Pattern.DOTALL);
         Matcher matcher = pattern.matcher(doc.html());
         // 查找匹配项
         if (matcher.find()) {
             String matcherHtml = matcher.group(1).trim();
             Document document = Jsoup.parse(matcherHtml);
-            List<EthicsCommittee> items = new ArrayList<>();
+            List<CDEEthicsCommittee> items = new ArrayList<>();
             Elements elements = document.select("tr");
             elements.forEach(element -> {
                 if (!element.select("td:nth-of-type(1)").isEmpty()) {
-                    EthicsCommittee ethicsCommittee = new EthicsCommittee();
-                    ethicsCommittee.setNumber(element.select("td:nth-of-type(1)").text());
-                    ethicsCommittee.setName(element.select("td:nth-of-type(2)").text());
-                    ethicsCommittee.setReviewConclusion(element.select("td:nth-of-type(3)").text());
-                    ethicsCommittee.setApprovalDate(element.select("td:nth-of-type(4)").text());
-                    items.add(ethicsCommittee);
+                    CDEEthicsCommittee cdeEthicsCommittee = new CDEEthicsCommittee();
+                    cdeEthicsCommittee.setNumber(element.select("td:nth-of-type(1)").text());
+                    cdeEthicsCommittee.setName(element.select("td:nth-of-type(2)").text());
+                    cdeEthicsCommittee.setReviewConclusion(element.select("td:nth-of-type(3)").text());
+                    cdeEthicsCommittee.setApprovalDate(element.select("td:nth-of-type(4)").text());
+                    items.add(cdeEthicsCommittee);
                 }
             });
             return items;
@@ -662,35 +658,35 @@ public class CDEParseHelper {
      * @param doc 文档
      * @return 结果
      */
-    public static ParticipantsNumber getNumberOfParticipants(Document doc) {
+    public static CDEParticipantsNumber getNumberOfParticipants(Document doc) {
         Pattern pattern = Pattern.compile("<div class=\"sDPTit2\">\\s*2、试验人数\\s*</div>(.*?)<div", Pattern.DOTALL);
         Matcher matcher = pattern.matcher(doc.html());
         // 查找匹配项
         if (matcher.find()) {
             String matcherHtml = matcher.group(1).trim();
             Document document = Jsoup.parse(matcherHtml);
-            ParticipantsNumber participantsNumber = new ParticipantsNumber();
+            CDEParticipantsNumber cdeParticipantsNumber = new CDEParticipantsNumber();
             // 目标入组人数
             String targetEnrollmentNumber = document.select("tr:nth-of-type(1) > td").text().trim();
             String[] targetEnrollmentNumberValues = _getDomesticAndForeign(targetEnrollmentNumber);
-            participantsNumber.setTargetEnrollmentDomestic(targetEnrollmentNumberValues[0]);
-            participantsNumber.setTargetEnrollmentForeign(targetEnrollmentNumberValues[1]);
+            cdeParticipantsNumber.setTargetEnrollmentDomestic(targetEnrollmentNumberValues[0]);
+            cdeParticipantsNumber.setTargetEnrollmentForeign(targetEnrollmentNumberValues[1]);
 
             // 已入组人数
             String numberEnrolled = document.select("tr:nth-of-type(2) > td").text().trim();
             String[] numberEnrolledValues = _getDomesticAndForeign(numberEnrolled);
-            participantsNumber.setCurrentEnrollmentDomestic(numberEnrolledValues[0]);
-            participantsNumber.setCurrentEnrollmentForeign(numberEnrolledValues[1]);
+            cdeParticipantsNumber.setCurrentEnrollmentDomestic(numberEnrolledValues[0]);
+            cdeParticipantsNumber.setCurrentEnrollmentForeign(numberEnrolledValues[1]);
 
             // 实际入组总人数
             String totalNumberOfParticipantsEnrolled = document.select("tr:nth-of-type(3) > td").text().trim();
             String[] totalNumberOfParticipantsEnrolledValues = _getDomesticAndForeign(totalNumberOfParticipantsEnrolled);
-            participantsNumber.setTotalActualEnrollmentDomestic(totalNumberOfParticipantsEnrolledValues[0]);
-            participantsNumber.setTotalActualEnrollmentForeign(totalNumberOfParticipantsEnrolledValues[1]);
+            cdeParticipantsNumber.setTotalActualEnrollmentDomestic(totalNumberOfParticipantsEnrolledValues[0]);
+            cdeParticipantsNumber.setTotalActualEnrollmentForeign(totalNumberOfParticipantsEnrolledValues[1]);
 
-            return participantsNumber;
+            return cdeParticipantsNumber;
         } else {
-            return new ParticipantsNumber();
+            return new CDEParticipantsNumber();
         }
     }
 
@@ -699,36 +695,36 @@ public class CDEParseHelper {
      * @param doc 文档
      * @return 结果
      */
-    public static TrialCompletionDate getSubjectRecruitmentAndTrialCompletionDate(Document doc) {
+    public static CDETrialCompletionDate getSubjectRecruitmentAndTrialCompletionDate(Document doc) {
         Pattern pattern = Pattern.compile("<div class=\"sDPTit2\">\\s*3、受试者招募及试验完成日期\\s*</div>(.*?)<div", Pattern.DOTALL);
         Matcher matcher = pattern.matcher(doc.html());
         // 查找匹配项
         if (matcher.find()) {
             String matcherHtml = matcher.group(1).trim();
             Document document = Jsoup.parse(matcherHtml);
-            TrialCompletionDate trialCompletionDate = new TrialCompletionDate();
+            CDETrialCompletionDate cdeTrialCompletionDate = new CDETrialCompletionDate();
 
             // 第一例受试者签署知情同意书日期
             String dateOfFirstSubjectsInformedConsent = document.select("tr:nth-of-type(1) > td").text();
             String[] dateOfFirstSubjectsInformedConsentValues = _getDomesticAndForeign(dateOfFirstSubjectsInformedConsent);
-            trialCompletionDate.setFirstConsentDateDomestic(dateOfFirstSubjectsInformedConsentValues[0]);
-            trialCompletionDate.setFirstConsentDateForeign(dateOfFirstSubjectsInformedConsentValues[1]);
+            cdeTrialCompletionDate.setFirstConsentDateDomestic(dateOfFirstSubjectsInformedConsentValues[0]);
+            cdeTrialCompletionDate.setFirstConsentDateForeign(dateOfFirstSubjectsInformedConsentValues[1]);
 
             // 第一例受试者入组日期
             String dateOfFirstSubjectEnrolled = document.select("tr:nth-of-type(2) > td").text();
             String[] dateOfFirstSubjectEnrolledValues = _getDomesticAndForeign(dateOfFirstSubjectEnrolled);
-            trialCompletionDate.setFirstEnrollmentDateDomestic(dateOfFirstSubjectEnrolledValues[0]);
-            trialCompletionDate.setFirstEnrollmentDateForeign(dateOfFirstSubjectEnrolledValues[1]);
+            cdeTrialCompletionDate.setFirstEnrollmentDateDomestic(dateOfFirstSubjectEnrolledValues[0]);
+            cdeTrialCompletionDate.setFirstEnrollmentDateForeign(dateOfFirstSubjectEnrolledValues[1]);
 
             // 完成日期
             String completionDate = document.select("tr:nth-of-type(3) > td").text();
             String[] completionDateValues = _getDomesticAndForeign(completionDate);
-            trialCompletionDate.setCompletionDateDomestic(completionDateValues[0]);
-            trialCompletionDate.setCompletionDateForeign(completionDateValues[1]);
+            cdeTrialCompletionDate.setCompletionDateDomestic(completionDateValues[0]);
+            cdeTrialCompletionDate.setCompletionDateForeign(completionDateValues[1]);
 
-            return trialCompletionDate;
+            return cdeTrialCompletionDate;
         } else {
-            return new TrialCompletionDate();
+            return new CDETrialCompletionDate();
         }
     }
 
@@ -737,25 +733,25 @@ public class CDEParseHelper {
      * @param doc 文档
      * @return 结果
      */
-    public static List<ClinicalTrialResultsSummary> getTrialResultsSummary(Document doc) {
+    public static List<CDEClinicalTrialResultsSummary> getTrialResultsSummary(Document doc) {
         Pattern pattern = Pattern.compile("<div class=\"searchDetailPartTit\">\\s*七、临床试验结果摘要\\s*</div>(.*?)<div class=\"searchDetailPartTit\">", Pattern.DOTALL);
         Matcher matcher = pattern.matcher(doc.html());
         // 查找匹配项
         if (matcher.find()) {
             String matcherHtml = matcher.group(1).trim();
             Document document = Jsoup.parse(matcherHtml);
-            List<ClinicalTrialResultsSummary> items = new ArrayList<>();
+            List<CDEClinicalTrialResultsSummary> items = new ArrayList<>();
             Elements elements = document.select("tr");
             elements.forEach(element -> {
                 if (!element.select("td:nth-of-type(1)").isEmpty()) {
-                    ClinicalTrialResultsSummary clinicalTrialResultsSummary = new ClinicalTrialResultsSummary();
+                    CDEClinicalTrialResultsSummary cdeClinicalTrialResultsSummary = new CDEClinicalTrialResultsSummary();
                     String number = element.select("td:nth-of-type(1)").text();
                     String versionNumber = element.select("td:nth-of-type(2)").text();
                     String versionDate = element.select("td:nth-of-type(3)").text();
-                    clinicalTrialResultsSummary.setNumber(number);
-                    clinicalTrialResultsSummary.setVersionNumber(versionNumber);
-                    clinicalTrialResultsSummary.setVersionDate(versionDate);
-                    items.add(clinicalTrialResultsSummary);
+                    cdeClinicalTrialResultsSummary.setNumber(number);
+                    cdeClinicalTrialResultsSummary.setVersionNumber(versionNumber);
+                    cdeClinicalTrialResultsSummary.setVersionDate(versionDate);
+                    items.add(cdeClinicalTrialResultsSummary);
                 }
             });
             return items;
@@ -763,33 +759,6 @@ public class CDEParseHelper {
             return new ArrayList<>();
         }
     }
-
-    /**
-     *  处理异常值
-     * @param value 值
-     * @return 数值
-     */
-    private static Integer getTryInteger(String value) {
-        try {
-            return Convert.toInt(value);
-        } catch (Exception exception) {
-            return null;
-        }
-    }
-
-    /**
-     *  处理异常值
-     * @param value 值
-     * @return 数值
-     */
-    private static LocalDateTime _getTryLocalDateTime(String value) {
-        try {
-            return LocalDateTimeUtil.parse(value, DateTimeFormatter.ISO_LOCAL_DATE);
-        } catch (Exception exception) {
-            return null;
-        }
-    }
-
 
     /**
      * 解析文件，创建CDE项目
@@ -800,7 +769,7 @@ public class CDEParseHelper {
         CDEProject project = new CDEProject();
         // 基本信息
         // 首次公示信息日期
-        project.setFirstPublicInfoDate(_getTryLocalDateTime(CDEParseHelper.getDateOfFirstPublicDisclosure(doc)));
+        project.setFirstPublicInfoDate(ScrapeHelper.getTryLocalDateTime(CDEParseHelper.getDateOfFirstPublicDisclosure(doc)));
         //（一）题目和背景信息
         // 1．登记号（不可更新项、公示项）
         project.setRegistrationNumber(CDEParseHelper.getRegistrationNumber(doc));
@@ -894,7 +863,7 @@ public class CDEParseHelper {
         project.setInsuranceForSubjects(CDEParseHelper.getInsurancePurchased(doc));
         //（四）研究者信息
         // 1. 主要研究者信息（可更新项、公示项）
-        project.setPrincipalInvestigatorInfo(JSON.toJSONString(CDEParseHelper.getPrincipalInvestigatorInformation(doc)));
+        project.setPrincipalInvestigatorInfo(JSON.toJSONString(CDEParseHelper.getPrincipalInvestigators(doc)));
         // ●姓名*
         // ●学位：
         // ●职称：
@@ -904,7 +873,7 @@ public class CDEParseHelper {
         // ●邮编
         // ●单位名称
         // 2. 各参加机构信息（可更新项、公示项）
-        project.setParticipatingInstitutionsInfo(JSON.toJSONString(CDEParseHelper.getInformationOnParticipatingInstitutions(doc)));
+        project.setParticipatingInstitutionsInfo(JSON.toJSONString(CDEParseHelper.getClinicalInstitutions(doc)));
         // ●机构名称：
         // ●（主要）研究者
         // ●国家或地区：
@@ -924,29 +893,29 @@ public class CDEParseHelper {
         // 1. 试验状态*（可更新项、公示项）
         project.setTrialStatus(CDEParseHelper.getTrialStatus(doc));
         // 2. 试验人数
-        ParticipantsNumber participantsNumber = CDEParseHelper.getNumberOfParticipants(doc);
+        CDEParticipantsNumber cdeParticipantsNumber = CDEParseHelper.getNumberOfParticipants(doc);
         // 2.1 目标入组人数
-        project.setTargetEnrollmentDomestic(getTryInteger(participantsNumber.getTargetEnrollmentDomestic()));
-        project.setTargetEnrollmentForeign(getTryInteger(participantsNumber.getTargetEnrollmentForeign()));
+        project.setTargetEnrollmentDomestic(ScrapeHelper.getTryInteger(cdeParticipantsNumber.getTargetEnrollmentDomestic()));
+        project.setTargetEnrollmentForeign(ScrapeHelper.getTryInteger(cdeParticipantsNumber.getTargetEnrollmentForeign()));
         // 2.3 已入组人数
-        project.setCurrentEnrollmentDomestic(getTryInteger(participantsNumber.getCurrentEnrollmentDomestic()));
-        project.setCurrentEnrollmentForeign(getTryInteger(participantsNumber.getCurrentEnrollmentForeign()));
+        project.setCurrentEnrollmentDomestic(ScrapeHelper.getTryInteger(cdeParticipantsNumber.getCurrentEnrollmentDomestic()));
+        project.setCurrentEnrollmentForeign(ScrapeHelper.getTryInteger(cdeParticipantsNumber.getCurrentEnrollmentForeign()));
         // 2.5 实际入组总人数
-        project.setTotalActualEnrollmentDomestic(getTryInteger(participantsNumber.getTotalActualEnrollmentDomestic()));
-        project.setTotalActualEnrollmentForeign(getTryInteger(participantsNumber.getTotalActualEnrollmentForeign()));
+        project.setTotalActualEnrollmentDomestic(ScrapeHelper.getTryInteger(cdeParticipantsNumber.getTotalActualEnrollmentDomestic()));
+        project.setTotalActualEnrollmentForeign(ScrapeHelper.getTryInteger(cdeParticipantsNumber.getTotalActualEnrollmentForeign()));
         // 3. 受试者招募及试验完成日期
-        TrialCompletionDate trialCompletionDate = CDEParseHelper.getSubjectRecruitmentAndTrialCompletionDate(doc);
+        CDETrialCompletionDate CDETrialCompletionDate = CDEParseHelper.getSubjectRecruitmentAndTrialCompletionDate(doc);
         // 第一例受试者签署知情同意书日期
-        project.setFirstConsentDateDomestic(_getTryLocalDateTime(trialCompletionDate.getFirstConsentDateDomestic()));
-        project.setFirstConsentDateForeign(_getTryLocalDateTime(trialCompletionDate.getFirstEnrollmentDateForeign()));
+        project.setFirstConsentDateDomestic(ScrapeHelper.getTryLocalDateTime(CDETrialCompletionDate.getFirstConsentDateDomestic()));
+        project.setFirstConsentDateForeign(ScrapeHelper.getTryLocalDateTime(CDETrialCompletionDate.getFirstEnrollmentDateForeign()));
         // 第一例受试者入组日期
-        project.setFirstEnrollmentDateDomestic(_getTryLocalDateTime(trialCompletionDate.getFirstEnrollmentDateDomestic()));
-        project.setFirstEnrollmentDateForeign(_getTryLocalDateTime(trialCompletionDate.getFirstEnrollmentDateForeign()));
+        project.setFirstEnrollmentDateDomestic(ScrapeHelper.getTryLocalDateTime(CDETrialCompletionDate.getFirstEnrollmentDateDomestic()));
+        project.setFirstEnrollmentDateForeign(ScrapeHelper.getTryLocalDateTime(CDETrialCompletionDate.getFirstEnrollmentDateForeign()));
         // 试验完成日期
         // 试验暂停日期
         // 试验终止日期
-        project.setCompletionDateDomestic(_getTryLocalDateTime(trialCompletionDate.getCompletionDateDomestic()));
-        project.setCompletionDateForeign(_getTryLocalDateTime(trialCompletionDate.getCompletionDateForeign()));
+        project.setCompletionDateDomestic(ScrapeHelper.getTryLocalDateTime(CDETrialCompletionDate.getCompletionDateDomestic()));
+        project.setCompletionDateForeign(ScrapeHelper.getTryLocalDateTime(CDETrialCompletionDate.getCompletionDateForeign()));
         //（八）临床试验结果摘要（不可更新项、公示项）
         project.setClinicalTrialResultsSummary(JSON.toJSONString(CDEParseHelper.getTrialResultsSummary(doc)));
 

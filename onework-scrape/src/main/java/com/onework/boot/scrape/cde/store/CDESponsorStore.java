@@ -1,51 +1,49 @@
 package com.onework.boot.scrape.cde.store;
 
-import com.onework.boot.scrape.OneworkScrapeApplication;
+import com.onework.boot.scrape.BaseStore;
 import com.onework.boot.scrape.data.entity.CDESponsor;
 import com.onework.boot.scrape.data.mapper.CDESponsorMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
+@Slf4j
 @Component
-public class CDESponsorStore {
+public class CDESponsorStore extends BaseStore {
 
     private final CDESponsorMapper sponsorMapper;
 
-    private final Map<String, CDESponsor> sponsorStore = Collections.synchronizedMap(new HashMap<>());
-
-    private static final Logger LOG = LoggerFactory
-            .getLogger(OneworkScrapeApplication.class);
+    private final ConcurrentHashMap<String, CDESponsor> store = new ConcurrentHashMap<>();
 
     public CDESponsorStore(CDESponsorMapper sponsorMapper) {
         this.sponsorMapper = sponsorMapper;
-
     }
 
-    public void initDate() {
+    @Override
+    public void initData() {
+        store.clear();
         List<CDESponsor> sponsors = sponsorMapper.selectList(null);
         for (CDESponsor sponsor : sponsors) {
-            sponsorStore.put(sponsor.getSponsorName(), sponsor);
+            store.put(sponsor.getSponsorName(), sponsor);
         }
     }
 
-    public void checkAndInsertIfNotExist(CDESponsor sponsor) {
-
-        try {
-            if (!sponsorStore.containsKey(sponsor.getSponsorName())) {
-                sponsorMapper.insert(sponsor);
-                sponsorStore.put(sponsor.getSponsorName(), sponsor);
-                LOG.error("新增申办方：{}", sponsor.getSponsorName());
-            }
-        } catch (Exception exception) {
-            LOG.error("申办方：{}，错误消息：{}", sponsor.getSponsorName(), exception.getMessage());
-        }
+    public boolean isExist(String name) {
+        return store.containsKey(name);
     }
 
+    public CDESponsor get(String name) {
+        return store.get(name);
+    }
 
+    public void addOrUpdate(CDESponsor sponsor) {
+        if (store.containsKey(sponsor.getSponsorName())) {
+            sponsorMapper.updateById(sponsor);
+        } else {
+            sponsorMapper.insert(sponsor);
+            store.put(sponsor.getSponsorName(), sponsor);
+        }
+    }
 }

@@ -1,7 +1,7 @@
 package com.onework.boot.scrape.data.mapper;
 
-import com.onework.boot.scrape.data.entity.CDEResearcher;
 import com.onework.boot.framework.mybatis.core.mapper.BaseMapperX;
+import com.onework.boot.scrape.data.entity.CDEResearcher;
 
 /**
  * <p>
@@ -9,7 +9,7 @@ import com.onework.boot.framework.mybatis.core.mapper.BaseMapperX;
  * </p>
  *
  * @author baomidou
- * @since 2024-12-03
+ * @since 2024-12-11
  */
 public interface CDEResearcherMapper extends BaseMapperX<CDEResearcher> {
 

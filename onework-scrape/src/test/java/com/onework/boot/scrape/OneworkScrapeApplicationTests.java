@@ -1,8 +1,6 @@
 package com.onework.boot.scrape;
 
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
