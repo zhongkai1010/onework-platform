@@ -20,8 +20,8 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@TableName("ow_cde_researcher")
-public class CDEResearcher implements Serializable {
+@TableName("ow_nmpa_collection_record")
+public class NmpaCollectionRecord implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -29,46 +29,28 @@ public class CDEResearcher implements Serializable {
     private String uid;
 
     /**
-     * 研究者名称
+     * 企业名称
      */
-    @TableField("researcher_name")
-    private String researcherName;
+    @TableField("companyName")
+    private String companyName;
 
     /**
-     * 机构名称
+     * 许可证书编号
      */
-    @TableField("institution_name")
-    private String institutionName;
+    @TableField("licenseNumber")
+    private String licenseNumber;
 
     /**
-     * 学位
+     * 社会信用代码
      */
-    @TableField("degree")
-    private String degree;
+    @TableField("socialCreditCode")
+    private String socialCreditCode;
 
     /**
-     * 职称
+     * 详情链接
      */
-    @TableField("title")
-    private String title;
-
-    /**
-     * 电话
-     */
-    @TableField("phone")
-    private String phone;
-
-    /**
-     * 邮箱
-     */
-    @TableField("email")
-    private String email;
-
-    /**
-     * CDE项目登记号集合
-     */
-    @TableField("projects")
-    private String projects;
+    @TableField("url")
+    private String url;
 
     /**
      * 创建时间
@@ -77,7 +59,7 @@ public class CDEResearcher implements Serializable {
     private LocalDateTime createdAt;
 
     /**
-     * 修改时间
+     * 更新时间
      */
     @TableField(value = "updated_at", fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updatedAt;

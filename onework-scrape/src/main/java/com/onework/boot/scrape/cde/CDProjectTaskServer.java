@@ -51,7 +51,7 @@ public class CDProjectTaskServer extends TaskServer {
         int threadCount = configuration.getThreadCount();
         // 最大页数少于总页数，采用总页数，防止区间线程处理失效
         int maxPage = configuration.getMaxPage();
-        if (total <= maxPage) {
+        if (total >= maxPage) {
             total = maxPage;
         }
 
@@ -75,7 +75,7 @@ public class CDProjectTaskServer extends TaskServer {
                     String selector = "html > body > main > div:nth-of-type(2) > div > div > div > div > div:nth-of-type(6) > div > i:nth-of-type(2)";
                     ScrapeHelper.executeScript(webDriver, script, (driver) -> ScrapeHelper.existElement(driver, selector));
                     // 获取表格数据
-                    WebElement tbody = ScrapeHelper.waitElement(webDriver, "tbody");
+                    WebElement tbody = ScrapeHelper.waitVisible(webDriver, "tbody");
                     List<WebElement> trs = tbody.findElements(By.tagName("tr"));
                     for (int j = 0; j < trs.size(); j++) {
                         if (j == 0) {

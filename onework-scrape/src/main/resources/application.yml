@@ -13,6 +13,14 @@ spring:
       enabled: false
     help:
       enabled: false
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main/java
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 onework:
   info:
     base-package: com.onework.boot
@@ -22,20 +30,20 @@ onework:
       incognito: false
       open-window: false
       driver-type: chrome
-      thread-count: 5
+      thread-count: 10
       save-path: D:\药物临床试验登记与信息公示平台
     cde-project:
       url: http://www.chinadrugtrials.org.cn/clinicaltrials.searchlist.dhtml
       driver-type: chrome
-      thread-count: 5
+      thread-count: 10
       incognito: false
-      open-window: false
+      open-window: true
       save-path: D:\药物临床试验登记与信息公示平台
       max-page: 50
     cde-project-file:
       driver-type: chrome
       incognito: false
-      open-window: false
+      open-window: true
       thread-count: 5
       url: http://www.chinadrugtrials.org.cn/clinicaltrials.searchlist.dhtml
       save-path: D:\药物临床试验登记与信息公示平台
@@ -83,5 +91,12 @@ onework:
     ctr-project-file-parse:
       save-path: :\中国临床试验注册中心
       thread-count: 50
+    nmpa-pharmaceutical-company:
+      driver-type: firefox
+      incognito: false
+      open-window: true
+      thread-count: 1
+      url: https://www.nmpa.gov.cn/datasearch/home-index.html#category=yp
+      max-page: 2000
 
 

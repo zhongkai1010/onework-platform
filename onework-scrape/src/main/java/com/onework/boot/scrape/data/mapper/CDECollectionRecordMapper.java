@@ -1,7 +1,7 @@
 package com.onework.boot.scrape.data.mapper;
 
-import com.onework.boot.framework.mybatis.core.mapper.BaseMapperX;
 import com.onework.boot.scrape.data.entity.CDECollectionRecord;
+import com.onework.boot.framework.mybatis.core.mapper.BaseMapperX;
 
 /**
  * <p>
@@ -9,7 +9,7 @@ import com.onework.boot.scrape.data.entity.CDECollectionRecord;
  * </p>
  *
  * @author baomidou
- * @since 2024-12-11
+ * @since 2024-12-14
  */
 public interface CDECollectionRecordMapper extends BaseMapperX<CDECollectionRecord> {
 

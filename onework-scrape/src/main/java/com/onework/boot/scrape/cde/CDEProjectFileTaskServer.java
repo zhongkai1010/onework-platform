@@ -51,18 +51,18 @@ public class CDEProjectFileTaskServer extends TaskServer {
             for (int i = 1; i <= items.size(); i++) {
                 CDECollectionRecord record = items.get(i - 1);
                 // 输入登记号
-                WebElement input = ScrapeHelper.waitElement(webDriver, "input[class$='subSearchInput']");
+                WebElement input = ScrapeHelper.waitVisible(webDriver, "input[class$='subSearchInput']");
                 input.clear();
                 input.sendKeys(record.getRegistrationNumber());
                 // 点击搜索
-                ScrapeHelper.buttonElement(webDriver, "button[onclick='searchList()']");
+                ScrapeHelper.clickElement(webDriver, "button[onclick='searchList()']");
                 String selector = "html > body > main > div:nth-of-type(2) > div > div > div > div > div:nth-of-type(5) > table > tbody > tr:nth-of-type(2) > td:nth-of-type(2) > a";
                 if (!ScrapeHelper.existElement(webDriver, selector)) {
                     log.info("[{}],第{}项,搜索登记号:{},不存在", desc, start + i, record.getRegistrationNumber());
                     continue;
                 }
                 // 点击链接跳转详情
-                ScrapeHelper.buttonElement(webDriver, selector);
+                ScrapeHelper.clickElement(webDriver, selector);
                 // 切换详情页面
                 ScrapeHelper.switchLastTab(webDriver, false);
                 String noSelector = "html > body > main > div:nth-of-type(2) > div > div > div > div > div:nth-of-type(5) > div > div:nth-of-type(1) > div:nth-of-type(2) > div > table > tbody > tr:nth-of-type(1) > td:nth-of-type(1)";

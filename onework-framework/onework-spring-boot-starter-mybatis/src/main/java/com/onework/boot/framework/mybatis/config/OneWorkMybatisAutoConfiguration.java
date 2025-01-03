@@ -2,6 +2,8 @@ package com.onework.boot.framework.mybatis.config;
 
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.onework.boot.framework.mybatis.core.handler.DefaultDBFieldHandler;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -14,6 +16,15 @@ public class OneWorkMybatisAutoConfiguration {
 
     @Bean
     public MetaObjectHandler defaultMetaObjectHandler() {
-        return new DefaultDBFieldHandler(); // 自动填充参数类
+        // 自动填充参数类
+        return new DefaultDBFieldHandler();
+    }
+
+    @Bean
+    public MybatisPlusInterceptor mybatisPlusInterceptor() {
+        MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
+        // 添加分页查询拦截器
+        interceptor.addInnerInterceptor(new PaginationInnerInterceptor());
+        return interceptor;
     }
 }

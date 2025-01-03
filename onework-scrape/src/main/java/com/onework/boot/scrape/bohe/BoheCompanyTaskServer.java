@@ -52,7 +52,7 @@ public class BoheCompanyTaskServer extends TaskServer {
             for (int i = start; i <= end; i++) {
                 String url = String.format(configuration.getPageUrl(), i);
                 webDriver.get(url);
-                WebElement ul = ScrapeHelper.waitElement(webDriver, "ul[class='cl-list']");
+                WebElement ul = ScrapeHelper.waitVisible(webDriver, "ul[class='cl-list']");
                 List<WebElement> lis = ul.findElements(By.cssSelector("li"));
                 for (WebElement li : lis) {
                     String websiteUrl = ScrapeHelper.getAttributeValue(li, ("div > a"), "href");
@@ -70,7 +70,6 @@ public class BoheCompanyTaskServer extends TaskServer {
                             boheCompanyMapper.updateById(boheCompany);
                         }
                         log.info("[{}],第{}页,{},记录成功", desc, i, boheCompany.getCompanyName());
-
                     } catch (Exception exception) {
                         log.warn("[{}],第{}页,{},记录失败,错误消息:{}", desc, i, boheCompany.getCompanyName(), exception.getMessage());
                     }

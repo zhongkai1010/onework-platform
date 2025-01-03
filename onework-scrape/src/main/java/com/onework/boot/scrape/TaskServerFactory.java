@@ -1,5 +1,6 @@
 package com.onework.boot.scrape;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.Collection;
 import java.util.Map;
 
+@Slf4j
 @Component
 public class TaskServerFactory {
 
@@ -36,5 +38,28 @@ public class TaskServerFactory {
         } else {
             return result;
         }
+    }
+
+    /**
+     * 执行服务
+     * @param type 服务类型
+     */
+    public void executeTask(TaskServerType type) {
+        ITaskServer taskServer = getTaskServer(type);
+        taskServer.execute();
+    }
+
+    /**
+     * 执行多个服务类型
+     * @param types 服务类型
+     */
+    public void executeTasks(TaskServerType[] types) {
+        long time = ScrapeHelper.runTime(() -> {
+            for (TaskServerType type : types) {
+                ITaskServer taskServer = getTaskServer(type);
+                taskServer.execute();
+            }
+        });
+        log.info("所有任务执行完成,共耗时{}秒", time);
     }
 }

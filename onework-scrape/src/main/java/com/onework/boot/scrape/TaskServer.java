@@ -30,9 +30,9 @@ public abstract class TaskServer implements ITaskServer {
 
         log.info("[{}],开始执行任务", getTaskServerType().getDescription());
         log.info("[{}],开始初始化服务", getTaskServerType().getDescription());
-        beforeStart();
-        log.info("[{}],完成初始化服务", getTaskServerType().getDescription());
-        run();
-        log.info("[{}],完成执行任务", getTaskServerType().getDescription());
+        long initTime = ScrapeHelper.runTime(this::beforeStart);
+        log.info("[{}],完成初始化服务,共计{}秒", getTaskServerType().getDescription(), initTime);
+        long runTime = ScrapeHelper.runTime(this::run);
+        log.info("[{}],完成执行任务,共计{}秒", getTaskServerType().getDescription(), runTime);
     }
 }

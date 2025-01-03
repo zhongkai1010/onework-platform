@@ -52,7 +52,7 @@ public class CDEAllProjectTaskServer extends TaskServer {
                 webDriver.get(configuration.getUrl());
                 // 打开项目详情页，通过详情页“下一个项目”进行操作，关闭之前页面
                 String selector = "html > body > main > div:nth-of-type(2) > div > div > div > div > div:nth-of-type(5) > table > tbody > tr:nth-of-type(2) > td:nth-of-type(2) > a";
-                ScrapeHelper.buttonElement(webDriver, selector);
+                ScrapeHelper.clickElement(webDriver, selector);
                 //关闭其他标签，切换详情页标签
                 ScrapeHelper.switchLastTab(webDriver, true);
                 for (int i = start; i < end; i++) {

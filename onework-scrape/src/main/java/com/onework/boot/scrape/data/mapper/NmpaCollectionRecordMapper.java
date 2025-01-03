@@ -1,6 +1,6 @@
 package com.onework.boot.scrape.data.mapper;
 
-import com.onework.boot.scrape.data.entity.CDEProject;
+import com.onework.boot.scrape.data.entity.NmpaCollectionRecord;
 import com.onework.boot.framework.mybatis.core.mapper.BaseMapperX;
 
 /**
@@ -11,6 +11,6 @@ import com.onework.boot.framework.mybatis.core.mapper.BaseMapperX;
  * @author baomidou
  * @since 2024-12-14
  */
-public interface CDEProjectMapper extends BaseMapperX<CDEProject> {
+public interface NmpaCollectionRecordMapper extends BaseMapperX<NmpaCollectionRecord> {
 
 }

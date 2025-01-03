@@ -73,7 +73,7 @@ public class CTRProjectTaskServer extends TaskServer {
                         continue;
                     }
                     webDriver.get(String.format("%s?page=%s", configuration.getUrl(), i));
-                    WebElement table = ScrapeHelper.waitElement(webDriver, "table[border='0']");
+                    WebElement table = ScrapeHelper.waitVisible(webDriver, "table[border='0']");
                     List<WebElement> trsWebElement = table.findElements(By.tagName("tr"));
                     for (int j = 0; j < trsWebElement.size(); j++) {
                         if (j == 0) {

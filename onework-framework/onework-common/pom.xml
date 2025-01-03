@@ -15,11 +15,10 @@
     <description>定义基础 pojo 类、枚举、工具类等等</description>
     <!-- 依赖 -->
     <dependencies>
-        <!-- Test 测试相关 -->
+        <!-- 工具类相关 -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
         </dependency>
     </dependencies>
 </project>
