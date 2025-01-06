@@ -19,11 +19,16 @@
         <!-- 统一依赖管理 -->
         <spring.boot.version>3.3.4</spring.boot.version>
         <spring-shell.version>3.3.3</spring-shell.version>
-        <mybatis-plus.version>3.5.9</mybatis-plus.version> <!-- MyBatis Plus 3.5.8 需要最低 JDK11 版本，无法升级 -->
+        <!-- DB 相关 -->
+        <easy-trans.version>3.0.6</easy-trans.version>
+        <mybatis-plus.version>3.5.9</mybatis-plus.version>
+        <!-- MyBatis Plus 3.5.8 需要最低 JDK11 版本，无法升级 -->
         <fastjson.version>2.0.53</fastjson.version>
         <hutool.version>5.8.25</hutool.version>
         <selenium.version>4.25.0</selenium.version>
         <jsoup.version>1.18.1</jsoup.version>
+        <!-- Web 相关 -->
+        <springdoc.version>1.7.0</springdoc.version>
     </properties>
 
     <dependencyManagement>
@@ -84,6 +89,26 @@
             </dependency>
             <!-- 工具类相关 -->
             <dependency>
+                <groupId>com.fhs-opensource</groupId> <!-- VO 数据翻译 -->
+                <artifactId>easy-trans-spring-boot-starter</artifactId>
+                <version>${easy-trans.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-context</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework.cloud</groupId>
+                        <artifactId>spring-cloud-commons</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.fhs-opensource</groupId>
+                <artifactId>easy-trans-mybatis-plus-extend</artifactId>
+                <version>${easy-trans.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.jsoup</groupId>
                 <artifactId>jsoup</artifactId>
                 <version>${jsoup.version}</version>
@@ -102,6 +127,12 @@
                 <groupId>org.seleniumhq.selenium</groupId>
                 <artifactId>selenium-java</artifactId>
                 <version>${selenium.version}</version>
+            </dependency>
+            <!-- Web 相关 -->
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-ui</artifactId>
+                <version>${springdoc.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -1,11 +1,10 @@
 package com.onework.boot;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.config.OutputFile;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
-import com.baomidou.mybatisplus.generator.fill.Column;
+import com.onework.boot.framework.mybatis.core.dataobject.BaseDO;
 import com.onework.boot.framework.mybatis.core.mapper.BaseMapperX;
 
 import java.nio.file.Paths;
@@ -26,101 +25,32 @@ public class Main {
                         .disableOpenDir()
                 )
                 .packageConfig(builder -> builder
-                        .parent("com.onework.boot.scrape.data")
-                        .entity("entity")
-                        .mapper("mapper")
-                        .service("service")
-                        .serviceImpl("service.impl")
-                        .xml("mapper.xml")
+                        .parent("com.onework.boot") // 设置父包名
+                        .moduleName("scrape") // 设置父包模块名
+                        .entity("dal.dataobject") // 设置 Entity 包名
+                        .service("service") // 设置 Service 包名
+                        .serviceImpl("service") // 设置 Service Impl 包名
+                        .mapper("dal.mysql") // 设置 Mapper 包名
+                        .xml("mapper.xml") // 设置 Mapper XML 包名
+                        .controller("controller") //设置 Controller 包名
                         .pathInfo(Collections.singletonMap(OutputFile.xml, projectPath + "\\src\\main\\resources\\mappers"))
                 )
+                .templateEngine(new FreemarkerTemplateEngine()) // 模板配置 (TemplateConfig) 自 MyBatis-Plus 3.5.6 版本开始，模板配置已迁移至 StrategyConfig 中。以下是迁移后的配置方式。
                 .strategyConfig(builder -> builder
-                        .addTablePrefix("ow_")
-                        .serviceBuilder()
-                        .disable()
-                        .convertServiceFileName(fileName -> {
-                            // 自定义文件名转换规则：以 CDE 开头
-                            if (fileName.toLowerCase().startsWith("cde")) {
-                                return "CDE" + fileName.substring(3) + "Service";
-                            }
-                            if (fileName.toLowerCase().startsWith("ctr")) {
-                                return "CTR" + fileName.substring(3) + "Service";
-                            }
-                            if (fileName.toLowerCase().startsWith("ctmds")) {
-                                return "CTMDS" + fileName.substring(5) + "Service";
-                            }
-                            return fileName + "Service";
-                        })
-                        .convertServiceImplFileName(fileName -> {
-                            // 自定义文件名转换规则：以 CDE 开头
-                            if (fileName.toLowerCase().startsWith("cde")) {
-                                return "CDE" + fileName.substring(3) + "ServiceImpl";
-                            }
-                            if (fileName.toLowerCase().startsWith("ctr")) {
-                                return "CTR" + fileName.substring(3) + "ServiceImpl";
-                            }
-                            if (fileName.toLowerCase().startsWith("ctmds")) {
-                                return "CTMDS" + fileName.substring(5) + "ServiceImpl";
-                            }
-                            return fileName + "ServiceImpl";
-                        })
-                        .enableFileOverride()
-                        .mapperBuilder()
-                        .superClass(BaseMapperX.class)
-                        .superClass("com.onework.boot.framework.mybatis.core.mapper.BaseMapperX")
-                        .convertMapperFileName(fileName -> {
-                            // 自定义文件名转换规则：以 CDE 开头
-                            if (fileName.toLowerCase().startsWith("cde")) {
-                                return "CDE" + fileName.substring(3) + "Mapper";
-                            }
-                            if (fileName.toLowerCase().startsWith("ctr")) {
-                                return "CTR" + fileName.substring(3) + "Mapper";
-                            }
-                            if (fileName.toLowerCase().startsWith("ctmds")) {
-                                return "CTMDS" + fileName.substring(5) + "Mapper";
-                            }
-                            return fileName + "Mapper";
-                        })
-                        .enableFileOverride()
-                        .convertXmlFileName(fileName -> {
-                            // 自定义文件名转换规则：以 CDE 开头
-                            if (fileName.toLowerCase().startsWith("cde")) {
-                                return "CDE" + fileName.substring(3) + "Mapper";
-                            }
-                            if (fileName.toLowerCase().startsWith("ctr")) {
-                                return "CTR" + fileName.substring(3) + "Mapper";
-                            }
-                            if (fileName.toLowerCase().startsWith("ctmds")) {
-                                return "CTMDS" + fileName.substring(5) + "Mapper";
-                            }
-                            return fileName + "Mapper";
-                        })
-                        .entityBuilder()
-                        .naming(NamingStrategy.underline_to_camel)
-                        .convertFileName(fileName -> {
-                            // 自定义文件名转换规则：以 CDE 开头
-                            if (fileName.toLowerCase().startsWith("cde")) {
-                                return "CDE" + fileName.substring(3);
-                            }
-                            if (fileName.toLowerCase().startsWith("ctr")) {
-                                return "CTR" + fileName.substring(3);
-                            }
-                            if (fileName.toLowerCase().startsWith("ctmds")) {
-                                return "CTMDS" + fileName.substring(5);
-                            }
-                            return fileName;
-                        })
-                        .enableLombok()
-                        .enableFileOverride()
-                        .addTableFills(new Column("created_at", FieldFill.INSERT))
-                        .addTableFills(new Column("updated_at", FieldFill.INSERT_UPDATE))
-                        .enableTableFieldAnnotation()
-                        .logicDeleteColumnName("deleted")
-                        .controllerBuilder()
-                        .disable()
-                        .mapperBuilder().disableMapperXml()
+                        .addTablePrefix("ow_") // 增加过滤表前缀
+                        .entityBuilder() // 实体策略配置
+                        .superClass(BaseDO.class) // 设置父类
+                        .javaTemplate("/templates/entity.java") // 设置实体类模板
+                        .enableFileOverride() // 覆盖已生成文件
+                        .naming(NamingStrategy.underline_to_camel) // 数据库表映射到实体的命名策略
+                        .disableSerialVersionUID() // 禁用生成 serialVersionUID
+                        .enableLombok() // 开启 Lombok 模型
+                        .enableTableFieldAnnotation() // 开启生成实体时生成字段注解
+                        .mapperBuilder() // Mapper 策略配置
+                        .superClass(BaseMapperX.class) // 设置父类
+                        .enableFileOverride() // 覆盖已生成文件
                 )
-                .templateEngine(new FreemarkerTemplateEngine())
+
                 .execute();
     }
 }

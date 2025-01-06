@@ -11,14 +11,16 @@
   <url>https://github.com/zhongkai/onework-platform</url>
   <properties>
     <spring-shell.version>3.3.3</spring-shell.version>
-    <jsoup.version>1.18.1</jsoup.version>
     <spring.boot.version>3.3.4</spring.boot.version>
     <hutool.version>5.8.25</hutool.version>
-    <mybatis-plus.version>3.5.9</mybatis-plus.version>
     <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
-    <revision>1.0.0-SNAPSHOT</revision>
     <selenium.version>4.25.0</selenium.version>
+    <springdoc.version>1.7.0</springdoc.version>
     <fastjson.version>2.0.53</fastjson.version>
+    <jsoup.version>1.18.1</jsoup.version>
+    <mybatis-plus.version>3.5.9</mybatis-plus.version>
+    <revision>1.0.0-SNAPSHOT</revision>
+    <easy-trans.version>3.0.6</easy-trans.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -72,6 +74,26 @@
         <version>${revision}</version>
       </dependency>
       <dependency>
+        <groupId>com.fhs-opensource</groupId>
+        <artifactId>easy-trans-spring-boot-starter</artifactId>
+        <version>${easy-trans.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-commons</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>com.fhs-opensource</groupId>
+        <artifactId>easy-trans-mybatis-plus-extend</artifactId>
+        <version>${easy-trans.version}</version>
+      </dependency>
+      <dependency>
         <groupId>org.jsoup</groupId>
         <artifactId>jsoup</artifactId>
         <version>${jsoup.version}</version>
@@ -90,6 +112,11 @@
         <groupId>org.seleniumhq.selenium</groupId>
         <artifactId>selenium-java</artifactId>
         <version>${selenium.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springdoc</groupId>
+        <artifactId>springdoc-openapi-ui</artifactId>
+        <version>${springdoc.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
