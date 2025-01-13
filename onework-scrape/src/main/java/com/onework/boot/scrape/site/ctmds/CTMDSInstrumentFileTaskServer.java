@@ -1,14 +1,14 @@
 package com.onework.boot.scrape.site.ctmds;
 
 import cn.hutool.core.io.FileUtil;
-import com.alibaba.fastjson2.JSON;
+import com.onework.boot.framework.common.util.json.databind.JsonUtils;
+import com.onework.boot.scrape.dal.dataobject.CTMDSCollectionRecord;
 import com.onework.boot.scrape.site.ScrapeHelper;
 import com.onework.boot.scrape.site.TaskServer;
 import com.onework.boot.scrape.site.TaskServerType;
 import com.onework.boot.scrape.site.ctmds.config.CTMDSInstrumentFileConfiguration;
 import com.onework.boot.scrape.site.ctmds.dtos.SpecializationAndResearcher;
 import com.onework.boot.scrape.site.ctmds.store.CTMDSRecordStore;
-import com.onework.boot.scrape.dal.dataobject.CTMDSCollectionRecord;
 import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
@@ -109,7 +109,7 @@ public class CTMDSInstrumentFileTaskServer extends TaskServer {
                 specializationAndResearchers.add(specializationAndResearcher);
             }
         }
-        record.setSpecializationAndResearchers(JSON.toJSONString(specializationAndResearchers));
+        record.setSpecializationAndResearchers(JsonUtils.toJsonString(specializationAndResearchers));
         // LOG.info("专业与研究者:{}", JSON.toJSONString(specializationAndResearchers));
     }
 }

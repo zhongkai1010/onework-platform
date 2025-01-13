@@ -1,8 +1,8 @@
 package com.onework.boot.scrape.site.cde.store;
 
 
-import com.onework.boot.scrape.site.BaseStore;
 import com.onework.boot.scrape.dal.dataobject.CDEInstitution;
+import com.onework.boot.scrape.site.BaseStore;
 import com.onework.boot.scrape.dal.mysql.CDEInstitutionMapper;
 import org.springframework.stereotype.Component;
 

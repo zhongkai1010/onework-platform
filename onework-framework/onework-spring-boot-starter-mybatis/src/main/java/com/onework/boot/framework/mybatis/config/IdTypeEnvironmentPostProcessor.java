@@ -3,8 +3,8 @@ package com.onework.boot.framework.mybatis.config;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.extension.toolkit.JdbcUtils;
 import com.onework.boot.framework.common.util.collection.SetUtils;
+import com.onework.boot.framework.mybatis.core.util.JdbcUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.env.EnvironmentPostProcessor;
@@ -37,7 +37,7 @@ public class IdTypeEnvironmentPostProcessor implements EnvironmentPostProcessor 
         }
 
         // 设置 Quartz JobStore 对应的 Driver
-        // TODO 芋艿：暂时没有找到特别合适的地方，先放在这里
+
         setJobStoreDriverIfPresent(environment, dbType);
 
         // 如果非 NONE，则不进行处理
@@ -103,5 +103,4 @@ public class IdTypeEnvironmentPostProcessor implements EnvironmentPostProcessor 
         }
         return JdbcUtils.getDbType(url);
     }
-
 }

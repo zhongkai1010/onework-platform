@@ -1,7 +1,7 @@
 package com.onework.boot.scrape.site.ctr;
 
 import cn.hutool.core.date.LocalDateTimeUtil;
-import com.alibaba.fastjson2.JSON;
+import com.onework.boot.framework.common.util.json.databind.JsonUtils;
 import com.onework.boot.scrape.dal.dataobject.CTRProject;
 import com.onework.boot.scrape.site.ctr.dtos.*;
 import org.jsoup.nodes.Document;
@@ -418,7 +418,7 @@ public class CTRParseHelper {
         CTRSecondarySponsor.setAddress(address);
         CTRSecondarySponsor.setCountryEn(addressEn);
 
-        project.setSecondarySponsor(JSON.toJSONString(CTRSecondarySponsor));
+        project.setSecondarySponsor(JsonUtils.toJsonString(CTRSecondarySponsor));
     }
 
     /**
@@ -570,7 +570,7 @@ public class CTRParseHelper {
             CTRIntervention.setInterventionCode(tableElement.select("tbody > tr:nth-of-type(3) > td:nth-of-type(4)").text());
             CTRInterventions.add(CTRIntervention);
         }
-        project.setInterventions(JSON.toJSONString(CTRInterventions));
+        project.setInterventions(JsonUtils.toJsonString(CTRInterventions));
     }
 
     /**
@@ -594,7 +594,7 @@ public class CTRParseHelper {
             CTRRecruitmentLocation.setInstitutionHospitalEn(tableElement.select("tbody > tr:nth-of-type(4) > td:nth-of-type(2) > p").text());
             CTRRecruitmentLocations.add(CTRRecruitmentLocation);
         }
-        project.setRecruitmentLocations(JSON.toJSONString(CTRRecruitmentLocations));
+        project.setRecruitmentLocations(JsonUtils.toJsonString(CTRRecruitmentLocations));
     }
 
     /**
@@ -615,7 +615,7 @@ public class CTRParseHelper {
             CTROutcome.setMeasureMethodEn(tableElement.select("tbody > tr:nth-of-type(4) > td:nth-of-type(4) > p").text());
             CTROutcomes.add(CTROutcome);
         }
-        project.setOutcomes(JSON.toJSONString(CTROutcomes));
+        project.setOutcomes(JsonUtils.toJsonString(CTROutcomes));
     }
 
     /**
@@ -637,7 +637,7 @@ public class CTRParseHelper {
             CTRSample.setNoteEn(tableElement.select("tbody > tr:nth-of-type(4) > td:nth-of-type(4)").text());
             CTRSamples.add(CTRSample);
         }
-        project.setSampleCollection(JSON.toJSONString(CTRSamples));
+        project.setSampleCollection(JsonUtils.toJsonString(CTRSamples));
     }
 
     /**

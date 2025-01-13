@@ -1,12 +1,12 @@
 package com.onework.boot.scrape.site.ctr;
 
+import com.onework.boot.scrape.dal.dataobject.CTRCollectionRecord;
 import com.onework.boot.scrape.site.ScrapeHelper;
 import com.onework.boot.scrape.site.TaskServer;
 import com.onework.boot.scrape.site.TaskServerType;
 import com.onework.boot.scrape.site.WebDriverFactory;
 import com.onework.boot.scrape.site.ctr.config.CTRProjectFileConfiguration;
 import com.onework.boot.scrape.site.ctr.store.CTRProjectRecordStore;
-import com.onework.boot.scrape.dal.dataobject.CTRCollectionRecord;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

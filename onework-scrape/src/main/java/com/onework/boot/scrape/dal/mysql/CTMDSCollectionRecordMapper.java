@@ -8,8 +8,8 @@ import com.onework.boot.framework.mybatis.core.mapper.BaseMapperX;
  * 临床机构信息表 Mapper 接口
  * </p>
  *
- * @author baomidou
- * @since 2024-12-14
+ * @author onework
+ * @since 2025-01-13
  */
 public interface CTMDSCollectionRecordMapper extends BaseMapperX<CTMDSCollectionRecord> {
 

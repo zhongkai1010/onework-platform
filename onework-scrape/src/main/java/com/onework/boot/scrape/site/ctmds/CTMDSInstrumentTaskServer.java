@@ -2,7 +2,8 @@ package com.onework.boot.scrape.site.ctmds;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.http.HttpRequest;
-import com.alibaba.fastjson2.JSON;
+import com.onework.boot.framework.common.util.json.databind.JsonUtils;
+import com.onework.boot.scrape.dal.dataobject.CTMDSCollectionRecord;
 import com.onework.boot.scrape.site.ScrapeHelper;
 import com.onework.boot.scrape.site.TaskServer;
 import com.onework.boot.scrape.site.TaskServerType;
@@ -10,7 +11,6 @@ import com.onework.boot.scrape.site.ctmds.config.CTMDSInstrumentConfiguration;
 import com.onework.boot.scrape.site.ctmds.dtos.Institution;
 import com.onework.boot.scrape.site.ctmds.dtos.ResponseResult;
 import com.onework.boot.scrape.site.ctmds.store.CTMDSRecordStore;
-import com.onework.boot.scrape.dal.dataobject.CTMDSCollectionRecord;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -44,7 +44,7 @@ public class CTMDSInstrumentTaskServer extends TaskServer {
     public void run() {
         String desc = getTaskServerType().getDescription();
         String json = HttpRequest.post(configuration.getUrl()).execute().body();
-        ResponseResult responseResult = JSON.to(ResponseResult.class, json);
+        ResponseResult responseResult = JsonUtils.parseObject(json, ResponseResult.class);
         log.info("[{}],共有{}页", desc, responseResult.getTotalRows());
         List<Institution> institutions = responseResult.getData();
         int threadCount = configuration.getThreadCount();

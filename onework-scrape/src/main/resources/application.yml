@@ -1,26 +1,3 @@
-spring:
-  application:
-    name: onework-scrape
-  main:
-    allow-circular-references: true # 允许循环依赖，因为项目是三层架构，无法避免这个情况。
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
-    password: 123456
-    url: jdbc:mysql://127.0.0.1:33061/onework_platform?useSSL=false&useUnicode=true&characterEncoding=UTF-8
-  shell:
-    interactive:
-      enabled: false
-    help:
-      enabled: false
-  devtools:
-    restart:
-      enabled: true
-      additional-paths: src/main/java
-
-mybatis-plus:
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 onework:
   info:
     base-package: com.onework.boot
@@ -98,5 +75,38 @@ onework:
       thread-count: 1
       url: https://www.nmpa.gov.cn/datasearch/home-index.html#category=yp
       max-page: 2000
-
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: 'default'
+      paths-to-match: '/**'
+      packages-to-scan: com.onework.boot.scrape.controller
+# knife4j的增强配置，不需要增强可以不配
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
+spring:
+  application:
+    name: onework-scrape
+  main:
+    allow-circular-references: true # 允许循环依赖，因为项目是三层架构，无法避免这个情况。
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
+    url: jdbc:mysql://127.0.0.1:33061/onework_platform?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main/java
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  type-aliases-package: ${onework.info.base-package}.*.*.dal.dataobject
 

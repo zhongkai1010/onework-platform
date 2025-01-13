@@ -1,11 +1,11 @@
 package com.onework.boot.scrape.site.nmpa;
 
 import cn.hutool.core.util.NumberUtil;
+import com.onework.boot.scrape.dal.dataobject.NMPACollectionRecord;
 import com.onework.boot.scrape.site.ScrapeHelper;
 import com.onework.boot.scrape.site.TaskServer;
 import com.onework.boot.scrape.site.TaskServerType;
 import com.onework.boot.scrape.site.WebDriverFactory;
-import com.onework.boot.scrape.dal.dataobject.NmpaCollectionRecord;
 import com.onework.boot.scrape.site.nmpa.config.NMPAPharmaceuticalCompanyConfiguration;
 import com.onework.boot.scrape.site.nmpa.store.NMPACollectionRecordStore;
 import lombok.extern.slf4j.Slf4j;
@@ -106,12 +106,12 @@ public class NMPAPharmaceuticalCompanyTaskServer extends TaskServer {
                             } catch (Exception ignored) {
                             }
                             // log.info("序号:{},企业名称:{},许可证编号:{},社会信用代码:{},链接:{}", serialNumber, companyName, licenseNumber, socialCreditCode, url);
-                            NmpaCollectionRecord record;
+                            NMPACollectionRecord record;
                             boolean isNew = false;
                             if (store.isExist(companyName)) {
                                 record = store.get(companyName);
                             } else {
-                                record = new NmpaCollectionRecord();
+                                record = new NMPACollectionRecord();
                                 isNew = true;
                             }
                             record.setCompanyName(companyName);

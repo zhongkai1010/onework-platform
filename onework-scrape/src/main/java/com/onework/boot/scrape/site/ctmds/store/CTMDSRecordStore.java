@@ -1,7 +1,7 @@
 package com.onework.boot.scrape.site.ctmds.store;
 
-import com.onework.boot.scrape.site.BaseStore;
 import com.onework.boot.scrape.dal.dataobject.CTMDSCollectionRecord;
+import com.onework.boot.scrape.site.BaseStore;
 import com.onework.boot.scrape.dal.mysql.CTMDSCollectionRecordMapper;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +22,7 @@ public class CTMDSRecordStore extends BaseStore {
     @Override
     public void initData() {
         store.clear();
-        List<CTMDSCollectionRecord> records = mapper.selectList(null);
+        List<CTMDSCollectionRecord> records = mapper.selectList();
         for (CTMDSCollectionRecord record : records) {
             store.put(record.getRecordNumber(), record);
         }

@@ -1,12 +1,10 @@
 package com.onework.boot.scrape.dal.dataobject;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
-import java.time.LocalDateTime;
+import com.onework.boot.framework.mybatis.core.dataobject.BaseDO;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,77 +13,43 @@ import lombok.Setter;
  * 
  * </p>
  *
- * @author baomidou
- * @since 2024-12-14
+ * @author onework
+ * @since 2025-01-13
  */
 @Getter
 @Setter
 @TableName("ow_cde_researcher")
-public class CDEResearcher implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+@Schema(name = "CDEResearcher", description = "")
+public class CDEResearcher extends BaseDO {
 
     @TableId("uid")
     private String uid;
 
-    /**
-     * 研究者名称
-     */
+    @Schema(description = "研究者名称")
     @TableField("researcher_name")
     private String researcherName;
 
-    /**
-     * 机构名称
-     */
+    @Schema(description = "机构名称")
     @TableField("institution_name")
     private String institutionName;
 
-    /**
-     * 学位
-     */
+    @Schema(description = "学位")
     @TableField("degree")
     private String degree;
 
-    /**
-     * 职称
-     */
+    @Schema(description = "职称")
     @TableField("title")
     private String title;
 
-    /**
-     * 电话
-     */
+    @Schema(description = "电话")
     @TableField("phone")
     private String phone;
 
-    /**
-     * 邮箱
-     */
+    @Schema(description = "邮箱")
     @TableField("email")
     private String email;
 
-    /**
-     * CDE项目登记号集合
-     */
+    @Schema(description = "CDE项目登记号集合")
     @TableField("projects")
     private String projects;
-
-    /**
-     * 创建时间
-     */
-    @TableField(value = "created_at", fill = FieldFill.INSERT)
-    private LocalDateTime createdAt;
-
-    /**
-     * 修改时间
-     */
-    @TableField(value = "updated_at", fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updatedAt;
-
-    /**
-     * 是否删除
-     */
-    @TableField("deleted")
-    @TableLogic
-    private Boolean deleted;
 }

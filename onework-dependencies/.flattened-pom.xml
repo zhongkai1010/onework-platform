@@ -13,14 +13,18 @@
     <spring-shell.version>3.3.3</spring-shell.version>
     <spring.boot.version>3.3.4</spring.boot.version>
     <hutool.version>5.8.25</hutool.version>
+    <guava.version>33.2.1-jre</guava.version>
     <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
     <selenium.version>4.25.0</selenium.version>
     <springdoc.version>1.7.0</springdoc.version>
     <fastjson.version>2.0.53</fastjson.version>
+    <mybatis-plus-join.version>1.4.13</mybatis-plus-join.version>
     <jsoup.version>1.18.1</jsoup.version>
     <mybatis-plus.version>3.5.9</mybatis-plus.version>
+    <knife4j.version>4.5.0</knife4j.version>
     <revision>1.0.0-SNAPSHOT</revision>
     <easy-trans.version>3.0.6</easy-trans.version>
+    <dynamic-datasource.version>4.3.1</dynamic-datasource.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -54,14 +58,24 @@
         <version>${mybatis-plus.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.baomidou</groupId>
-        <artifactId>mybatis-plus-generator</artifactId>
-        <version>${mybatis-plus.version}</version>
+        <groupId>com.fhs-opensource</groupId>
+        <artifactId>easy-trans-mybatis-plus-extend</artifactId>
+        <version>${easy-trans.version}</version>
       </dependency>
       <dependency>
         <groupId>com.baomidou</groupId>
         <artifactId>mybatis-plus-jsqlparser</artifactId>
         <version>${mybatis-plus.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.baomidou</groupId>
+        <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+        <version>${dynamic-datasource.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.github.yulichang</groupId>
+        <artifactId>mybatis-plus-join-boot-starter</artifactId>
+        <version>${mybatis-plus-join.version}</version>
       </dependency>
       <dependency>
         <groupId>com.onework.boot</groupId>
@@ -89,9 +103,9 @@
         </exclusions>
       </dependency>
       <dependency>
-        <groupId>com.fhs-opensource</groupId>
-        <artifactId>easy-trans-mybatis-plus-extend</artifactId>
-        <version>${easy-trans.version}</version>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>${guava.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jsoup</groupId>
@@ -112,6 +126,16 @@
         <groupId>org.seleniumhq.selenium</groupId>
         <artifactId>selenium-java</artifactId>
         <version>${selenium.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.github.xiaoymin</groupId>
+        <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
+        <version>${knife4j.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.onework.boot</groupId>
+        <artifactId>onework-spring-boot-starter-web</artifactId>
+        <version>${revision}</version>
       </dependency>
       <dependency>
         <groupId>org.springdoc</groupId>

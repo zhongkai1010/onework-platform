@@ -1,5 +1,6 @@
 package com.onework.boot.framework.mybatis.config;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
@@ -13,11 +14,10 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.ConfigurableEnvironment;
-import cn.hutool.core.util.StrUtil;
 
 
 @AutoConfiguration(before = MybatisPlusAutoConfiguration.class) // / 目的：先于 MyBatis Plus 自动配置，避免 @MapperScan 可能扫描不到 Mapper 打印 warn 日志
-@MapperScan(value = "${onework.info.base-package}.*.*.mapper") // Mapper 懒加载，目前仅用于单元测试
+@MapperScan(value = "${onework.info.base-package}") // Mapper 懒加载，目前仅用于单元测试
 public class OneWorkMybatisAutoConfiguration {
 
     @Bean
@@ -56,5 +56,4 @@ public class OneWorkMybatisAutoConfiguration {
         // 找不到合适的 IKeyGenerator 实现类
         throw new IllegalArgumentException(StrUtil.format("DbType{} 找不到合适的 IKeyGenerator 实现类", dbType));
     }
-
 }

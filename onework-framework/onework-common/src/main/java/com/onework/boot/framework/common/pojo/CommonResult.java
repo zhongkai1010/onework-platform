@@ -1,13 +1,14 @@
 package com.onework.boot.framework.common.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.onework.boot.framework.common.exception.ErrorCode;
 import com.onework.boot.framework.common.exception.ServiceException;
 import com.onework.boot.framework.common.exception.enums.GlobalErrorCodeConstants;
 import lombok.Data;
 import org.springframework.util.Assert;
+
 import java.io.Serializable;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * 通用返回

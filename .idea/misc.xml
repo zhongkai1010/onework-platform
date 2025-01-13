@@ -18,6 +18,8 @@
         <option value="$PROJECT_DIR$/onework-ctmds-collection/pom.xml" />
         <option value="$PROJECT_DIR$/onework-cde-analysis/pom.xml" />
         <option value="$PROJECT_DIR$/onework-scrape/pom.xml" />
+        <option value="$PROJECT_DIR$/onework-framework/onework-spring-boot-starter-web/pom.xml" />
+        <option value="$PROJECT_DIR$/onework-framework/onework-common/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

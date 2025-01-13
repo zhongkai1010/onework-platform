@@ -1,12 +1,12 @@
 package com.onework.boot.scrape.site.cde;
 
+import com.onework.boot.scrape.dal.dataobject.CDECollectionRecord;
 import com.onework.boot.scrape.site.ScrapeHelper;
 import com.onework.boot.scrape.site.TaskServer;
 import com.onework.boot.scrape.site.TaskServerType;
 import com.onework.boot.scrape.site.WebDriverFactory;
 import com.onework.boot.scrape.site.cde.config.CDEProjectFileConfiguration;
 import com.onework.boot.scrape.site.cde.store.CDEProjectRecordStore;
-import com.onework.boot.scrape.dal.dataobject.CDECollectionRecord;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebElement;
 import org.springframework.stereotype.Component;

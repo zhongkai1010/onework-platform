@@ -1,12 +1,11 @@
 package com.onework.boot.scrape.dal.dataobject;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
+import com.onework.boot.framework.mybatis.core.dataobject.BaseDO;
 import java.time.LocalDateTime;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,116 +14,68 @@ import lombok.Setter;
  * 
  * </p>
  *
- * @author baomidou
- * @since 2024-12-14
+ * @author onework
+ * @since 2025-01-13
  */
 @Getter
 @Setter
 @TableName("ow_ctr_collection_record")
-public class CTRCollectionRecord implements Serializable {
+@Schema(name = "CTRCollectionRecord", description = "")
+public class CTRCollectionRecord extends BaseDO {
 
-    private static final long serialVersionUID = 1L;
-
-    /**
-     * 主键ID
-     */
+    @Schema(description = "主键ID")
     @TableId("uid")
     private String uid;
 
-    /**
-     * 注册号
-     */
+    @Schema(description = "注册号")
     @TableField("registration_number")
     private String registrationNumber;
 
-    /**
-     * 注册题目
-     */
+    @Schema(description = "注册题目")
     @TableField("registration_title")
     private String registrationTitle;
 
-    /**
-     * 研究类型
-     */
+    @Schema(description = "研究类型")
     @TableField("study_type")
     private String studyType;
 
-    /**
-     * 注册时间
-     */
+    @Schema(description = "注册时间")
     @TableField("registration_time")
     private LocalDateTime registrationTime;
 
-    /**
-     * 申请人所在单位
-     */
+    @Schema(description = "申请人所在单位")
     @TableField("applicant_institution")
     private String applicantInstitution;
 
-    /**
-     * 项目链接
-     */
+    @Schema(description = "项目链接")
     @TableField("project_link")
     private String projectLink;
 
-    /**
-     * 历史版本链接
-     */
+    @Schema(description = "历史版本链接")
     @TableField("history_version_link")
     private String historyVersionLink;
 
-    /**
-     * 项目采集时间
-     */
+    @Schema(description = "项目采集时间")
     @TableField("record_date")
     private LocalDateTime recordDate;
 
-    /**
-     * 是否下载
-     */
+    @Schema(description = "是否下载")
     @TableField("is_download")
     private Boolean isDownload;
 
-    /**
-     * 文件路径
-     */
+    @Schema(description = "文件路径")
     @TableField("file_path")
     private String filePath;
 
-    /**
-     * 下载时间
-     */
+    @Schema(description = "下载时间")
     @TableField("download_date")
     private LocalDateTime downloadDate;
 
-    /**
-     * 是否解析
-     */
+    @Schema(description = "是否解析")
     @TableField("is_parse")
     private Boolean isParse;
 
-    /**
-     * 解析时间
-     */
+    @Schema(description = "解析时间")
     @TableField("parse_date")
     private LocalDateTime parseDate;
-
-    /**
-     * 创建时间
-     */
-    @TableField(value = "created_at", fill = FieldFill.INSERT)
-    private LocalDateTime createdAt;
-
-    /**
-     * 更新时间
-     */
-    @TableField(value = "updated_at", fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updatedAt;
-
-    /**
-     * 是否删除
-     */
-    @TableField("deleted")
-    @TableLogic
-    private Boolean deleted;
 }

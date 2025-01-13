@@ -22,6 +22,8 @@
         <!-- DB 相关 -->
         <easy-trans.version>3.0.6</easy-trans.version>
         <mybatis-plus.version>3.5.9</mybatis-plus.version>
+        <mybatis-plus-join.version>1.4.13</mybatis-plus-join.version>
+        <dynamic-datasource.version>4.3.1</dynamic-datasource.version>
         <!-- MyBatis Plus 3.5.8 需要最低 JDK11 版本，无法升级 -->
         <fastjson.version>2.0.53</fastjson.version>
         <hutool.version>5.8.25</hutool.version>
@@ -29,6 +31,9 @@
         <jsoup.version>1.18.1</jsoup.version>
         <!-- Web 相关 -->
         <springdoc.version>1.7.0</springdoc.version>
+        <knife4j.version>4.5.0</knife4j.version>
+        <!-- 工具类相关 -->
+        <guava.version>33.2.1-jre</guava.version>
     </properties>
 
     <dependencyManagement>
@@ -67,14 +72,24 @@
                 <version>${mybatis-plus.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-generator</artifactId>
-                <version>${mybatis-plus.version}</version>
+                <groupId>com.fhs-opensource</groupId>
+                <artifactId>easy-trans-mybatis-plus-extend</artifactId>
+                <version>${easy-trans.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-jsqlparser</artifactId>
                 <version>${mybatis-plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>dynamic-datasource-spring-boot-starter</artifactId> <!-- 多数据源 -->
+                <version>${dynamic-datasource.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.yulichang</groupId>
+                <artifactId>mybatis-plus-join-boot-starter</artifactId> <!-- MyBatis 联表查询 -->
+                <version>${mybatis-plus-join.version}</version>
             </dependency>
             <!-- 业务组件 -->
             <dependency>
@@ -104,9 +119,9 @@
                 </exclusions>
             </dependency>
             <dependency>
-                <groupId>com.fhs-opensource</groupId>
-                <artifactId>easy-trans-mybatis-plus-extend</artifactId>
-                <version>${easy-trans.version}</version>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.jsoup</groupId>
@@ -129,6 +144,16 @@
                 <version>${selenium.version}</version>
             </dependency>
             <!-- Web 相关 -->
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
+                <version>${knife4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.onework.boot</groupId>
+                <artifactId>onework-spring-boot-starter-web</artifactId>
+                <version>${revision}</version>
+            </dependency>
             <dependency>
                 <groupId>org.springdoc</groupId>
                 <artifactId>springdoc-openapi-ui</artifactId>

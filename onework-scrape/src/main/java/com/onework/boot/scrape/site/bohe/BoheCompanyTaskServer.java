@@ -1,13 +1,12 @@
 package com.onework.boot.scrape.site.bohe;
 
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.onework.boot.scrape.dal.dataobject.BOHECompany;
+import com.onework.boot.scrape.dal.mysql.BOHECompanyMapper;
 import com.onework.boot.scrape.site.ScrapeHelper;
 import com.onework.boot.scrape.site.TaskServer;
 import com.onework.boot.scrape.site.TaskServerType;
 import com.onework.boot.scrape.site.WebDriverFactory;
 import com.onework.boot.scrape.site.bohe.config.BoheCompanyConfiguration;
-import com.onework.boot.scrape.dal.dataobject.BoheCompany;
-import com.onework.boot.scrape.dal.mysql.BoheCompanyMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -22,9 +21,9 @@ public class BoheCompanyTaskServer extends TaskServer {
 
     private final BoheCompanyConfiguration configuration;
 
-    private final BoheCompanyMapper boheCompanyMapper;
+    private final BOHECompanyMapper boheCompanyMapper;
 
-    public BoheCompanyTaskServer(BoheCompanyConfiguration configuration, BoheCompanyMapper boheCompanyMapper) {
+    public BoheCompanyTaskServer(BoheCompanyConfiguration configuration, BOHECompanyMapper boheCompanyMapper) {
         this.configuration = configuration;
         this.boheCompanyMapper = boheCompanyMapper;
     }
@@ -56,10 +55,10 @@ public class BoheCompanyTaskServer extends TaskServer {
                 List<WebElement> lis = ul.findElements(By.cssSelector("li"));
                 for (WebElement li : lis) {
                     String websiteUrl = ScrapeHelper.getAttributeValue(li, ("div > a"), "href");
-                    BoheCompany boheCompany = boheCompanyMapper.selectOne(Wrappers.<BoheCompany>lambdaQuery().eq(BoheCompany::getWebsiteUrl, websiteUrl));
+                    BOHECompany boheCompany = boheCompanyMapper.selectOne(BOHECompany::getWebsiteUrl, websiteUrl);
                     boolean isNew = false;
                     if (boheCompany == null) {
-                        boheCompany = new BoheCompany();
+                        boheCompany = new BOHECompany();
                         isNew = true;
                     }
                     parseWebElement(li, boheCompany);
@@ -79,7 +78,7 @@ public class BoheCompanyTaskServer extends TaskServer {
         }));
     }
 
-    private void parseWebElement(WebElement element, BoheCompany boheCompany) {
+    private void parseWebElement(WebElement element, BOHECompany boheCompany) {
         // 企业名称
         String companyName = ScrapeHelper.getText(element, "div > a");
         boheCompany.setCompanyName(companyName);

@@ -1,12 +1,12 @@
 package com.onework.boot.scrape.site.cde;
 
+import com.onework.boot.scrape.dal.dataobject.CDECollectionRecord;
+import com.onework.boot.scrape.dal.dataobject.CDEProject;
 import com.onework.boot.scrape.site.ScrapeHelper;
 import com.onework.boot.scrape.site.TaskServer;
 import com.onework.boot.scrape.site.TaskServerType;
 import com.onework.boot.scrape.site.cde.config.CDEProjectFileParseConfiguration;
 import com.onework.boot.scrape.site.cde.store.CDEProjectRecordStore;
-import com.onework.boot.scrape.dal.dataobject.CDECollectionRecord;
-import com.onework.boot.scrape.dal.dataobject.CDEProject;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
