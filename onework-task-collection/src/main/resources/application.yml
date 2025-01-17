@@ -1,0 +1,102 @@
+spring:
+  application:
+    name: onework-task-collection
+  main:
+    allow-circular-references: true # 允许循环依赖，因为项目是三层架构，无法避免这个情况。
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
+    url: jdbc:mysql://127.0.0.1:33061/onework_platform?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true # 虽然默认为 true ，但是还是显示去指定下。
+  #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: AUTO # “智能”模式，基于 IdTypeEnvironmentPostProcessor + 数据源的类型，自动适配成 AUTO、INPUT 模式。
+      #      id-type: AUTO # 自增 ID，适合 MySQL 等直接自增的数据库
+      #      id-type: INPUT # 用户输入 ID，适合 Oracle、PostgreSQL、Kingbase、DB2、H2 数据库
+      #      id-type: ASSIGN_ID # 分配 ID，默认使用雪花算法。注意，Oracle、PostgreSQL、Kingbase、DB2、H2 数据库时，需要去除实体类上的 @KeySequence 注解
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+    banner: false # 关闭控制台的 Banner 打印
+  type-aliases-package: ${onework.info.base-package}.task.collection.dao
+
+onework:
+  info:
+    base-package: com.onework.boot
+  collection:
+    cde-all-project:
+      url: http://www.chinadrugtrials.org.cn/clinicaltrials.searchlist.dhtml
+      incognito: false
+      open-window: true
+      driver-type: chrome
+      thread-count: 1
+      save-path: D:\药物临床试验登记与信息公示平台
+    cde-project:
+      url: http://www.chinadrugtrials.org.cn/clinicaltrials.searchlist.dhtml
+      driver-type: chrome
+      thread-count: 10
+      incognito: false
+      open-window: true
+      save-path: D:\药物临床试验登记与信息公示平台
+      max-page: 50
+    cde-project-file:
+      driver-type: chrome
+      incognito: false
+      open-window: true
+      thread-count: 5
+      url: http://www.chinadrugtrials.org.cn/clinicaltrials.searchlist.dhtml
+      save-path: D:\药物临床试验登记与信息公示平台
+    cde-project-file-parse:
+      save-path: D:\药物临床试验登记与信息公示平台
+      thread-count: 20
+    cde-analysis:
+      thread-count: 50
+    ctmds-drug:
+      thread-count: 50
+      url: https://beian.cfdi.org.cn/CTMDS/pub/PUB010100.do?method=handle06&pageSize=10000
+      file-url: https://beian.cfdi.org.cn/CTMDS/pub/PUB010100.do?method=handle07&compId=%s
+      save-path: D:\药物和医疗器械临床试验机构备案系统
+    ctmds-drug-file:
+      save-path: D:\药物和医疗器械临床试验机构备案系统
+      thread-count: 50
+    ctmds-instrument:
+      thread-count: 50
+      url: https://beian.cfdi.org.cn/CTMDS/pub/PUB010100.do?method=handle05&pageSize=10000
+      file-url: https://beian.cfdi.org.cn/CTMDS/pub/PUB010100.do?method=handle04&compId=%s
+      save-path: D:\药物和医疗器械临床试验机构备案系统
+    ctmds-instrument-file:
+      save-path: D:\药物和医疗器械临床试验机构备案系统
+      thread-count: 50
+    bohe-company:
+      driver-type: chrome
+      incognito: false
+      open-window: true
+      thread-count: 5
+      url: https://yao.bohe.cn/company/
+      page-url: https://yao.bohe.cn/company/page_%s/
+    ctr-project:
+      driver-type: chrome
+      incognito: false
+      open-window: true
+      thread-count: 5
+      url: https://www.chictr.org.cn/searchproj.html
+      max-page: 100
+    ctr-project-file:
+      driver-type: chrome
+      incognito: false
+      open-window: true
+      thread-count: 5
+      save-path: D:\中国临床试验注册中心
+    ctr-project-file-parse:
+      save-path: :\中国临床试验注册中心
+      thread-count: 50
+    nmpa-pharmaceutical-company:
+      driver-type: firefox
+      incognito: false
+      open-window: true
+      thread-count: 1
+      url: https://www.nmpa.gov.cn/datasearch/home-index.html#category=yp
+      max-page: 2000

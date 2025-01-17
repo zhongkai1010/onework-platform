@@ -23,8 +23,9 @@
           <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/mapstruct/mapstruct/1.6.2/mapstruct-1.6.2.jar" />
         </processorPath>
         <module name="onework-spring-boot-starter-web" />
+        <module name="onework-task-collection" />
         <module name="onework-common" />
-        <module name="onework-scrape" />
+        <module name="onework-module-collection" />
         <module name="onework-spring-boot-starter-mybatis" />
         <module name="onework-tools-generator" />
       </profile>
@@ -33,9 +34,10 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="onework-common" options="-parameters" />
-      <module name="onework-scrape" options="-parameters" />
+      <module name="onework-module-collection" options="-parameters" />
       <module name="onework-spring-boot-starter-mybatis" options="-parameters" />
       <module name="onework-spring-boot-starter-web" options="-parameters" />
+      <module name="onework-task-collection" options="-parameters" />
       <module name="onework-tools-generator" options="-parameters" />
     </option>
   </component>

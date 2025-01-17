@@ -1,0 +1,2 @@
+com.onework.boot.framework.web.config.OneworkWebAutoConfiguration
+com.onework.boot.framework.swagger.config.OneworkSwaggerAutoConfiguration

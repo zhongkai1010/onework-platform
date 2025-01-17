@@ -11,7 +11,8 @@
         <module>onework-dependencies</module>
         <module>onework-framework</module>
         <module>onework-tools-generator</module>
-        <module>onework-scrape</module>
+        <module>onework-module-collection</module>
+        <module>onework-task-collection</module>
     </modules>
 
     <name>${project.artifactId}</name>

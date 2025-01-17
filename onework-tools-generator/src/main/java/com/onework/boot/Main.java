@@ -2,9 +2,7 @@ package com.onework.boot;
 
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.config.OutputFile;
-import com.baomidou.mybatisplus.generator.config.builder.CustomFile;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
-import com.baomidou.mybatisplus.generator.engine.VelocityTemplateEngine;
 import com.onework.boot.framework.mybatis.core.dataobject.BaseDO;
 import com.onework.boot.framework.mybatis.core.mapper.BaseMapperX;
 
@@ -19,7 +17,7 @@ public class Main {
         String url = "jdbc:mysql://127.0.0.1:33061/onework_platform?allowPublicKeyRetrieval=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false";
         String user = "root";
         String password = "123456";
-        String projectPath = Paths.get(System.getProperty("user.dir")) + "\\onework-scrape";
+        String projectPath = Paths.get(System.getProperty("user.dir")) + "\\onework-task-collection";
         System.out.println(projectPath);
 
         FastAutoGenerator.create(url, user, password)
@@ -27,17 +25,17 @@ public class Main {
                         .outputDir(projectPath + "\\src\\main\\java") // 指定代码生成的输出目录
                         .author("onework") // 置作者名
                         // .enableSwagger() // 开启 Swagger 模式
-                        .enableSpringdoc()
+                        //.enableSpringdoc()
                         .disableOpenDir())
                 .packageConfig(builder -> builder
-                        .parent("com.onework.boot") // 设置父包名
-                        .moduleName("scrape") // 设置父包模块名
-                        .entity("dal.dataobject") // 设置 Entity 包名
-                        .service("service") // 设置 Service 包名
-                        .serviceImpl("service.impl") // 设置 Service Impl 包名
-                        .mapper("dal.mysql") // 设置 Mapper 包名
+                        .parent("com.onework.boot.task.collection") // 设置父包名
+                        //.moduleName("scrape") // 设置父包模块名
+                        .entity("dao.entity") // 设置 Entity 包名
+                        //.service("service") // 设置 Service 包名
+                        //.serviceImpl("service.impl") // 设置 Service Impl 包名
+                        .mapper("dao.mapper") // 设置 Mapper 包名
                         .xml("mapper.xml") // 设置 Mapper XML 包名
-                        .controller("controller") //设置 Controller 包名
+                        //.controller("controller") //设置 Controller 包名
                         .pathInfo(Collections.singletonMap(OutputFile.xml, projectPath + "\\src\\main\\resources\\mappers"))
                 )
 
@@ -47,6 +45,7 @@ public class Main {
                         .addTablePrefix("ow_") // 增加过滤表前缀
                 ).strategyConfig(builder -> builder
                         .entityBuilder() // 实体策略配置
+                        //.idType(IdType.AUTO)
                         .enableFileOverride() // 覆盖已生成文件
                         .superClass(BaseDO.class) // 设置父类
                         .addIgnoreColumns("creator", "updater", "deleted", "create_time", "update_time") // 添加忽略字段
@@ -57,22 +56,23 @@ public class Main {
                         .disableSerialVersionUID() // 禁用生成 serialVersionUID
                         .enableLombok() // 开启 Lombok 模型
                         .enableTableFieldAnnotation() // 开启生成实体时生成字段注解
-                        .mapperBuilder() // Mapper 策略配置
-                        .superClass(BaseMapperX.class) // 设置父类
                 ).strategyConfig(builder -> builder
                         .mapperBuilder()
+                        .superClass(BaseMapperX.class) // 设置父类
                         .enableFileOverride()
                         .convertMapperFileName(fileName -> convertFileName(fileName, "Mapper"))
                         .convertXmlFileName(fileName -> convertFileName(fileName, "Mapper"))
                 )
                 .strategyConfig(builder -> builder
                         .serviceBuilder()
+                        .disable()
                         .enableFileOverride()
                         .convertServiceFileName(fileName -> convertFileName(fileName, "Service"))
                         .convertServiceImplFileName(fileName -> convertFileName(fileName, "ServiceImpl"))
                 )
                 .strategyConfig(builder -> builder
                         .controllerBuilder()
+                        .disable()
                         .enableFileOverride()
                         .enableHyphenStyle() // 开启驼峰转连字符
                         .convertFileName(fileName -> convertFileName(fileName, "Controller"))
@@ -83,26 +83,26 @@ public class Main {
                             customControllerMapping(tableInfo.getEntityName(), stringObjectMap);
                         })
                 )
-                .injectionConfig(builder -> {
-                    CustomFile.Builder queryVoCustomFileBuilder = new CustomFile.Builder();
-                    CustomFile queryVoCustomFile = queryVoCustomFileBuilder
-                            .fileName("PageReqVO.java")
-                            .templatePath("/templates/entityQueryPageVO.java.vm")
-                            .packageName("controller.vo")
-                            .enableFileOverride()
-                            .build();
-                    builder.customFile(queryVoCustomFile);
-                })
-                .injectionConfig(builder -> {
-                    CustomFile.Builder queryVoCustomFileBuilder = new CustomFile.Builder();
-                    CustomFile queryVoCustomFile = queryVoCustomFileBuilder
-                            .fileName("ReqVO.java")
-                            .templatePath("/templates/entityQueryVO.java.vm")
-                            .packageName("controller.vo")
-                            .enableFileOverride()
-                            .build();
-                    builder.customFile(queryVoCustomFile);
-                })
+//                .injectionConfig(builder -> {
+//                    CustomFile.Builder queryVoCustomFileBuilder = new CustomFile.Builder();
+//                    CustomFile queryVoCustomFile = queryVoCustomFileBuilder
+//                            .fileName("PageReqVO.java")
+//                            .templatePath("/templates/entityQueryPageVO.java.vm")
+//                            .packageName("controller.vo")
+//                            .enableFileOverride()
+//                            .build();
+//                    builder.customFile(queryVoCustomFile);
+//                })
+//                .injectionConfig(builder -> {
+//                    CustomFile.Builder queryVoCustomFileBuilder = new CustomFile.Builder();
+//                    CustomFile queryVoCustomFile = queryVoCustomFileBuilder
+//                            .fileName("ReqVO.java")
+//                            .templatePath("/templates/entityQueryVO.java.vm")
+//                            .packageName("controller.vo")
+//                            .enableFileOverride()
+//                            .build();
+//                    builder.customFile(queryVoCustomFile);
+//                })
                 .templateEngine(new CustomVelocityTemplateEngine())
                 .execute();
     }

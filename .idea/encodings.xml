@@ -27,10 +27,12 @@
     <file url="file://$PROJECT_DIR$/onework-framework/onework-spring-boot-starter-web/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/onework-framework/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/onework-framework/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/onework-scrape/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/onework-scrape/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/onework-module-collection/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/onework-module-collection/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/onework-scraper-ctr/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/onework-scraper-ctr/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/onework-task-collection/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/onework-task-collection/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/onework-tools-generator/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/onework-tools-generator/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
