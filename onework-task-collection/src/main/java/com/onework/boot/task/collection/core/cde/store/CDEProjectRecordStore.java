@@ -30,7 +30,7 @@ public class CDEProjectRecordStore extends BaseStore {
 
     public void initData() {
         store.clear();
-        for (CDECollectionRecord record : recordMapper.selectList(null)) {
+        for (CDECollectionRecord record : recordMapper.selectList()) {
             store.put(record.getRegistrationNumber(), record);
         }
     }
@@ -66,7 +66,7 @@ public class CDEProjectRecordStore extends BaseStore {
         record.setParseDate(LocalDateTime.now());
         recordMapper.updateById(record);
 
-        CDEProject oldProject = projectMapper.selectOne(Wrappers.<CDEProject>lambdaQuery().eq(CDEProject::getRegistrationNumber, record.getRegistrationNumber()));
+        CDEProject oldProject = projectMapper.selectOne(CDEProject::getRegistrationNumber, record.getRegistrationNumber());
         if (oldProject == null) {
             projectMapper.insert(project);
         } else {

@@ -23,7 +23,9 @@
     <mybatis-plus.version>3.5.9</mybatis-plus.version>
     <knife4j.version>4.5.0</knife4j.version>
     <revision>1.0.0-SNAPSHOT</revision>
+    <druid.version>1.2.23</druid.version>
     <easy-trans.version>3.0.6</easy-trans.version>
+    <skywalking.version>9.3.0</skywalking.version>
     <dynamic-datasource.version>4.3.1</dynamic-datasource.version>
   </properties>
   <dependencyManagement>
@@ -68,6 +70,11 @@
         <version>${mybatis-plus.version}</version>
       </dependency>
       <dependency>
+        <groupId>com.alibaba</groupId>
+        <artifactId>druid-spring-boot-3-starter</artifactId>
+        <version>${druid.version}</version>
+      </dependency>
+      <dependency>
         <groupId>com.baomidou</groupId>
         <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
         <version>${dynamic-datasource.version}</version>
@@ -85,6 +92,21 @@
       <dependency>
         <groupId>com.onework.boot</groupId>
         <artifactId>onework-common</artifactId>
+        <version>${revision}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.skywalking</groupId>
+        <artifactId>apm-toolkit-trace</artifactId>
+        <version>${skywalking.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.skywalking</groupId>
+        <artifactId>apm-toolkit-logback-1.x</artifactId>
+        <version>${skywalking.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.onework.boot</groupId>
+        <artifactId>onework-spring-boot-starter-jackson</artifactId>
         <version>${revision}</version>
       </dependency>
       <dependency>

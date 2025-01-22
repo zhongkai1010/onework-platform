@@ -1,9 +1,10 @@
 package com.onework.boot.task.collection.core.ctr;
 
 import cn.hutool.core.date.LocalDateTimeUtil;
-import com.onework.boot.framework.common.util.json.databind.JsonUtils;
+import com.onework.boot.framework.common.util.json.JsonUtils;
 import com.onework.boot.task.collection.core.ctr.dtos.*;
 import com.onework.boot.task.collection.dao.entity.CTRProject;
+import lombok.extern.slf4j.Slf4j;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -13,6 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class CTRParseHelper {
 
     /**
@@ -392,33 +394,34 @@ public class CTRParseHelper {
     private static void setSecondarySponsor(Document document, CTRProject project) {
 
         Elements elements = document.select("html > body > div:nth-of-type(1) > div > div:nth-of-type(3) > div:nth-of-type(6) > table:nth-of-type(1) > tbody > tr:nth-of-type(5) > td:nth-of-type(2) > table > tbody");
-        CTRSecondarySponsor CTRSecondarySponsor = new CTRSecondarySponsor();
+        CTRSecondarySponsor ctrSecondarySponsor = new CTRSecondarySponsor();
         String country = elements.select("tr:nth-of-type(1) > td:nth-of-type(2) > p").text();
         String countryEn = elements.select("tr:nth-of-type(2) > td:nth-of-type(2) > p").text();
-        CTRSecondarySponsor.setCountry(country);
-        CTRSecondarySponsor.setCountry(countryEn);
+        ctrSecondarySponsor.setCountry(country);
+        ctrSecondarySponsor.setCountry(countryEn);
 
         String province = elements.select(" tr:nth-of-type(1) > td:nth-of-type(4)").text();
         String provinceEn = elements.select("tr:nth-of-type(2) > td:nth-of-type(4) > p").text();
-        CTRSecondarySponsor.setProvince(province);
-        CTRSecondarySponsor.setProvinceEn(provinceEn);
+        ctrSecondarySponsor.setProvince(province);
+        ctrSecondarySponsor.setProvinceEn(provinceEn);
 
         String city = elements.select("r:nth-of-type(1) > td:nth-of-type(2) > p").text();
         String cityEn = elements.select("r:nth-of-type(1) > td:nth-of-type(2) > p").text();
-        CTRSecondarySponsor.setCity(city);
-        CTRSecondarySponsor.setCityEn(cityEn);
+        ctrSecondarySponsor.setCity(city);
+        ctrSecondarySponsor.setCityEn(cityEn);
 
         String institutionHospital = elements.select(" tr:nth-of-type(3) > td:nth-of-type(2) > p").text();
         String institutionHospitalEn = elements.select(" tr:nth-of-type(4) > td:nth-of-type(2) > p").text();
-        CTRSecondarySponsor.setInstitutionHospital(institutionHospital);
-        CTRSecondarySponsor.setInstitutionHospitalEn(institutionHospitalEn);
+        ctrSecondarySponsor.setInstitutionHospital(institutionHospital);
+        ctrSecondarySponsor.setInstitutionHospitalEn(institutionHospitalEn);
 
         String address = elements.select("tr:nth-of-type(3) > td:nth-of-type(4) > p").text();
         String addressEn = elements.select("tr:nth-of-type(4) > td:nth-of-type(4) > p").text();
-        CTRSecondarySponsor.setAddress(address);
-        CTRSecondarySponsor.setCountryEn(addressEn);
+        ctrSecondarySponsor.setAddress(address);
+        ctrSecondarySponsor.setCountryEn(addressEn);
 
-        project.setSecondarySponsor(JsonUtils.toJsonString(CTRSecondarySponsor));
+        String value = JsonUtils.toJsonString(ctrSecondarySponsor);
+        project.setSecondarySponsor(value);
     }
 
     /**
@@ -559,7 +562,7 @@ public class CTRParseHelper {
      */
     private static void setInterventions(Document document, CTRProject project) {
         Elements elements = document.select("html > body > div:nth-of-type(1) > div > div:nth-of-type(3) > div:nth-of-type(7) > table > tbody > tr > td:nth-of-type(2) > table");
-        List<CTRIntervention> CTRInterventions = new ArrayList<>();
+        List<CTRIntervention> ctrInterventions = new ArrayList<>();
         for (Element tableElement : elements) {
             CTRIntervention CTRIntervention = new CTRIntervention();
             CTRIntervention.setGroup(tableElement.select("tbody > tr:nth-of-type(1) > td:nth-of-type(2) > p").text());
@@ -568,9 +571,10 @@ public class CTRParseHelper {
             CTRIntervention.setIntervention(tableElement.select("tbody > tr:nth-of-type(3) > td:nth-of-type(2) > p").text());
             CTRIntervention.setInterventionEn(tableElement.select("tbody > tr:nth-of-type(4) > td:nth-of-type(2) > p").text());
             CTRIntervention.setInterventionCode(tableElement.select("tbody > tr:nth-of-type(3) > td:nth-of-type(4)").text());
-            CTRInterventions.add(CTRIntervention);
+            ctrInterventions.add(CTRIntervention);
         }
-        project.setInterventions(JsonUtils.toJsonString(CTRInterventions));
+        String value = JsonUtils.toJsonString(ctrInterventions);
+        project.setInterventions(value);
     }
 
     /**
@@ -579,7 +583,7 @@ public class CTRParseHelper {
     private static void setRecruitmentLocations(Document document, CTRProject project) {
 
         Elements elements = document.select("html > body > div:nth-of-type(1) > div > div:nth-of-type(3) > div:nth-of-type(8) > table > tbody > tr > td:nth-of-type(2) > table");
-        List<CTRRecruitmentLocation> CTRRecruitmentLocations = new ArrayList<>();
+        List<CTRRecruitmentLocation> ctrRecruitmentLocations = new ArrayList<>();
         for (Element tableElement : elements) {
             CTRRecruitmentLocation CTRRecruitmentLocation = new CTRRecruitmentLocation();
             CTRRecruitmentLocation.setCountry(tableElement.select(" tbody > tr:nth-of-type(1) > td:nth-of-type(2)").text());
@@ -592,9 +596,10 @@ public class CTRParseHelper {
             CTRRecruitmentLocation.setLevelEn(tableElement.select("tbody > tr:nth-of-type(4) > td:nth-of-type(4) > p:nth-of-type(1)").text());
             CTRRecruitmentLocation.setInstitutionHospital(tableElement.select("tbody > tr:nth-of-type(3) > td:nth-of-type(2)").text());
             CTRRecruitmentLocation.setInstitutionHospitalEn(tableElement.select("tbody > tr:nth-of-type(4) > td:nth-of-type(2) > p").text());
-            CTRRecruitmentLocations.add(CTRRecruitmentLocation);
+            ctrRecruitmentLocations.add(CTRRecruitmentLocation);
         }
-        project.setRecruitmentLocations(JsonUtils.toJsonString(CTRRecruitmentLocations));
+        String value = JsonUtils.toJsonString(ctrRecruitmentLocations);
+        project.setRecruitmentLocations(value);
     }
 
     /**
@@ -602,7 +607,7 @@ public class CTRParseHelper {
      */
     private static void setOutcomes(Document document, CTRProject project) {
         Elements elements = document.select("html > body > div:nth-of-type(1) > div > div:nth-of-type(3) > div:nth-of-type(9) > table > tbody > tr > td:nth-of-type(2) > div > table");
-        List<CTROutcome> CTROutcomes = new ArrayList<>();
+        List<CTROutcome> ctrOutcomes = new ArrayList<>();
         for (Element tableElement : elements) {
             CTROutcome CTROutcome = new CTROutcome();
             CTROutcome.setOutcome(tableElement.select("tbody > tr:nth-of-type(1) > td:nth-of-type(2) > p").text());
@@ -613,9 +618,10 @@ public class CTRParseHelper {
             CTROutcome.setMeasureTimePointEn(tableElement.select("tbody > tr:nth-of-type(4) > td:nth-of-type(2) > p").text());
             CTROutcome.setMeasureMethod(tableElement.select("tbody > tr:nth-of-type(3) > td:nth-of-type(4) > p").text());
             CTROutcome.setMeasureMethodEn(tableElement.select("tbody > tr:nth-of-type(4) > td:nth-of-type(4) > p").text());
-            CTROutcomes.add(CTROutcome);
+            ctrOutcomes.add(CTROutcome);
         }
-        project.setOutcomes(JsonUtils.toJsonString(CTROutcomes));
+        String value = JsonUtils.toJsonString(ctrOutcomes);
+        project.setOutcomes(value);
     }
 
     /**
@@ -624,7 +630,7 @@ public class CTRParseHelper {
     private static void setSampleCollection(Document document, CTRProject project) {
 
         Elements elements = document.select("html > body > div:nth-of-type(1) > div > div:nth-of-type(3) > div:nth-of-type(9) > table > tbody > tr > td:nth-of-type(2) > div > table");
-        List<CTRSample> CTRSamples = new ArrayList<>();
+        List<CTRSample> ctrSamples = new ArrayList<>();
         for (Element tableElement : elements) {
             CTRSample CTRSample = new CTRSample();
             CTRSample.setSampleName(tableElement.select(" tbody > tr:nth-of-type(1) > td:nth-of-type(2) > p").text());
@@ -635,9 +641,10 @@ public class CTRParseHelper {
             CTRSample.setFateOfSampleEn(tableElement.select("tbody > tr:nth-of-type(4) > td:nth-of-type(2) > p").text());
             CTRSample.setNote(tableElement.select("tbody > tr:nth-of-type(3) > td:nth-of-type(4)").text());
             CTRSample.setNoteEn(tableElement.select("tbody > tr:nth-of-type(4) > td:nth-of-type(4)").text());
-            CTRSamples.add(CTRSample);
+            ctrSamples.add(CTRSample);
         }
-        project.setSampleCollection(JsonUtils.toJsonString(CTRSamples));
+        String value = JsonUtils.toJsonString(ctrSamples);
+        project.setSampleCollection(value);
     }
 
     /**

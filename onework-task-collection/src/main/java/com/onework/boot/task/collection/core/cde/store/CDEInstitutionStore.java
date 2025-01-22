@@ -24,7 +24,7 @@ public class CDEInstitutionStore extends BaseStore {
     @Override
     public void initData() {
         store.clear();
-        List<CDEInstitution> institutions = mapper.selectList(null);
+        List<CDEInstitution> institutions = mapper.selectList();
         for (CDEInstitution institution : institutions) {
             store.put(institution.getInstitutionName(), institution);
         }

@@ -21,6 +21,7 @@
         <option value="$PROJECT_DIR$/onework-framework/onework-spring-boot-starter-web/pom.xml" />
         <option value="$PROJECT_DIR$/onework-framework/onework-common/pom.xml" />
         <option value="$PROJECT_DIR$/onework-task-collection/pom.xml" />
+        <option value="$PROJECT_DIR$/onework-framework/onework-spring-boot-starter-jackson/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

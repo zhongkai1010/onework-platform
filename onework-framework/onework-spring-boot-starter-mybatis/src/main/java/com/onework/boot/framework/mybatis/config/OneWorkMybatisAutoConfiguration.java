@@ -27,4 +27,6 @@ public class OneWorkMybatisAutoConfiguration {
         interceptor.addInnerInterceptor(new PaginationInnerInterceptor());
         return interceptor;
     }
+
+
 }

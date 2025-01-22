@@ -1,16 +1,16 @@
-package com.onework.boot.framework.common.util.json.databind;
+package com.onework.boot.framework.common.util.json;
 
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -45,19 +45,35 @@ public class JsonUtils {
         JsonUtils.objectMapper = objectMapper;
     }
 
-    @SneakyThrows
+
     public static String toJsonString(Object object) {
-        return objectMapper.writeValueAsString(object);
+        try {
+            return objectMapper.writeValueAsString(object);
+        } catch (JsonProcessingException exception) {
+            log.error("JsonUtils toJsonString执行异常", exception);
+            return null;
+        }
     }
 
-    @SneakyThrows
+
     public static byte[] toJsonByte(Object object) {
-        return objectMapper.writeValueAsBytes(object);
+        try {
+            return objectMapper.writeValueAsBytes(object);
+        } catch (Exception exception) {
+            log.error("JsonUtils toJsonString执行异常", exception);
+            return null;
+        }
+
     }
 
-    @SneakyThrows
+
     public static String toJsonPrettyString(Object object) {
-        return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(object);
+        try {
+            return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(object);
+        } catch (Exception exception) {
+            log.error("JsonUtils toJsonString执行异常", exception);
+            return null;
+        }
     }
 
     public static <T> T parseObject(String text, Class<T> clazz) {

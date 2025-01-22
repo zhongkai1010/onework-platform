@@ -2,7 +2,7 @@ package com.onework.boot.task.collection.core.ctmds;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.http.HttpRequest;
-import com.onework.boot.framework.common.util.json.databind.JsonUtils;
+import com.onework.boot.framework.common.util.json.JsonUtils;
 import com.onework.boot.task.collection.core.ScrapeHelper;
 import com.onework.boot.task.collection.core.TaskServer;
 import com.onework.boot.task.collection.core.TaskServerType;

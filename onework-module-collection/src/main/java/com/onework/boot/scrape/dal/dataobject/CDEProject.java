@@ -3,6 +3,8 @@ package com.onework.boot.scrape.dal.dataobject;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.onework.boot.framework.desensitize.core.regex.annotation.EmailDesensitize;
+import com.onework.boot.framework.desensitize.core.slider.annotation.FixedPhoneDesensitize;
 import com.onework.boot.framework.mybatis.core.dataobject.BaseDO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -96,10 +98,12 @@ public class CDEProject extends BaseDO {
     @TableField("contact_landline")
     private String contactLandline;
 
+    @FixedPhoneDesensitize
     @Schema(description = "联系人手机号")
     @TableField("contact_mobile")
     private String contactMobile;
 
+    @EmailDesensitize
     @Schema(description = "联系人 Email")
     @TableField("contact_email")
     private String contactEmail;

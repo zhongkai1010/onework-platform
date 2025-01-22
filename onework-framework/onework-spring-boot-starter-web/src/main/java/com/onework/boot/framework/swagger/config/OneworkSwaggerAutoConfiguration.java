@@ -5,8 +5,6 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
-import io.swagger.v3.oas.models.media.StringSchema;
-import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springdoc.core.customizers.OpenApiBuilderCustomizer;
@@ -36,22 +34,6 @@ import java.util.Optional;
 // 设置为 false 时，禁用
 public class OneworkSwaggerAutoConfiguration {
 
-    public static final String HEADER_TENANT_ID = "tenant-id";
-
-    /**
-     * 构建 Authorization 认证请求头参数
-     *
-     * 解决 Knife4j <a href="https://gitee.com/xiaoym/knife4j/issues/I69QBU">Authorize 未生效，请求header里未包含参数</a>
-     *
-     * @return 认证参数
-     */
-    private static Parameter buildSecurityHeaderParameter() {
-        return new Parameter()
-                .name(HttpHeaders.AUTHORIZATION) // header 名
-                .description("认证 Token") // 描述
-                .in(String.valueOf(SecurityScheme.In.HEADER)) // 请求 header
-                .schema(new StringSchema()._default("Bearer test1").name(HEADER_TENANT_ID).description("认证 Token")); // 默认：使用用户编号为 1
-    }
 
     @Bean
     public OpenAPI createApi(SwaggerProperties properties) {

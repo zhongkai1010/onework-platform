@@ -20,6 +20,7 @@
         <spring.boot.version>3.3.4</spring.boot.version>
         <spring-shell.version>3.3.3</spring-shell.version>
         <!-- DB 相关 -->
+        <druid.version>1.2.23</druid.version>
         <easy-trans.version>3.0.6</easy-trans.version>
         <mybatis-plus.version>3.5.9</mybatis-plus.version>
         <mybatis-plus-join.version>1.4.13</mybatis-plus-join.version>
@@ -34,6 +35,8 @@
         <knife4j.version>4.5.0</knife4j.version>
         <!-- 工具类相关 -->
         <guava.version>33.2.1-jre</guava.version>
+        <!-- 监控相关 -->
+        <skywalking.version>9.3.0</skywalking.version>
     </properties>
 
     <dependencyManagement>
@@ -82,6 +85,11 @@
                 <version>${mybatis-plus.version}</version>
             </dependency>
             <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-3-starter</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>dynamic-datasource-spring-boot-starter</artifactId> <!-- 多数据源 -->
                 <version>${dynamic-datasource.version}</version>
@@ -102,7 +110,23 @@
                 <artifactId>onework-common</artifactId>
                 <version>${revision}</version>
             </dependency>
+            <!-- 监控相关 -->
+            <dependency>
+                <groupId>org.apache.skywalking</groupId>
+                <artifactId>apm-toolkit-trace</artifactId>
+                <version>${skywalking.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.skywalking</groupId>
+                <artifactId>apm-toolkit-logback-1.x</artifactId>
+                <version>${skywalking.version}</version>
+            </dependency>
             <!-- 工具类相关 -->
+            <dependency>
+                <groupId>com.onework.boot</groupId>
+                <artifactId>onework-spring-boot-starter-jackson</artifactId>
+                <version>${revision}</version>
+            </dependency>
             <dependency>
                 <groupId>com.fhs-opensource</groupId> <!-- VO 数据翻译 -->
                 <artifactId>easy-trans-spring-boot-starter</artifactId>
@@ -159,6 +183,7 @@
                 <artifactId>springdoc-openapi-ui</artifactId>
                 <version>${springdoc.version}</version>
             </dependency>
+
         </dependencies>
     </dependencyManagement>
 

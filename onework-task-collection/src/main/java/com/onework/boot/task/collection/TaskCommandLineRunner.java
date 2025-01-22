@@ -17,7 +17,6 @@ public class TaskCommandLineRunner implements CommandLineRunner {
 
     public TaskCommandLineRunner(TaskServerFactory taskServerFactory) {
         this.taskServerFactory = taskServerFactory;
-
     }
 
     @Override
@@ -55,12 +54,13 @@ public class TaskCommandLineRunner implements CommandLineRunner {
 //        webDriver.quit();
 //        proxy.stop();
 
-        taskServerFactory.executeTask(TaskServerType.CDE_All_PROJECT);
+//        taskServerFactory.executeTask(TaskServerType.CDE_PROJECT_FILE_PARSE);
 //        taskServerFactory.executeTasks(new TaskServerType[]{TaskServerType.CDE_PROJECT, TaskServerType.CDE_PROJECT_FILE, TaskServerType.CDE_PROJECT_FILE_PARSE, TaskServerType.CDE_ANALYSIS});
 //        taskServerFactory.executeTasks(new TaskServerType[]{TaskServerType.CTMDS_DRUG, TaskServerType.CTMDS_DRUG_FILE, TaskServerType.CTMDS_INSTRUMENT, TaskServerType.CTMDS_INSTRUMENT_FILE});
 //        taskServerFactory.executeTask(TaskServerType.BOHE_COMPANY);
 //        taskServerFactory.executeTasks(new TaskServerType[]{TaskServerType.CTR_PROJECT, TaskServerType.CTR_PROJECT_FILE, TaskServerType.CTR_PROJECT_FILE_PARSE});
-//        taskServerFactory.executeTask(TaskServerType.NMP_PHARMACEUTICAL_COMPANY);
+        taskServerFactory.executeTask(TaskServerType.NMP_PHARMACEUTICAL_COMPANY);
+
     }
 
     @PreDestroy

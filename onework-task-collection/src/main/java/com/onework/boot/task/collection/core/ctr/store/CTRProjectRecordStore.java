@@ -30,7 +30,7 @@ public class CTRProjectRecordStore extends BaseStore {
     @Override
     public void initData() {
         store.clear();
-        for (CTRCollectionRecord record : mapper.selectList(null)) {
+        for (CTRCollectionRecord record : mapper.selectList()) {
 
             store.put(record.getRegistrationNumber(), record);
         }
