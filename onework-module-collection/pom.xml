@@ -24,6 +24,10 @@
         </dependency>
         <dependency>
             <groupId>com.onework.boot</groupId>
+            <artifactId>onework-spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.onework.boot</groupId>
             <artifactId>onework-spring-boot-starter-jackson</artifactId>
         </dependency>
         <dependency>

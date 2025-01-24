@@ -15,6 +15,7 @@
         <module>onework-spring-boot-starter-mybatis</module>
         <module>onework-spring-boot-starter-web</module>
         <module>onework-spring-boot-starter-jackson</module>
+        <module>onework-spring-boot-starter-security</module>
     </modules>
     <!-- 基础信息 -->
     <artifactId>onework-framework</artifactId>
