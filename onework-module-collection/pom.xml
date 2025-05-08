@@ -22,10 +22,10 @@
             <groupId>com.onework.boot</groupId>
             <artifactId>onework-spring-boot-starter-web</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.onework.boot</groupId>
-            <artifactId>onework-spring-boot-starter-security</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.onework.boot</groupId>-->
+<!--            <artifactId>onework-spring-boot-starter-security</artifactId>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>com.onework.boot</groupId>
             <artifactId>onework-spring-boot-starter-jackson</artifactId>
@@ -54,12 +54,7 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.validation</groupId>
-            <artifactId>jakarta.validation-api</artifactId>
+            <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -81,6 +76,11 @@
             <groupId>net.lightbody.bmp</groupId>
             <artifactId>browsermob-core</artifactId>
             <version>2.1.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
         </dependency>
     </dependencies>
     <build>

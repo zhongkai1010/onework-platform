@@ -138,3 +138,9 @@ onework:
     email: zhongkai1010@163.com
     license: MIT
     license-url: https://github.com/zhongkai1010/onework-platform/LICENSE
+  security:
+    token-header: Authorization
+    token-parameter: token
+    mock-enable: false
+    mock-secret: text
+debug: true

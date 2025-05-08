@@ -1,0 +1,21 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "OneworkModuleCollectionApplication",
+      "request": "launch",
+      "mainClass": "com.onework.boot.scrape.OneworkModuleCollectionApplication",
+      "projectName": "onework-module-collection"
+    },
+    {
+      "type": "java",
+      "name": "Spring Boot-OneworkTaskCollectionApplication<onework-task-collection>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.onework.boot.task.collection.OneworkTaskCollectionApplication",
+      "projectName": "onework-task-collection",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}

@@ -60,7 +60,7 @@ public class TaskCommandLineRunner implements CommandLineRunner {
 //        taskServerFactory.executeTask(TaskServerType.BOHE_COMPANY);
 //        taskServerFactory.executeTasks(new TaskServerType[]{TaskServerType.CTR_PROJECT, TaskServerType.CTR_PROJECT_FILE, TaskServerType.CTR_PROJECT_FILE_PARSE});
         taskServerFactory.executeTask(TaskServerType.NMP_PHARMACEUTICAL_COMPANY);
-
+ 
     }
 
     @PreDestroy
