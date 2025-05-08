@@ -1,4 +1,4 @@
-package com.onework.boot.task.collection.core.ctr;
+package com.onework.boot.task.collection.core.ctr.config;
 
 import lombok.Getter;
 import lombok.Setter;

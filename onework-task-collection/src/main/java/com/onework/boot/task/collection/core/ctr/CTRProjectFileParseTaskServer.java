@@ -3,6 +3,7 @@ package com.onework.boot.task.collection.core.ctr;
 import com.onework.boot.task.collection.core.ScrapeHelper;
 import com.onework.boot.task.collection.core.TaskServer;
 import com.onework.boot.task.collection.core.TaskServerType;
+import com.onework.boot.task.collection.core.ctr.config.CTRProjectFileParseConfiguration;
 import com.onework.boot.task.collection.core.ctr.store.CTRProjectRecordStore;
 import com.onework.boot.task.collection.dao.entity.CTRCollectionRecord;
 import com.onework.boot.task.collection.dao.entity.CTRProject;
@@ -18,12 +19,12 @@ import java.util.List;
 @Component
 public class CTRProjectFileParseTaskServer extends TaskServer {
 
-    private final com.onework.boot.task.collection.core.ctr.CTRProjectFileParseConfiguration configuration;
+    private final CTRProjectFileParseConfiguration configuration;
 
     private final CTRProjectRecordStore ctrProjectRecordStore;
 
 
-    public CTRProjectFileParseTaskServer(com.onework.boot.task.collection.core.ctr.CTRProjectFileParseConfiguration configuration, CTRProjectRecordStore ctrProjectRecordStore) {
+    public CTRProjectFileParseTaskServer(CTRProjectFileParseConfiguration configuration, CTRProjectRecordStore ctrProjectRecordStore) {
         this.configuration = configuration;
         this.ctrProjectRecordStore = ctrProjectRecordStore;
     }

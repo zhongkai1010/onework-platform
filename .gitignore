@@ -21,6 +21,7 @@ nbproject/
 # 3. 构建工具生成的文件
 # Maven
 target/
+**/*.flattened-pom.xml
 
 # Gradle
 .gradle/
@@ -36,8 +37,5 @@ Thumbs.db  # Windows
 # 6. 其他可能的临时文件
 *.bak
 *.swp
-
-*.flattened-pom.xml
- 
 
 .idea
