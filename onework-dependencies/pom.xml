@@ -16,32 +16,32 @@
     <properties>
         <revision>1.0.0-SNAPSHOT</revision>
         <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
-        <!-- 统一依赖管理 -->
+        <!-- Spring 相关版本 -->
         <spring.boot.version>3.3.4</spring.boot.version>
         <spring-shell.version>3.3.3</spring-shell.version>
-        <!-- DB 相关 -->
+        <!-- 数据库相关版本 -->
         <druid.version>1.2.23</druid.version>
         <easy-trans.version>3.0.6</easy-trans.version>
         <mybatis-plus.version>3.5.9</mybatis-plus.version>
         <mybatis-plus-join.version>1.4.13</mybatis-plus-join.version>
         <dynamic-datasource.version>4.3.1</dynamic-datasource.version>
-        <!-- MyBatis Plus 3.5.8 需要最低 JDK11 版本，无法升级 -->
+        <!-- 工具类相关版本 -->
         <fastjson.version>2.0.53</fastjson.version>
         <hutool.version>5.8.25</hutool.version>
         <selenium.version>4.25.0</selenium.version>
         <jsoup.version>1.18.1</jsoup.version>
-        <!-- Web 相关 -->
+        <!-- Web 相关版本 -->
         <springdoc.version>1.7.0</springdoc.version>
         <knife4j.version>4.5.0</knife4j.version>
-        <!-- 工具类相关 -->
+        <!-- 工具类相关版本 -->
         <guava.version>33.2.1-jre</guava.version>
-        <!-- 监控相关 -->
+        <!-- 监控相关版本 -->
         <skywalking.version>9.3.0</skywalking.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-            <!-- 统一依赖管理 -->
+            <!-- Spring Boot 相关依赖 -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
@@ -49,13 +49,13 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <!-- Spring 核心 -->
+            <!-- Spring Boot 配置处理器 -->
             <dependency>
-                <!-- 用于生成自定义的 Spring @ConfigurationProperties 配置类的说明文件 -->
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-configuration-processor</artifactId>
                 <version>${spring.boot.version}</version>
             </dependency>
+            <!-- Spring Shell 命令行工具 -->
             <dependency>
                 <groupId>org.springframework.shell</groupId>
                 <artifactId>spring-shell-dependencies</artifactId>
@@ -63,93 +63,121 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <!-- Web 相关 -->
+
+            <!-- Web 相关依赖 -->
+            <!-- Knife4j API文档工具 -->
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
                 <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
                 <version>${knife4j.version}</version>
             </dependency>
+            <!-- 自定义Web启动器 -->
             <dependency>
                 <groupId>com.onework.boot</groupId>
                 <artifactId>onework-spring-boot-starter-web</artifactId>
                 <version>${revision}</version>
             </dependency>
+            <!-- 自定义安全启动器 -->
             <dependency>
                 <groupId>com.onework.boot</groupId>
                 <artifactId>onework-spring-boot-starter-security</artifactId>
                 <version>${revision}</version>
             </dependency>
+            <!-- SpringDoc API文档 -->
             <dependency>
                 <groupId>org.springdoc</groupId>
                 <artifactId>springdoc-openapi-ui</artifactId>
                 <version>${springdoc.version}</version>
             </dependency>
-            <!-- DB 相关 -->
+
+            <!-- 数据库相关依赖 -->
+            <!-- 自定义MyBatis启动器 -->
             <dependency>
                 <groupId>com.onework.boot</groupId>
                 <artifactId>onework-spring-boot-starter-mybatis</artifactId>
                 <version>${revision}</version>
             </dependency>
+            <!-- MyBatis Plus 启动器 -->
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
                 <version>${mybatis-plus.version}</version>
             </dependency>
+            <!-- Easy Trans MyBatis Plus扩展 -->
             <dependency>
                 <groupId>com.fhs-opensource</groupId>
                 <artifactId>easy-trans-mybatis-plus-extend</artifactId>
                 <version>${easy-trans.version}</version>
             </dependency>
+            <!-- MyBatis Plus JSqlParser -->
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-jsqlparser</artifactId>
                 <version>${mybatis-plus.version}</version>
             </dependency>
+            <!-- Druid数据库连接池 -->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid-spring-boot-3-starter</artifactId>
                 <version>${druid.version}</version>
             </dependency>
+            <!-- 动态数据源 -->
             <dependency>
                 <groupId>com.baomidou</groupId>
-                <artifactId>dynamic-datasource-spring-boot-starter</artifactId> <!-- 多数据源 -->
+                <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
                 <version>${dynamic-datasource.version}</version>
             </dependency>
+            <!-- MyBatis Plus 联表查询 -->
             <dependency>
                 <groupId>com.github.yulichang</groupId>
-                <artifactId>mybatis-plus-join-boot-starter</artifactId> <!-- MyBatis 联表查询 -->
+                <artifactId>mybatis-plus-join-boot-starter</artifactId>
                 <version>${mybatis-plus-join.version}</version>
             </dependency>
+
             <!-- 业务组件 -->
+            <dependency>
+                <groupId>com.onework.boot</groupId>
+                <artifactId>onework-module-scraper-core</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <!-- 数据模块 -->
             <dependency>
                 <groupId>com.onework.boot</groupId>
                 <artifactId>onework-data</artifactId>
                 <version>${revision}</version>
             </dependency>
+            <!-- 公共模块 -->
             <dependency>
                 <groupId>com.onework.boot</groupId>
                 <artifactId>onework-common</artifactId>
                 <version>${revision}</version>
             </dependency>
-            <!-- 监控相关 -->
+
+            <!-- 监控相关依赖 -->
+            <!-- SkyWalking 追踪工具 -->
             <dependency>
                 <groupId>org.apache.skywalking</groupId>
                 <artifactId>apm-toolkit-trace</artifactId>
                 <version>${skywalking.version}</version>
             </dependency>
+            <!-- SkyWalking Logback集成 -->
             <dependency>
                 <groupId>org.apache.skywalking</groupId>
                 <artifactId>apm-toolkit-logback-1.x</artifactId>
                 <version>${skywalking.version}</version>
             </dependency>
-            <!-- 工具类相关 -->
+
+            <!-- 工具类相关依赖 -->
+            <!-- 自定义Jackson启动器 -->
             <dependency>
                 <groupId>com.onework.boot</groupId>
                 <artifactId>onework-spring-boot-starter-jackson</artifactId>
                 <version>${revision}</version>
             </dependency>
+            <!-- Easy Trans 数据翻译 -->
             <dependency>
-                <groupId>com.fhs-opensource</groupId> <!-- VO 数据翻译 -->
+                <groupId>com.fhs-opensource</groupId>
                 <artifactId>easy-trans-spring-boot-starter</artifactId>
                 <version>${easy-trans.version}</version>
                 <exclusions>
@@ -163,39 +191,43 @@
                     </exclusion>
                 </exclusions>
             </dependency>
+            <!-- Google Guava工具包 -->
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
             </dependency>
+            <!-- JSoup HTML解析器 -->
             <dependency>
                 <groupId>org.jsoup</groupId>
                 <artifactId>jsoup</artifactId>
                 <version>${jsoup.version}</version>
             </dependency>
+            <!-- Fastjson2 JSON工具 -->
             <dependency>
                 <groupId>com.alibaba.fastjson2</groupId>
                 <artifactId>fastjson2</artifactId>
                 <version>${fastjson.version}</version>
             </dependency>
+            <!-- Hutool工具包 -->
             <dependency>
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
                 <version>${hutool.version}</version>
             </dependency>
+            <!-- Selenium Web自动化测试 -->
             <dependency>
                 <groupId>org.seleniumhq.selenium</groupId>
                 <artifactId>selenium-java</artifactId>
                 <version>${selenium.version}</version>
             </dependency>
 
-
         </dependencies>
     </dependencyManagement>
 
     <build>
         <plugins>
-            <!-- 统一 revision 版本 -->
+            <!-- Maven Flatten插件：统一管理版本号 -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>flatten-maven-plugin</artifactId>

@@ -2,6 +2,7 @@ package com.onework.boot;
 
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.config.OutputFile;
+import com.baomidou.mybatisplus.generator.config.builder.CustomFile;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.onework.boot.framework.mybatis.core.dataobject.BaseDO;
 import com.onework.boot.framework.mybatis.core.mapper.BaseMapperX;
@@ -17,7 +18,7 @@ public class Main {
         String url = "jdbc:mysql://127.0.0.1:33061/onework_platform?allowPublicKeyRetrieval=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false";
         String user = "root";
         String password = "123456";
-        String projectPath = Paths.get(System.getProperty("user.dir")) + "\\onework-task-collection";
+        String projectPath = Paths.get(System.getProperty("user.dir")) + "\\onework-module-scraper\\onework-module-scraper-server";
         System.out.println(projectPath);
 
         FastAutoGenerator.create(url, user, password)
@@ -28,12 +29,12 @@ public class Main {
                         //.enableSpringdoc()
                         .disableOpenDir())
                 .packageConfig(builder -> builder
-                        .parent("com.onework.boot.task.collection") // 设置父包名
+                        .parent("com.onework.boot.module.scraper.server") // 设置父包名
                         //.moduleName("scrape") // 设置父包模块名
-                        .entity("dao.entity") // 设置 Entity 包名
-                        //.service("service") // 设置 Service 包名
-                        //.serviceImpl("service.impl") // 设置 Service Impl 包名
-                        .mapper("dao.mapper") // 设置 Mapper 包名
+                        .entity("dal.dataobject") // 设置 Entity 包名
+                        .service("service") // 设置 Service 包名
+                        .serviceImpl("service.impl") // 设置 Service Impl 包名
+                        .mapper("dal.mysql") // 设置 Mapper 包名
                         .xml("mapper.xml") // 设置 Mapper XML 包名
                         //.controller("controller") //设置 Controller 包名
                         .pathInfo(Collections.singletonMap(OutputFile.xml, projectPath + "\\src\\main\\resources\\mappers"))
@@ -46,6 +47,7 @@ public class Main {
                 ).strategyConfig(builder -> builder
                         .entityBuilder() // 实体策略配置
                         //.idType(IdType.AUTO)
+                        .disable()
                         .enableFileOverride() // 覆盖已生成文件
                         .superClass(BaseDO.class) // 设置父类
                         .addIgnoreColumns("creator", "updater", "deleted", "create_time", "update_time") // 添加忽略字段
@@ -58,6 +60,7 @@ public class Main {
                         .enableTableFieldAnnotation() // 开启生成实体时生成字段注解
                 ).strategyConfig(builder -> builder
                         .mapperBuilder()
+                        .disable()
                         .superClass(BaseMapperX.class) // 设置父类
                         .enableFileOverride()
                         .convertMapperFileName(fileName -> convertFileName(fileName, "Mapper"))
@@ -72,7 +75,7 @@ public class Main {
                 )
                 .strategyConfig(builder -> builder
                         .controllerBuilder()
-                        .disable()
+                        //.disable()
                         .enableFileOverride()
                         .enableHyphenStyle() // 开启驼峰转连字符
                         .convertFileName(fileName -> convertFileName(fileName, "Controller"))
@@ -83,26 +86,26 @@ public class Main {
                             customControllerMapping(tableInfo.getEntityName(), stringObjectMap);
                         })
                 )
-//                .injectionConfig(builder -> {
-//                    CustomFile.Builder queryVoCustomFileBuilder = new CustomFile.Builder();
-//                    CustomFile queryVoCustomFile = queryVoCustomFileBuilder
-//                            .fileName("PageReqVO.java")
-//                            .templatePath("/templates/entityQueryPageVO.java.vm")
-//                            .packageName("controller.vo")
-//                            .enableFileOverride()
-//                            .build();
-//                    builder.customFile(queryVoCustomFile);
-//                })
-//                .injectionConfig(builder -> {
-//                    CustomFile.Builder queryVoCustomFileBuilder = new CustomFile.Builder();
-//                    CustomFile queryVoCustomFile = queryVoCustomFileBuilder
-//                            .fileName("ReqVO.java")
-//                            .templatePath("/templates/entityQueryVO.java.vm")
-//                            .packageName("controller.vo")
-//                            .enableFileOverride()
-//                            .build();
-//                    builder.customFile(queryVoCustomFile);
-//                })
+                .injectionConfig(builder -> {
+                    CustomFile.Builder queryVoCustomFileBuilder = new CustomFile.Builder();
+                    CustomFile queryVoCustomFile = queryVoCustomFileBuilder
+                            .fileName("PageReqVO.java")
+                            .templatePath("/templates/entityQueryPageVO.java.vm")
+                            .packageName("controller.vo")
+                            .enableFileOverride()
+                            .build();
+                    builder.customFile(queryVoCustomFile);
+                })
+                .injectionConfig(builder -> {
+                    CustomFile.Builder queryVoCustomFileBuilder = new CustomFile.Builder();
+                    CustomFile queryVoCustomFile = queryVoCustomFileBuilder
+                            .fileName("ReqVO.java")
+                            .templatePath("/templates/entityQueryVO.java.vm")
+                            .packageName("controller.vo")
+                            .enableFileOverride()
+                            .build();
+                    builder.customFile(queryVoCustomFile);
+                })
                 .templateEngine(new CustomVelocityTemplateEngine())
                 .execute();
     }

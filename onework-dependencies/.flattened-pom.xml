@@ -10,23 +10,23 @@
   <description>基础 bom 文件，管理整个项目的依赖版本</description>
   <url>https://github.com/zhongkai/onework-platform</url>
   <properties>
+    <spring-shell.version>3.3.3</spring-shell.version>
+    <spring.boot.version>3.3.4</spring.boot.version>
     <hutool.version>5.8.25</hutool.version>
-    <springdoc.version>1.7.0</springdoc.version>
-    <druid.version>1.2.23</druid.version>
     <guava.version>33.2.1-jre</guava.version>
+    <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
+    <selenium.version>4.25.0</selenium.version>
+    <springdoc.version>1.7.0</springdoc.version>
+    <fastjson.version>2.0.53</fastjson.version>
+    <mybatis-plus-join.version>1.4.13</mybatis-plus-join.version>
+    <jsoup.version>1.18.1</jsoup.version>
     <mybatis-plus.version>3.5.9</mybatis-plus.version>
     <knife4j.version>4.5.0</knife4j.version>
-    <mybatis-plus-join.version>1.4.13</mybatis-plus-join.version>
-    <spring-shell.version>3.3.3</spring-shell.version>
-    <jsoup.version>1.18.1</jsoup.version>
-    <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
     <revision>1.0.0-SNAPSHOT</revision>
-    <spring.boot.version>3.3.4</spring.boot.version>
-    <skywalking.version>9.3.0</skywalking.version>
+    <druid.version>1.2.23</druid.version>
     <easy-trans.version>3.0.6</easy-trans.version>
+    <skywalking.version>9.3.0</skywalking.version>
     <dynamic-datasource.version>4.3.1</dynamic-datasource.version>
-    <fastjson.version>2.0.53</fastjson.version>
-    <selenium.version>4.25.0</selenium.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -103,6 +103,11 @@
         <groupId>com.github.yulichang</groupId>
         <artifactId>mybatis-plus-join-boot-starter</artifactId>
         <version>${mybatis-plus-join.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.onework.boot</groupId>
+        <artifactId>onework-module-scraper-core</artifactId>
+        <version>${revision}</version>
       </dependency>
       <dependency>
         <groupId>com.onework.boot</groupId>
