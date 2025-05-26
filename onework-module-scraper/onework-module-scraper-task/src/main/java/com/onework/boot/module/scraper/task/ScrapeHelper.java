@@ -424,8 +424,17 @@ public class ScrapeHelper {
     public static LocalDateTime getTryLocalDateTime(String value) {
         try {
             return LocalDateTimeUtil.parse(value);
-        } catch (Exception exception) {
-            return null;
+        } catch (Exception e1) {
+            try {
+                return LocalDateTimeUtil.parse(value, "yyyy-MM-dd");
+            } catch (Exception e2) {
+                // 可选：再尝试带时间的宽松格式
+                try {
+                    return LocalDateTimeUtil.parse(value, "yyyy-MM-dd HH:mm:ss");
+                } catch (Exception e3) {
+                    return null;
+                }
+            }
         }
     }
 

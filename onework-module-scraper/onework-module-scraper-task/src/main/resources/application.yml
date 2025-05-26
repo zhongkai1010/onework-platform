@@ -1,6 +1,6 @@
 spring:
   application:
-    name: onework-task-collection
+    name: onework-scraper
   main:
     allow-circular-references: true # 允许循环依赖，因为项目是三层架构，无法避免这个情况。
   # 数据源配置项
@@ -48,7 +48,7 @@ onework:
     cde-project:
       url: http://www.chinadrugtrials.org.cn/clinicaltrials.searchlist.dhtml
       driver-type: chrome
-      thread-count: 10
+      thread-count: 1
       incognito: false
       open-window: true
       save-path: D:\药物临床试验登记与信息公示平台
@@ -62,7 +62,7 @@ onework:
       save-path: D:\药物临床试验登记与信息公示平台
     cde-project-file-parse:
       save-path: D:\药物临床试验登记与信息公示平台
-      thread-count: 20
+      thread-count: 1
     cde-analysis:
       thread-count: 50
     ctmds-drug:
@@ -94,7 +94,7 @@ onework:
       open-window: true
       thread-count: 5
       url: https://www.chictr.org.cn/searchproj.html
-      max-page: 500
+      max-page: 800
     ctr-project-file:
       driver-type: chrome
       incognito: false

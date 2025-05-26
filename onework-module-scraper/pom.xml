@@ -14,7 +14,6 @@
     <modules>
         <module>onework-module-scraper-task</module>
         <module>onework-module-scraper-core</module>
-        <module>onework-module-scraper-server</module>
     </modules>
     <!-- 基础信息 -->
     <artifactId>onework-module-scraper</artifactId>

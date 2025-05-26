@@ -56,8 +56,8 @@ public class TaskCommandLineRunner implements CommandLineRunner {
 //        taskServerFactory.executeTasks(new TaskServerType[]{TaskServerType.CTMDS_DRUG, TaskServerType.CTMDS_DRUG_FILE, TaskServerType.CTMDS_INSTRUMENT, TaskServerType.CTMDS_INSTRUMENT_FILE});
 //        taskServerFactory.executeTask(TaskServerType.BOHE_COMPANY);
 //        taskServerFactory.executeTasks(new TaskServerType[]{TaskServerType.CTR_PROJECT, TaskServerType.CTR_PROJECT_FILE, TaskServerType.CTR_PROJECT_FILE_PARSE});
-        taskServerFactory.executeTask(TaskServerType.NMP_PHARMACEUTICAL_COMPANY);
- 
+//        taskServerFactory.executeTask(TaskServerType.NMP_PHARMACEUTICAL_COMPANY);
+        taskServerFactory.executeTask(TaskServerType.CTR_PROJECT_FILE_PARSE);
     }
 
     @PreDestroy

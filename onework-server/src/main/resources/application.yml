@@ -1,0 +1,119 @@
+spring:
+  application:
+    name: onework-server # 应用名称
+  main:
+    allow-circular-references: true # 允许循环依赖，因为项目是三层架构，无法避免这个情况
+  devtools:
+    restart:
+      enabled: true # 启用热部署
+      additional-paths: src/main/java # 热部署监控的目录
+  # 数据源配置项
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource # 数据源类型
+    driver-class-name: com.mysql.cj.jdbc.Driver # 数据库驱动
+    username: root # 数据库用户名
+    password: 123456 # 数据库密码
+    url: jdbc:mysql://127.0.0.1:33061/onework_platform?useSSL=false&useUnicode=true&allowPublicKeyRetrieval=true&characterEncoding=UTF-8 # 数据库连接URL
+    # druid 连接池管理
+    druid:
+      initial-size: 5 # 初始化时建立物理连接的个数
+      min-idle: 5 # 连接池的最小空闲数量
+      max-active: 20 # 连接池最大连接数量
+      max-wait: 60000 # 获取连接时最大等待时间，单位毫秒
+      test-while-idle: true # 申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效
+      time-between-eviction-runs-millis: 60000 # 既作为检测的间隔时间又作为testWhileIdel执行的依据
+      min-evictable-idle-time-millis: 30000 # 销毁线程时检测当前连接的最后活动时间和当前时间差大于该值时，关闭当前连接(配置连接在池中的最小生存时间)
+      validation-query: select 'x' # 用来检测数据库连接是否有效的sql 必须是一个查询语句(oracle中为 select 1 from dual)
+      test-on-borrow: false # 申请连接时会执行validationQuery检测连接是否有效,开启会降低性能,默认为true
+      test-on-return: false # 归还连接时会执行validationQuery检测连接是否有效,开启会降低性能,默认为true
+      pool-prepared-statements: false # 是否缓存preparedStatement, 也就是PSCache,PSCache对支持游标的数据库性能提升巨大，比如说oracle,在mysql下建议关闭
+      filters: stat,wall,slf4j # 置监控统计拦截的filters，去掉后监控界面sql无法统计，stat: 监控统计、Slf4j:日志记录、waLL: 防御sqL注入
+      max-pool-prepared-statement-per-connection-size: -1 # 要启用PSCache，必须配置大于0，当大于0时，poolPreparedStatements自动触发修改为true。在Druid中，不会存在Oracle下PSCache占用内存过多的问题，可以把这个数值配置大一些，比如说100
+      use-global-data-source-stat: true # 合并多个DruidDataSource的监控数据
+      connect-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000 # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+
+      web-stat-filter: # Web监控过滤器配置
+        enabled: true # 是否启用StatFilter默认值true
+        url-pattern: /* # 添加过滤规则
+        exclusions: /druid/*,*.js,*.gif,*.jpg,*.png,*.css,*.ico # 忽略过滤的格式
+
+      stat-view-servlet: # 监控页面配置
+        enabled: true # 是否启用StatViewServlet默认值true
+        url-pattern: /druid/* # 访问路径为/druid时，跳转到StatViewServlet
+        reset-enable: false # 是否能够重置数据
+        login-username: druid # 需要账号密码才能访问控制台，默认为root
+        login-password: druid # 需要账号密码才能访问控制台，默认为root
+        allow: 127.0.0.1 # IP白名单
+        deny: # IP黑名单（共同存在时，deny优先于allow）
+
+####################################################################
+
+springdoc: # SpringDoc配置
+  api-docs:
+    enabled: true # 是否启用API文档
+    path: /v3/api-docs # API文档路径
+  swagger-ui:
+    enabled: true # 是否启用Swagger UI
+    path: /swagger-ui # Swagger UI路径
+    tags-sorter: alpha # 标签排序方式
+    operations-sorter: alpha # 操作排序方式
+  default-flat-param-object: true # 是否启用扁平化参数对象，参见 https://doc.xiaominfo.com/docs/faq/v4/knife4j-parameterobject-flat-param 文档
+  group-configs: # 分组配置
+    - group: "default" # 分组名称
+      display-name: "测试" # 显示名称
+      paths-to-match: "/**" # 匹配路径
+      packages-to-scan: ${onework.info.base-package} # 扫描包路径
+
+knife4j: # Knife4j配置
+  enable: true # 是否启用
+  setting:
+    language: zh_cn # 语言
+    enable-swagger-models: true # 是否启用Swagger Models
+    enable-document-manage: true # 是否启用文档管理
+
+####################################################################
+
+mybatis-plus-join: # MyBatis Plus Join配置
+  banner: false # 是否打印 mybatis plus join banner，默认true
+  sub-table-logic: true # 全局启用副表逻辑删除，默认true。关闭后关联查询不会加副表逻辑删除
+  ms-cache: true # 拦截器MappedStatement缓存，默认 true
+  table-alias: t # 表别名(默认 t)
+  logic-del-type: on # 副表逻辑删除条件的位置，支持 WHERE、ON，默认 ON
+
+mybatis-plus: # MyBatis Plus配置
+  configuration:
+    map-underscore-to-camel-case: true # 虽然默认为 true ，但是还是显示去指定下
+  global-config:
+    db-config:
+      id-type: NONE # "智能"模式，基于 IdTypeEnvironmentPostProcessor + 数据源的类型，自动适配成 AUTO、INPUT 模式
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+    banner: false # 关闭控制台的 Banner 打印
+  type-aliases-package: ${onework.info.base-package}.*.*.dal.dataobject # 实体类包路径
+
+####################################################################
+
+onework: # OneWork配置
+  info:
+    base-package: com.onework.boot # 基础包路径
+    version: 1.0.0 # 版本号
+  web:
+    api:
+      controller: ${onework.info.base-package}.**.controller.** # 控制器包路径
+      prefix: /api # API前缀
+  xss:
+    enable: true # 是否启用XSS防护
+  swagger:
+    title: OneWork 开发平台 # 标题
+    description: 提供管理后台、用户 App 的所有功能 # 描述
+    version: ${onework.info.version} # 版本
+    url: https://github.com/zhongkai1010/onework-platform # 项目地址
+    email: zhongkai1010@163.com # 联系邮箱
+    license: MIT # 许可证
+    license-url: https://github.com/zhongkai1010/onework-platform/LICENSE # 许可证地址
+  security:
+    token-header: Authorization # Token请求头
+    token-parameter: token # Token参数名
+    mock-enable: false # 是否启用Mock
+    mock-secret: text # Mock密钥
+  debug: false # 是否启用调试模式

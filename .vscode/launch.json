@@ -2,6 +2,20 @@
   "configurations": [
     {
       "type": "java",
+      "name": "OneworkScraperTaskApplication",
+      "request": "launch",
+      "mainClass": "com.onework.boot.module.scraper.task.OneworkScraperTaskApplication",
+      "projectName": "onework-module-scraper-task"
+    },
+    {
+      "type": "java",
+      "name": "ScraperServerApplication",
+      "request": "launch",
+      "mainClass": "com.onework.boot.module.scraper.ScraperServerApplication",
+      "projectName": "onework-module-scraper-server"
+    },
+    {
+      "type": "java",
       "name": "OneworkModuleCollectionApplication",
       "request": "launch",
       "mainClass": "com.onework.boot.scrape.OneworkModuleCollectionApplication",

@@ -57,11 +57,10 @@ public class CDEProjectFileTaskServer extends TaskServer {
                 input.sendKeys(record.getRegistrationNumber());
                 // 点击搜索
                 ScrapeHelper.clickElement(webDriver, "button[onclick='searchList()']");
+                // 等待搜索结果
                 String selector = "html > body > main > div:nth-of-type(2) > div > div > div > div > div:nth-of-type(5) > table > tbody > tr:nth-of-type(2) > td:nth-of-type(2) > a";
-                if (!ScrapeHelper.existElement(webDriver, selector)) {
-                    log.info("[{}],第{}项,搜索登记号:{},不存在", desc, start + i, record.getRegistrationNumber());
-                    continue;
-                }
+                ScrapeHelper.waitVisible(webDriver, selector);
+
                 // 点击链接跳转详情
                 ScrapeHelper.clickElement(webDriver, selector);
                 // 切换详情页面
@@ -74,9 +73,9 @@ public class CDEProjectFileTaskServer extends TaskServer {
                 // 保存记录
                 try {
                     cdeProjectRecordStore.markDownload(record.getRegistrationNumber(), filePathName);
-                    log.info("[{}],第{}项,登记号:{},保存成功", desc, start + i, registrationNo);
+                    log.info("[{}][{}-{}],第{}项,登记号:{},保存成功", desc, start, end, start + i, registrationNo);
                 } catch (Exception exception) {
-                    log.warn("[{}],第{}项,登记号:{},记录异常,错误消息:{}", desc, start + i, registrationNo, exception.getMessage());
+                    log.warn("[{}][{}-{}],第{}项,登记号:{},记录异常,错误消息:{}", desc, start, end, start + i, registrationNo, exception.getMessage());
                 }
                 // 切换回列表标签，关闭其他标签
                 ScrapeHelper.switchFirstTab(webDriver, true);

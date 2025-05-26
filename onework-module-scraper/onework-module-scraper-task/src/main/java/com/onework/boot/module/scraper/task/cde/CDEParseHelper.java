@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSON;
 import com.onework.boot.module.scraper.core.dal.dataobject.CDEProject;
 import com.onework.boot.module.scraper.task.ScrapeHelper;
 import com.onework.boot.module.scraper.task.cde.dtos.*;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -771,7 +770,8 @@ public class CDEParseHelper {
         CDEProject project = new CDEProject();
         // 基本信息
         // 首次公示信息日期
-        project.setFirstPublicInfoDate(ScrapeHelper.getTryLocalDateTime(CDEParseHelper.getDateOfFirstPublicDisclosure(doc)));
+        String dateOfFirstPublicDisclosureStr = CDEParseHelper.getDateOfFirstPublicDisclosure(doc);
+        project.setFirstPublicInfoDate(ScrapeHelper.getTryLocalDateTime(dateOfFirstPublicDisclosureStr));
         //（一）题目和背景信息
         // 1．登记号（不可更新项、公示项）
         project.setRegistrationNumber(CDEParseHelper.getRegistrationNumber(doc));
