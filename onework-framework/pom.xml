@@ -29,4 +29,16 @@
         2. 业务组件：和业务相关的组件的封装，例如说数据字典、操作日志等等。
         如果是业务组件，Maven 名字会包含 biz
     </description>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.onework.boot</groupId>
+                <artifactId>onework-dependencies</artifactId>
+                <version>${revision}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>

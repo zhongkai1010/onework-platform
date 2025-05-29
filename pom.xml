@@ -11,8 +11,6 @@
         <module>onework-dependencies</module>
         <module>onework-framework</module>
         <module>onework-tools-generator</module>
-        <module>onework-module-system</module>
-        <module>onework-module-scraper</module>
         <module>onework-server</module>
     </modules>
 
