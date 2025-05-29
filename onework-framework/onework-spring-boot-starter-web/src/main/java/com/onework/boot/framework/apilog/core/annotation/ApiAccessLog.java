@@ -1,7 +1,6 @@
 package com.onework.boot.framework.apilog.core.annotation;
 
 import com.onework.boot.framework.apilog.core.enums.OperateTypeEnum;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -14,7 +13,6 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ApiAccessLog {
-
 
     /**
      * 是否记录访问日志
@@ -62,5 +60,4 @@ public @interface ApiAccessLog {
      * 实际并不是数组，因为枚举不能设置 null 作为默认值
      */
     OperateTypeEnum[] operateType() default {};
-
 }

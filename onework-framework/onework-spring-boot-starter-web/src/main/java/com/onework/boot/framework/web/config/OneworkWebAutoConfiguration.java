@@ -1,16 +1,26 @@
 package com.onework.boot.framework.web.config;
 
+import com.onework.boot.framework.common.api.logger.ApiErrorLogCommonApi;
 import com.onework.boot.framework.common.enums.WebFilterOrderEnum;
 import com.onework.boot.framework.web.core.filter.CacheRequestBodyFilter;
+import com.onework.boot.framework.web.core.filter.DemoFilter;
+import com.onework.boot.framework.web.core.handler.GlobalExceptionHandler;
+import com.onework.boot.framework.web.core.handler.GlobalResponseBodyHandler;
 import com.onework.boot.framework.web.core.util.WebFrameworkUtils;
 import jakarta.annotation.Resource;
 import jakarta.servlet.Filter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.web.client.RestTemplateAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -24,10 +34,16 @@ public class OneworkWebAutoConfiguration implements WebMvcConfigurer {
 
     @Resource
     private WebProperties webProperties;
+    /**
+     * 应用名
+     */
+    @Value("${spring.application.name}")
+    private String applicationName;
 
     @Override
     public void configurePathMatch(PathMatchConfigurer configurer) {
-        configurePathMatch(configurer, webProperties.getApi());
+        configurePathMatch(configurer, webProperties.getAdminApi());
+        configurePathMatch(configurer, webProperties.getAppApi());
     }
 
     /**
@@ -41,6 +57,26 @@ public class OneworkWebAutoConfiguration implements WebMvcConfigurer {
         configurer.addPathPrefix(api.getPrefix(), clazz -> clazz.isAnnotationPresent(RestController.class)
                 && antPathMatcher.match(api.getController(), clazz.getPackage().getName())); // 仅仅匹配 controller 包
     }
+
+    @Bean
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+    public GlobalExceptionHandler globalExceptionHandler(ApiErrorLogCommonApi apiErrorLogApi) {
+        return new GlobalExceptionHandler(applicationName, apiErrorLogApi);
+    }
+
+    @Bean
+    public GlobalResponseBodyHandler globalResponseBodyHandler() {
+        return new GlobalResponseBodyHandler();
+    }
+
+    @Bean
+    @SuppressWarnings("InstantiationOfUtilityClass")
+    public WebFrameworkUtils webFrameworkUtils(WebProperties webProperties) {
+        // 由于 WebFrameworkUtils 需要使用到 webProperties 属性，所以注册为一个 Bean
+        return new WebFrameworkUtils(webProperties);
+    }
+
+    // ========== Filter 相关 ==========
 
     /**
      * 创建 CorsFilter Bean，解决跨域问题
@@ -67,15 +103,29 @@ public class OneworkWebAutoConfiguration implements WebMvcConfigurer {
         return createFilterBean(new CacheRequestBodyFilter(), WebFilterOrderEnum.REQUEST_BODY_CACHE_FILTER);
     }
 
+    /**
+     * 创建 DemoFilter Bean，演示模式
+     */
     @Bean
-    @SuppressWarnings("InstantiationOfUtilityClass")
-    public WebFrameworkUtils webFrameworkUtils() {
-        return new WebFrameworkUtils();
+    @ConditionalOnProperty(value = "onework.demo", havingValue = "true")
+    public FilterRegistrationBean<DemoFilter> demoFilter() {
+        return createFilterBean(new DemoFilter(), WebFilterOrderEnum.DEMO_FILTER);
     }
 
     public static <T extends Filter> FilterRegistrationBean<T> createFilterBean(T filter, Integer order) {
         FilterRegistrationBean<T> bean = new FilterRegistrationBean<>(filter);
         bean.setOrder(order);
         return bean;
+    }
+
+    /**
+     * 创建 RestTemplate 实例
+     *
+     * @param restTemplateBuilder {@link RestTemplateAutoConfiguration#restTemplateBuilder}
+     */
+    @Bean
+    @ConditionalOnMissingBean
+    public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder) {
+        return restTemplateBuilder.build();
     }
 }

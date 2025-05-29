@@ -2,7 +2,9 @@ package com.onework.boot.framework.web.core.util;
 
 import cn.hutool.core.util.NumberUtil;
 import com.onework.boot.framework.common.enums.TerminalEnum;
+import com.onework.boot.framework.common.enums.UserTypeEnum;
 import com.onework.boot.framework.common.pojo.CommonResult;
+import com.onework.boot.framework.web.config.WebProperties;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.context.request.RequestAttributes;
@@ -17,8 +19,11 @@ public class WebFrameworkUtils {
 
     private static final String REQUEST_ATTRIBUTE_LOGIN_USER_ID = "login_user_id";
     private static final String REQUEST_ATTRIBUTE_LOGIN_USER_TYPE = "login_user_type";
+
     private static final String REQUEST_ATTRIBUTE_COMMON_RESULT = "common_result";
+
     public static final String HEADER_TENANT_ID = "tenant-id";
+    public static final String HEADER_VISIT_TENANT_ID = "visit-tenant-id";
 
     /**
      * 终端的 Header
@@ -27,6 +32,11 @@ public class WebFrameworkUtils {
      */
     public static final String HEADER_TERMINAL = "terminal";
 
+    private static WebProperties properties;
+
+    public WebFrameworkUtils(WebProperties webProperties) {
+        WebFrameworkUtils.properties = webProperties;
+    }
 
     /**
      * 获得租户编号，从 header 中
@@ -38,6 +48,18 @@ public class WebFrameworkUtils {
     public static Long getTenantId(HttpServletRequest request) {
         String tenantId = request.getHeader(HEADER_TENANT_ID);
         return NumberUtil.isNumber(tenantId) ? Long.valueOf(tenantId) : null;
+    }
+
+    /**
+     * 获得访问的租户编号，从 header 中
+     * 考虑到其它 framework 组件也会使用到租户编号，所以不得不放在 WebFrameworkUtils 统一提供
+     *
+     * @param request 请求
+     * @return 租户编号
+     */
+    public static Long getVisitTenantId(HttpServletRequest request) {
+        String tenantId = request.getHeader(HEADER_VISIT_TENANT_ID);
+        return NumberUtil.isNumber(tenantId)? Long.valueOf(tenantId) : null;
     }
 
     public static void setLoginUserId(ServletRequest request, Long userId) {
@@ -79,7 +101,19 @@ public class WebFrameworkUtils {
         if (request == null) {
             return null;
         }
-        return (Integer) request.getAttribute(REQUEST_ATTRIBUTE_LOGIN_USER_TYPE);
+        // 1. 优先，从 Attribute 中获取
+        Integer userType = (Integer) request.getAttribute(REQUEST_ATTRIBUTE_LOGIN_USER_TYPE);
+        if (userType != null) {
+            return userType;
+        }
+        // 2. 其次，基于 URL 前缀的约定
+        if (request.getServletPath().startsWith(properties.getAdminApi().getPrefix())) {
+            return UserTypeEnum.ADMIN.getValue();
+        }
+        if (request.getServletPath().startsWith(properties.getAppApi().getPrefix())) {
+            return UserTypeEnum.MEMBER.getValue();
+        }
+        return null;
     }
 
     public static Integer getLoginUserType() {

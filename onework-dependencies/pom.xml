@@ -30,6 +30,8 @@
         <hutool.version>5.8.25</hutool.version>
         <selenium.version>4.25.0</selenium.version>
         <jsoup.version>1.18.1</jsoup.version>
+        <bizlog-sdk.version>3.0.6</bizlog-sdk.version>
+        <transmittable-thread-local.version>2.14.5</transmittable-thread-local.version>
         <!-- Web 相关版本 -->
         <springdoc.version>1.7.0</springdoc.version>
         <knife4j.version>4.5.0</knife4j.version>
@@ -63,7 +65,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
             <!-- Web 相关依赖 -->
             <!-- Knife4j API文档工具 -->
             <dependency>
@@ -136,11 +137,26 @@
 
             <!-- 业务组件 -->
             <dependency>
+                <groupId>io.github.mouzt</groupId>
+                <artifactId>bizlog-sdk</artifactId>
+                <version>${bizlog-sdk.version}</version>
+                <exclusions>
+                    <exclusion> <!-- 排除掉springboot依赖使用项目的 -->
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
                 <groupId>com.onework.boot</groupId>
                 <artifactId>onework-module-scraper-core</artifactId>
                 <version>${revision}</version>
             </dependency>
-
+            <dependency>
+                <groupId>com.onework.boot</groupId>
+                <artifactId>onework-module-system-core</artifactId>
+                <version>${revision}</version>
+            </dependency>
             <!-- 数据模块 -->
             <dependency>
                 <groupId>com.onework.boot</groupId>
@@ -190,6 +206,11 @@
                         <artifactId>spring-cloud-commons</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>transmittable-thread-local</artifactId> <!-- 解决 ThreadLocal 父子线程的传值问题 -->
+                <version>${transmittable-thread-local.version}</version>
             </dependency>
             <!-- Google Guava工具包 -->
             <dependency>

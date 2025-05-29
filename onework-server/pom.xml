@@ -14,12 +14,6 @@
     <name>${project.artifactId}</name>
     <description>OneWork Server Application</description>
 
-    <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
     <dependencies>
         <!-- 项目内部依赖 -->
         <dependency>
@@ -76,7 +70,11 @@
             <groupId>com.onework.boot</groupId>
             <artifactId>onework-module-scraper-core</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>com.onework.boot</groupId>
+            <artifactId>onework-module-system-core</artifactId>
+            <version>${revision}</version>
+        </dependency>
     </dependencies>
 
     <build>

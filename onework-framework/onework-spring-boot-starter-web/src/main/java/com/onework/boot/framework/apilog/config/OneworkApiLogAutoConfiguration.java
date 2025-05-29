@@ -3,6 +3,7 @@ package com.onework.boot.framework.apilog.config;
 import com.onework.boot.framework.apilog.core.api.ApiAccessLogStore;
 import com.onework.boot.framework.apilog.core.filter.ApiAccessLogFilter;
 import com.onework.boot.framework.apilog.core.interceptor.ApiAccessLogInterceptor;
+import com.onework.boot.framework.common.api.logger.ApiAccessLogCommonApi;
 import com.onework.boot.framework.common.enums.WebFilterOrderEnum;
 import com.onework.boot.framework.web.config.OneworkWebAutoConfiguration;
 import com.onework.boot.framework.web.config.WebProperties;
@@ -18,21 +19,17 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @AutoConfiguration(after = OneworkWebAutoConfiguration.class)
-@EnableConfigurationProperties(WebProperties.class)
 public class OneworkApiLogAutoConfiguration implements WebMvcConfigurer {
-
-    @Resource
-    private WebProperties webProperties;
 
     /**
      * 创建 ApiAccessLogFilter Bean，记录 API 请求日志
      */
     @Bean
-    @ConditionalOnProperty(prefix = "onework.access-log", value = "enable", matchIfMissing = true)
-    // 允许使用 onework.access-log.enable=false 禁用访问日志
-    public FilterRegistrationBean<ApiAccessLogFilter> apiAccessLogFilter(@Value("${spring.application.name}") String applicationName, ApiAccessLogStore apiAccessLogStore) {
-
-        ApiAccessLogFilter filter = new ApiAccessLogFilter(webProperties, apiAccessLogStore, applicationName);
+    @ConditionalOnProperty(prefix = "onework.access-log", value = "enable", matchIfMissing = true) // 允许使用 onework.access-log.enable=false 禁用访问日志
+    public FilterRegistrationBean<ApiAccessLogFilter> apiAccessLogFilter(WebProperties webProperties,
+                                                                         @Value("${spring.application.name}") String applicationName,
+                                                                         ApiAccessLogCommonApi apiAccessLogApi) {
+        ApiAccessLogFilter filter = new ApiAccessLogFilter(webProperties, applicationName, apiAccessLogApi);
         return createFilterBean(filter, WebFilterOrderEnum.API_ACCESS_LOG_FILTER);
     }
 

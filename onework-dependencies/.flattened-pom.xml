@@ -15,6 +15,7 @@
     <hutool.version>5.8.25</hutool.version>
     <guava.version>33.2.1-jre</guava.version>
     <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
+    <bizlog-sdk.version>3.0.6</bizlog-sdk.version>
     <selenium.version>4.25.0</selenium.version>
     <springdoc.version>1.7.0</springdoc.version>
     <fastjson.version>2.0.53</fastjson.version>
@@ -27,6 +28,7 @@
     <easy-trans.version>3.0.6</easy-trans.version>
     <skywalking.version>9.3.0</skywalking.version>
     <dynamic-datasource.version>4.3.1</dynamic-datasource.version>
+    <transmittable-thread-local.version>2.14.5</transmittable-thread-local.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -105,8 +107,24 @@
         <version>${mybatis-plus-join.version}</version>
       </dependency>
       <dependency>
+        <groupId>io.github.mouzt</groupId>
+        <artifactId>bizlog-sdk</artifactId>
+        <version>${bizlog-sdk.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
         <groupId>com.onework.boot</groupId>
         <artifactId>onework-module-scraper-core</artifactId>
+        <version>${revision}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.onework.boot</groupId>
+        <artifactId>onework-module-system-core</artifactId>
         <version>${revision}</version>
       </dependency>
       <dependency>
@@ -148,6 +166,11 @@
             <artifactId>spring-cloud-commons</artifactId>
           </exclusion>
         </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>com.alibaba</groupId>
+        <artifactId>transmittable-thread-local</artifactId>
+        <version>${transmittable-thread-local.version}</version>
       </dependency>
       <dependency>
         <groupId>com.google.guava</groupId>

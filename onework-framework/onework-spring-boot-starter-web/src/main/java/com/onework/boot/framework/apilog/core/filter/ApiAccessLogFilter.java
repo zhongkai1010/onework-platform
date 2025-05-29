@@ -12,12 +12,15 @@ import com.onework.boot.framework.apilog.core.annotation.ApiAccessLog;
 import com.onework.boot.framework.apilog.core.api.ApiAccessLogStore;
 import com.onework.boot.framework.apilog.core.dto.ApiAccessLogDTO;
 import com.onework.boot.framework.apilog.core.enums.OperateTypeEnum;
+import com.onework.boot.framework.common.api.logger.ApiAccessLogCommonApi;
+import com.onework.boot.framework.common.api.logger.dto.ApiAccessLogCreateReqDTO;
 import com.onework.boot.framework.common.exception.enums.GlobalErrorCodeConstants;
 import com.onework.boot.framework.common.pojo.CommonResult;
 import com.onework.boot.framework.common.util.json.JsonUtils;
 import com.onework.boot.framework.common.util.monitor.TracerUtils;
 import com.onework.boot.framework.common.util.servlet.ServletUtils;
 import com.onework.boot.framework.web.config.WebProperties;
+import com.onework.boot.framework.web.core.filter.ApiRequestFilter;
 import com.onework.boot.framework.web.core.util.WebFrameworkUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -40,24 +43,24 @@ import static com.onework.boot.framework.apilog.core.interceptor.ApiAccessLogInt
 import static com.onework.boot.framework.common.util.json.JsonUtils.toJsonString;
 
 @Slf4j
-public class ApiAccessLogFilter extends OncePerRequestFilter {
+public class ApiAccessLogFilter extends ApiRequestFilter {
 
     private static final String[] SANITIZE_KEYS = new String[]{"password", "token", "accessToken", "refreshToken"};
 
-    private final ApiAccessLogStore apiAccessLogStore;
-
-    private final WebProperties webProperties;
-
     private final String applicationName;
 
-    public ApiAccessLogFilter(WebProperties webProperties, ApiAccessLogStore apiAccessLogStore, String applicationName) {
-        this.webProperties = webProperties;
-        this.apiAccessLogStore = apiAccessLogStore;
+    private final ApiAccessLogCommonApi apiAccessLogApi;
+
+    public ApiAccessLogFilter(WebProperties webProperties, String applicationName, ApiAccessLogCommonApi apiAccessLogApi) {
+        super(webProperties);
         this.applicationName = applicationName;
+        this.apiAccessLogApi = apiAccessLogApi;
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    @SuppressWarnings("NullableProblems")
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
         // 获得开始时间
         LocalDateTime beginTime = LocalDateTime.now();
         // 提前获得参数，避免 XssFilter 过滤处理
@@ -78,20 +81,20 @@ public class ApiAccessLogFilter extends OncePerRequestFilter {
 
     private void createApiAccessLog(HttpServletRequest request, LocalDateTime beginTime,
                                     Map<String, String> queryString, String requestBody, Exception ex) {
-        ApiAccessLogDTO accessLog = new ApiAccessLogDTO();
+        ApiAccessLogCreateReqDTO accessLog = new ApiAccessLogCreateReqDTO();
         try {
             boolean enable = buildApiAccessLog(accessLog, request, beginTime, queryString, requestBody, ex);
             if (!enable) {
                 return;
             }
-            apiAccessLogStore.createApiAccessLogAsync(accessLog);
+            apiAccessLogApi.createApiAccessLogAsync(accessLog);
         } catch (Throwable th) {
             log.error("[createApiAccessLog][url({}) log({}) 发生异常]", request.getRequestURI(), toJsonString(accessLog), th);
         }
     }
 
-    private boolean buildApiAccessLog(ApiAccessLogDTO accessLog, HttpServletRequest request, LocalDateTime beginTime, Map<String, String> queryString, String requestBody, Exception ex) {
-
+    private boolean buildApiAccessLog(ApiAccessLogCreateReqDTO accessLog, HttpServletRequest request, LocalDateTime beginTime,
+                                      Map<String, String> queryString, String requestBody, Exception ex) {
         // 判断：是否要记录操作日志
         HandlerMethod handlerMethod = (HandlerMethod) request.getAttribute(ATTRIBUTE_HANDLER_METHOD);
         ApiAccessLog accessLogAnnotation = null;
@@ -101,29 +104,24 @@ public class ApiAccessLogFilter extends OncePerRequestFilter {
                 return false;
             }
         }
+
         // 处理用户信息
-        accessLog.setUserId(WebFrameworkUtils.getLoginUserId(request));
+        accessLog.setUserId(WebFrameworkUtils.getLoginUserId(request))
+                .setUserType(WebFrameworkUtils.getLoginUserType(request));
         // 设置访问结果
         CommonResult<?> result = WebFrameworkUtils.getCommonResult(request);
         if (result != null) {
-            accessLog.setResultCode(result.getCode());
-            accessLog.setResultMsg(result.getMsg());
+            accessLog.setResultCode(result.getCode()).setResultMsg(result.getMsg());
         } else if (ex != null) {
-            accessLog.setResultCode(GlobalErrorCodeConstants.INTERNAL_SERVER_ERROR.getCode());
-            accessLog.setResultMsg(ExceptionUtil.getRootCauseMessage(ex));
+            accessLog.setResultCode(GlobalErrorCodeConstants.INTERNAL_SERVER_ERROR.getCode())
+                    .setResultMsg(ExceptionUtil.getRootCauseMessage(ex));
         } else {
-            accessLog.setResultCode(GlobalErrorCodeConstants.SUCCESS.getCode());
-            accessLog.setResultMsg("");
+            accessLog.setResultCode(GlobalErrorCodeConstants.SUCCESS.getCode()).setResultMsg("");
         }
-
         // 设置请求字段
-        accessLog.setTraceId(TracerUtils.getTraceId());
-        accessLog.setApplicationName(applicationName);
-        accessLog.setRequestUrl(request.getRequestURI());
-        accessLog.setRequestMethod(request.getMethod());
-        accessLog.setUserAgent(ServletUtils.getUserAgent(request));
-        accessLog.setUserIp(ServletUtils.getClientIP(request));
-
+        accessLog.setTraceId(TracerUtils.getTraceId()).setApplicationName(applicationName)
+                .setRequestUrl(request.getRequestURI()).setRequestMethod(request.getMethod())
+                .setUserAgent(ServletUtils.getUserAgent(request)).setUserIp(ServletUtils.getClientIP(request));
         String[] sanitizeKeys = accessLogAnnotation != null ? accessLogAnnotation.sanitizeKeys() : null;
         Boolean requestEnable = accessLogAnnotation != null ? accessLogAnnotation.requestEnable() : Boolean.TRUE;
         if (!BooleanUtil.isFalse(requestEnable)) { // 默认记录，所以判断 !false
@@ -136,26 +134,23 @@ public class ApiAccessLogFilter extends OncePerRequestFilter {
         if (BooleanUtil.isTrue(responseEnable)) { // 默认不记录，默认强制要求 true
             accessLog.setResponseBody(sanitizeJson(result, sanitizeKeys));
         }
-
         // 持续时间
-        accessLog.setBeginTime(beginTime);
-        accessLog.setEndTime(LocalDateTime.now());
-        accessLog.setDuration((int) LocalDateTimeUtil.between(accessLog.getBeginTime(), accessLog.getEndTime(), ChronoUnit.MILLIS));
+        accessLog.setBeginTime(beginTime).setEndTime(LocalDateTime.now())
+                .setDuration((int) LocalDateTimeUtil.between(accessLog.getBeginTime(), accessLog.getEndTime(), ChronoUnit.MILLIS));
 
         // 操作模块
         if (handlerMethod != null) {
             Tag tagAnnotation = handlerMethod.getBeanType().getAnnotation(Tag.class);
             Operation operationAnnotation = handlerMethod.getMethodAnnotation(Operation.class);
-            String operateModule = accessLogAnnotation != null ?
-                    accessLogAnnotation.operateModule() : tagAnnotation != null ?
-                    StrUtil.nullToDefault(tagAnnotation.name(), tagAnnotation.description()) : null;
-            String operateName = accessLogAnnotation != null ? accessLogAnnotation.operateName() :
+            String operateModule = accessLogAnnotation != null && StrUtil.isNotBlank(accessLogAnnotation.operateModule()) ?
+                    accessLogAnnotation.operateModule() :
+                    tagAnnotation != null ? StrUtil.nullToDefault(tagAnnotation.name(), tagAnnotation.description()) : null;
+            String operateName = accessLogAnnotation != null && StrUtil.isNotBlank(accessLogAnnotation.operateName()) ?
+                    accessLogAnnotation.operateName() :
                     operationAnnotation != null ? operationAnnotation.summary() : null;
             OperateTypeEnum operateType = accessLogAnnotation != null && accessLogAnnotation.operateType().length > 0 ?
                     accessLogAnnotation.operateType()[0] : parseOperateLogType(request);
-            accessLog.setOperateModule(operateModule);
-            accessLog.setOperateName(operateName);
-            accessLog.setOperateType(operateType.getType());
+            accessLog.setOperateModule(operateModule).setOperateName(operateName).setOperateType(operateType.getType());
         }
         return true;
     }
@@ -163,18 +158,22 @@ public class ApiAccessLogFilter extends OncePerRequestFilter {
     // ========== 解析 @ApiAccessLog、@Swagger 注解  ==========
 
     private static OperateTypeEnum parseOperateLogType(HttpServletRequest request) {
-        RequestMethod requestMethod = ArrayUtil.firstMatch(method ->
-                StrUtil.equalsAnyIgnoreCase(method.name(), request.getMethod()), RequestMethod.values());
+        RequestMethod requestMethod = RequestMethod.resolve(request.getMethod());
         if (requestMethod == null) {
             return OperateTypeEnum.OTHER;
         }
-        return switch (requestMethod) {
-            case GET -> OperateTypeEnum.GET;
-            case POST -> OperateTypeEnum.CREATE;
-            case PUT -> OperateTypeEnum.UPDATE;
-            case DELETE -> OperateTypeEnum.DELETE;
-            default -> OperateTypeEnum.OTHER;
-        };
+        switch (requestMethod) {
+            case GET:
+                return OperateTypeEnum.GET;
+            case POST:
+                return OperateTypeEnum.CREATE;
+            case PUT:
+                return OperateTypeEnum.UPDATE;
+            case DELETE:
+                return OperateTypeEnum.DELETE;
+            default:
+                return OperateTypeEnum.OTHER;
+        }
     }
 
     // ========== 请求和响应的脱敏逻辑，移除类似 password、token 等敏感字段 ==========
@@ -234,7 +233,7 @@ public class ApiAccessLogFilter extends OncePerRequestFilter {
             return;
         }
         //  情况三：Object，遍历处理
-        Iterator<Map.Entry<String, JsonNode>> iterator = node.fields();
+        Iterator<Map.Entry<String, JsonNode>> iterator = node.properties().iterator();
         while (iterator.hasNext()) {
             Map.Entry<String, JsonNode> entry = iterator.next();
             if (ArrayUtil.contains(sanitizeKeys, entry.getKey())
@@ -244,12 +243,5 @@ public class ApiAccessLogFilter extends OncePerRequestFilter {
             }
             sanitizeJson(entry.getValue(), sanitizeKeys);
         }
-    }
-
-    @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) {
-        // 只过滤 API 请求的地址
-        return !StrUtil.startWithAny(request.getRequestURI(), webProperties.getApi().getPrefix());
-
     }
 }

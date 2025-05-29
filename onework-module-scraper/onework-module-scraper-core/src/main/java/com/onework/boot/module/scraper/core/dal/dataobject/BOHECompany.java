@@ -1,4 +1,4 @@
-package com.onework.boot.module.scraper.core.dal.dataobject;
+﻿package com.onework.boot.module.scraper.core.dal.dataobject;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;

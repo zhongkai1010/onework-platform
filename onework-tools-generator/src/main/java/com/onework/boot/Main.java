@@ -3,6 +3,7 @@ package com.onework.boot;
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.config.OutputFile;
 import com.baomidou.mybatisplus.generator.config.builder.CustomFile;
+import com.baomidou.mybatisplus.generator.config.po.LikeTable;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.onework.boot.framework.mybatis.core.dataobject.BaseDO;
 import com.onework.boot.framework.mybatis.core.mapper.BaseMapperX;
@@ -18,7 +19,7 @@ public class Main {
         String url = "jdbc:mysql://127.0.0.1:33061/onework_platform?allowPublicKeyRetrieval=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false";
         String user = "root";
         String password = "123456";
-        String projectPath = Paths.get(System.getProperty("user.dir")) + "\\onework-module-scraper\\onework-module-scraper-server";
+        String projectPath = Paths.get(System.getProperty("user.dir")) + "\\onework-module-system\\onework-module-system-core";
         System.out.println(projectPath);
 
         FastAutoGenerator.create(url, user, password)
@@ -29,7 +30,7 @@ public class Main {
                         //.enableSpringdoc()
                         .disableOpenDir())
                 .packageConfig(builder -> builder
-                        .parent("com.onework.boot.module.scraper.server") // 设置父包名
+                        .parent("com.onework.boot.module.system.core") // 设置父包名
                         //.moduleName("scrape") // 设置父包模块名
                         .entity("dal.dataobject") // 设置 Entity 包名
                         .service("service") // 设置 Service 包名
@@ -43,49 +44,50 @@ public class Main {
                 // 模板配置 (TemplateConfig) 自 MyBatis-Plus 3.5.6 版本开始，模板配置已迁移至 StrategyConfig 中。以下是迁移后的配置方式。
                 .strategyConfig(builder -> builder
                         // .enableCapitalMode() // 开启大写命名
-                        .addTablePrefix("ow_") // 增加过滤表前缀
+                        .addTablePrefix("sys_") // 增加过滤表前缀
+                        .likeTable(new LikeTable("sys_")) // 模糊匹配表名
                 ).strategyConfig(builder -> builder
                         .entityBuilder() // 实体策略配置
                         //.idType(IdType.AUTO)
-                        .disable()
+                        //.disable()
                         .enableFileOverride() // 覆盖已生成文件
                         .superClass(BaseDO.class) // 设置父类
                         .addIgnoreColumns("creator", "updater", "deleted", "create_time", "update_time") // 添加忽略字段
                         .javaTemplate("/templates/entity.java") // 设置实体类模板
                         .enableFileOverride() // 覆盖已生成文件
                         .naming(NamingStrategy.underline_to_camel) // 数据库表映射到实体的命名策略
-                        .convertFileName(fileName -> convertFileName(fileName, ""))
+//                        .convertFileName(fileName -> convertFileName(fileName, ""))
                         .disableSerialVersionUID() // 禁用生成 serialVersionUID
                         .enableLombok() // 开启 Lombok 模型
                         .enableTableFieldAnnotation() // 开启生成实体时生成字段注解
                 ).strategyConfig(builder -> builder
                         .mapperBuilder()
-                        .disable()
+                        //.disable()
                         .superClass(BaseMapperX.class) // 设置父类
                         .enableFileOverride()
-                        .convertMapperFileName(fileName -> convertFileName(fileName, "Mapper"))
-                        .convertXmlFileName(fileName -> convertFileName(fileName, "Mapper"))
+//                        .convertMapperFileName(fileName -> convertFileName(fileName, "Mapper"))
+//                        .convertXmlFileName(fileName -> convertFileName(fileName, "Mapper"))
                 )
                 .strategyConfig(builder -> builder
                         .serviceBuilder()
-                        .disable()
+                        //.disable()
                         .enableFileOverride()
-                        .convertServiceFileName(fileName -> convertFileName(fileName, "Service"))
-                        .convertServiceImplFileName(fileName -> convertFileName(fileName, "ServiceImpl"))
+//                        .convertServiceFileName(fileName -> convertFileName(fileName, "Service"))
+//                        .convertServiceImplFileName(fileName -> convertFileName(fileName, "ServiceImpl"))
                 )
                 .strategyConfig(builder -> builder
                         .controllerBuilder()
                         //.disable()
                         .enableFileOverride()
                         .enableHyphenStyle() // 开启驼峰转连字符
-                        .convertFileName(fileName -> convertFileName(fileName, "Controller"))
+//                        .convertFileName(fileName -> convertFileName(fileName, "Controller"))
                         .enableRestStyle() // 开启生成@RestController 控制器
                 )
-                .injectionConfig(builder ->
-                        builder.beforeOutputFile((tableInfo, stringObjectMap) -> {
-                            customControllerMapping(tableInfo.getEntityName(), stringObjectMap);
-                        })
-                )
+//                .injectionConfig(builder ->
+//                        builder.beforeOutputFile((tableInfo, stringObjectMap) -> {
+//                            customControllerMapping(tableInfo.getEntityName(), stringObjectMap);
+//                        })
+//                )
                 .injectionConfig(builder -> {
                     CustomFile.Builder queryVoCustomFileBuilder = new CustomFile.Builder();
                     CustomFile queryVoCustomFile = queryVoCustomFileBuilder
