@@ -1,0 +1,68 @@
+2025-05-29 15:18:50.683 | [34m INFO 19240[0;39m | [1;33mmain [TID: N/A][0;39m [1;32mc.o.b.server.OneWorkServerApplication   [0;39m | Starting OneWorkServerApplication using Java 17.0.12 with PID 19240 (D:\projects\onework-platform\onework-server\target\classes started by zhong in D:\projects\onework-platform)
+2025-05-29 15:18:50.684 | [34m INFO 19240[0;39m | [1;33mmain [TID: N/A][0;39m [1;32mc.o.b.server.OneWorkServerApplication   [0;39m | No active profile set, falling back to 1 default profile: "default"
+2025-05-29 15:18:52.101 | [31m WARN 19240[0;39m | [1;33mmain [TID: N/A][0;39m [1;32mtrationDelegate$BeanPostProcessorChecker[0;39m | Bean 'com.mzt.logapi.starter.configuration.LogRecordProxyAutoConfiguration' of type [com.mzt.logapi.starter.configuration.LogRecordProxyAutoConfiguration$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [healthEndpointGroupsBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-05-29 15:18:52.120 | [31m WARN 19240[0;39m | [1;33mmain [TID: N/A][0;39m [1;32mtrationDelegate$BeanPostProcessorChecker[0;39m | Bean 'mzt.log.record-com.mzt.logapi.starter.configuration.LogRecordProperties' of type [com.mzt.logapi.starter.configuration.LogRecordProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [healthEndpointGroupsBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-05-29 15:18:52.132 | [31m WARN 19240[0;39m | [1;33mmain [TID: N/A][0;39m [1;32mtrationDelegate$BeanPostProcessorChecker[0;39m | Bean 'logRecordPerformanceMonitor' of type [com.mzt.logapi.service.impl.DefaultLogRecordPerformanceMonitor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [healthEndpointGroupsBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-05-29 15:18:52.402 | [34m INFO 19240[0;39m | [1;33mmain [TID: N/A][0;39m [1;32mo.s.b.w.embedded.tomcat.TomcatWebServer [0;39m | Tomcat initialized with port 8080 (http)
+2025-05-29 15:18:52.411 | [34m INFO 19240[0;39m | [1;33mmain [TID: N/A][0;39m [1;32mo.apache.catalina.core.StandardService  [0;39m | Starting service [Tomcat]
+2025-05-29 15:18:52.412 | [34m INFO 19240[0;39m | [1;33mmain [TID: N/A][0;39m [1;32mo.apache.catalina.core.StandardEngine   [0;39m | Starting Servlet engine: [Apache Tomcat/10.1.30]
+2025-05-29 15:18:52.457 | [34m INFO 19240[0;39m | [1;33mmain [TID: N/A][0;39m [1;32mo.a.c.c.C.[Tomcat].[localhost].[/]      [0;39m | Initializing Spring embedded WebApplicationContext
+2025-05-29 15:18:52.457 | [34m INFO 19240[0;39m | [1;33mmain [TID: N/A][0;39m [1;32mw.s.c.ServletWebServerApplicationContext[0;39m | Root WebApplicationContext: initialization completed in 1743 ms
+2025-05-29 15:18:52.558 | [34m INFO 19240[0;39m | [1;33mmain [TID: N/A][0;39m [1;32mc.a.d.s.b.a.DruidDataSourceAutoConfigure[0;39m | Init DruidDataSource
+2025-05-29 15:18:52.775 | [34m INFO 19240[0;39m | [1;33mmain [TID: N/A][0;39m [1;32mcom.alibaba.druid.pool.DruidDataSource  [0;39m | {dataSource-1} inited
+2025-05-29 15:18:54.475 | [31m WARN 19240[0;39m | [1;33mmain [TID: N/A][0;39m [1;32mConfigServletWebServerApplicationContext[0;39m | Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'com.onework.boot.framework.security.config.OneworkWebSecurityConfigurerAdapter': Injection of resource dependencies failed
+2025-05-29 15:18:54.476 | [34m INFO 19240[0;39m | [1;33mmain [TID: N/A][0;39m [1;32mcom.alibaba.druid.pool.DruidDataSource  [0;39m | {dataSource-1} closing ...
+2025-05-29 15:18:54.482 | [34m INFO 19240[0;39m | [1;33mmain [TID: N/A][0;39m [1;32mcom.alibaba.druid.pool.DruidDataSource  [0;39m | {dataSource-1} closed
+2025-05-29 15:18:54.485 | [34m INFO 19240[0;39m | [1;33mmain [TID: N/A][0;39m [1;32mo.apache.catalina.core.StandardService  [0;39m | Stopping service [Tomcat]
+2025-05-29 15:18:54.499 | [34m INFO 19240[0;39m | [1;33mmain [TID: N/A][0;39m [1;32m.s.b.a.l.ConditionEvaluationReportLogger[0;39m | 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-05-29 15:18:54.515 | [1;31mERROR 19240[0;39m | [1;33mmain [TID: N/A][0;39m [1;32mo.s.b.d.LoggingFailureAnalysisReporter  [0;39m | 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+A component required a bean of type 'java.util.List' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'java.util.List' in your configuration.
+
+2025-05-29 15:28:45.596 | [34m INFO 21468[0;39m | [1;33mmain [TID: N/A][0;39m [1;32mc.o.b.server.OneWorkServerApplication   [0;39m | Starting OneWorkServerApplication using Java 17.0.12 with PID 21468 (D:\projects\onework-platform\onework-server\target\classes started by zhong in D:\projects\onework-platform)
+2025-05-29 15:28:45.598 | [34m INFO 21468[0;39m | [1;33mmain [TID: N/A][0;39m [1;32mc.o.b.server.OneWorkServerApplication   [0;39m | No active profile set, falling back to 1 default profile: "default"
+2025-05-29 15:28:47.119 | [31m WARN 21468[0;39m | [1;33mmain [TID: N/A][0;39m [1;32mtrationDelegate$BeanPostProcessorChecker[0;39m | Bean 'com.mzt.logapi.starter.configuration.LogRecordProxyAutoConfiguration' of type [com.mzt.logapi.starter.configuration.LogRecordProxyAutoConfiguration$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [healthEndpointGroupsBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-05-29 15:28:47.133 | [31m WARN 21468[0;39m | [1;33mmain [TID: N/A][0;39m [1;32mtrationDelegate$BeanPostProcessorChecker[0;39m | Bean 'mzt.log.record-com.mzt.logapi.starter.configuration.LogRecordProperties' of type [com.mzt.logapi.starter.configuration.LogRecordProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [healthEndpointGroupsBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-05-29 15:28:47.140 | [31m WARN 21468[0;39m | [1;33mmain [TID: N/A][0;39m [1;32mtrationDelegate$BeanPostProcessorChecker[0;39m | Bean 'logRecordPerformanceMonitor' of type [com.mzt.logapi.service.impl.DefaultLogRecordPerformanceMonitor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [healthEndpointGroupsBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-05-29 15:28:47.412 | [34m INFO 21468[0;39m | [1;33mmain [TID: N/A][0;39m [1;32mo.s.b.w.embedded.tomcat.TomcatWebServer [0;39m | Tomcat initialized with port 8080 (http)
+2025-05-29 15:28:47.424 | [34m INFO 21468[0;39m | [1;33mmain [TID: N/A][0;39m [1;32mo.apache.catalina.core.StandardService  [0;39m | Starting service [Tomcat]
+2025-05-29 15:28:47.424 | [34m INFO 21468[0;39m | [1;33mmain [TID: N/A][0;39m [1;32mo.apache.catalina.core.StandardEngine   [0;39m | Starting Servlet engine: [Apache Tomcat/10.1.30]
+2025-05-29 15:28:47.477 | [34m INFO 21468[0;39m | [1;33mmain [TID: N/A][0;39m [1;32mo.a.c.c.C.[Tomcat].[localhost].[/]      [0;39m | Initializing Spring embedded WebApplicationContext
+2025-05-29 15:28:47.477 | [34m INFO 21468[0;39m | [1;33mmain [TID: N/A][0;39m [1;32mw.s.c.ServletWebServerApplicationContext[0;39m | Root WebApplicationContext: initialization completed in 1847 ms
+2025-05-29 15:28:47.567 | [34m INFO 21468[0;39m | [1;33mmain [TID: N/A][0;39m [1;32mc.a.d.s.b.a.DruidDataSourceAutoConfigure[0;39m | Init DruidDataSource
+2025-05-29 15:28:47.794 | [34m INFO 21468[0;39m | [1;33mmain [TID: N/A][0;39m [1;32mcom.alibaba.druid.pool.DruidDataSource  [0;39m | {dataSource-1} inited
+2025-05-29 15:28:49.406 | [31m WARN 21468[0;39m | [1;33mmain [TID: N/A][0;39m [1;32mConfigServletWebServerApplicationContext[0;39m | Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'com.onework.boot.framework.security.config.OneworkWebSecurityConfigurerAdapter': Injection of resource dependencies failed
+2025-05-29 15:28:49.408 | [34m INFO 21468[0;39m | [1;33mmain [TID: N/A][0;39m [1;32mcom.alibaba.druid.pool.DruidDataSource  [0;39m | {dataSource-1} closing ...
+2025-05-29 15:28:49.413 | [34m INFO 21468[0;39m | [1;33mmain [TID: N/A][0;39m [1;32mcom.alibaba.druid.pool.DruidDataSource  [0;39m | {dataSource-1} closed
+2025-05-29 15:28:49.416 | [34m INFO 21468[0;39m | [1;33mmain [TID: N/A][0;39m [1;32mo.apache.catalina.core.StandardService  [0;39m | Stopping service [Tomcat]
+2025-05-29 15:28:49.431 | [34m INFO 21468[0;39m | [1;33mmain [TID: N/A][0;39m [1;32m.s.b.a.l.ConditionEvaluationReportLogger[0;39m | 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-05-29 15:28:49.448 | [1;31mERROR 21468[0;39m | [1;33mmain [TID: N/A][0;39m [1;32mo.s.b.d.LoggingFailureAnalysisReporter  [0;39m | 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+A component required a bean of type 'java.util.List' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'java.util.List' in your configuration.
+
