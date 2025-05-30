@@ -1,0 +1,2 @@
+com.onework.boot.framework.mybatis.config.OneWorkMybatisAutoConfiguration
+com.onework.boot.framework.datasource.config.OneworkDataSourceAutoConfiguration

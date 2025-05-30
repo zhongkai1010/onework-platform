@@ -108,4 +108,3 @@ onework: # OneWork配置
     license: MIT # 许可证
     license-url: https://github.com/zhongkai1010/onework-platform/LICENSE # 许可证地址
   security:
-debug: true
