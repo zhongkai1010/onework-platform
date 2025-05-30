@@ -15,6 +15,8 @@ build/   # Gradle 构建输出目录
 # 日志和临时文件
 *.log    # 日志文件
 LOG_FILE_IS_UNDEFINED  # 未定义的日志文件
+LOG_FILE_IS_UNDEFINED.*  # 未定义的日志文件的所有变体
+*.gz     # 压缩的日志文件
 
 # 系统文件
 .DS_Store  # macOS 系统文件
