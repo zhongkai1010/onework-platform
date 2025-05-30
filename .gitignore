@@ -1,5 +1,5 @@
 # Java/Maven 编译输出
-**/target/  # Maven 编译输出目录（所有子目录）
+target/  # Maven 编译输出目录（所有子目录）
 out/     # IDEA 编译输出目录
 *.class  # Java 编译生成的字节码文件
 

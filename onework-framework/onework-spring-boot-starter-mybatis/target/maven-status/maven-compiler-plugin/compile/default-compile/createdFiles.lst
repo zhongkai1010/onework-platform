@@ -1,0 +1,16 @@
+com\onework\boot\framework\mybatis\core\query\LambdaQueryWrapperX.class
+com\onework\boot\framework\mybatis\core\util\JdbcUtils.class
+com\onework\boot\framework\mybatis\core\util\MyBatisUtils.class
+com\onework\boot\framework\mybatis\package-info.class
+com\onework\boot\framework\datasource\package-info.class
+com\onework\boot\framework\mybatis\core\handler\DefaultDBFieldHandler.class
+com\onework\boot\framework\mybatis\core\dataobject\BaseDO.class
+com\onework\boot\framework\mybatis\core\enums\DbTypeEnum.class
+com\onework\boot\framework\datasource\core\enums\DataSourceEnum.class
+com\onework\boot\framework\mybatis\config\OneWorkMybatisAutoConfiguration.class
+com\onework\boot\framework\mybatis\core\mapper\BaseMapperX.class
+com\onework\boot\framework\mybatis\core\query\MPJLambdaWrapperX.class
+com\onework\boot\framework\mybatis\core\query\QueryWrapperX$1.class
+com\onework\boot\framework\datasource\core\filter\DruidAdRemoveFilter.class
+com\onework\boot\framework\datasource\config\OneworkDataSourceAutoConfiguration.class
+com\onework\boot\framework\mybatis\core\query\QueryWrapperX.class
