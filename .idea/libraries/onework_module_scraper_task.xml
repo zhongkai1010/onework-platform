@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="onework-module-scraper-task">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/onework-module-scraper-task/target/onework-module-scraper-task.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

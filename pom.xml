@@ -12,6 +12,10 @@
         <module>onework-framework</module>
         <module>onework-tools-generator</module>
         <module>onework-server</module>
+        <module>onework-module-system</module>
+        <module>onework-module-infra</module>
+        <module>onework-module-scraper</module>
+        <module>onework-module-scraper-task</module>
     </modules>
 
     <name>${project.artifactId}</name>

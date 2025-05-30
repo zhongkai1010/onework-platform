@@ -2,6 +2,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "OneWorkServerApplication",
+      "request": "launch",
+      "mainClass": "com.onework.boot.server.OneWorkServerApplication",
+      "projectName": "onework-server"
+    },
+    {
+      "type": "java",
       "name": "OneworkScraperTaskApplication",
       "request": "launch",
       "mainClass": "com.onework.boot.module.scraper.task.OneworkScraperTaskApplication",

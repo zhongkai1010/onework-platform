@@ -19,7 +19,7 @@ public class Main {
         String url = "jdbc:mysql://127.0.0.1:33061/onework_platform?allowPublicKeyRetrieval=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false";
         String user = "root";
         String password = "123456";
-        String projectPath = Paths.get(System.getProperty("user.dir")) + "\\onework-module-scraper\\onework-module-scraper-core";
+        String projectPath = Paths.get(System.getProperty("user.dir")) + "\\onework-module-scraper";
         System.out.println(projectPath);
 
         FastAutoGenerator.create(url, user, password)
@@ -30,11 +30,12 @@ public class Main {
                         //.enableSpringdoc()
                         .disableOpenDir())
                 .packageConfig(builder -> builder
-                        .parent("com.onework.boot.module.scraper.core") // 设置父包名
+                        .parent("com.onework.boot.module.scraper") // 设置父包名
                         //.moduleName("scrape") // 设置父包模块名
                         .entity("dal.dataobject") // 设置 Entity 包名
                         .service("service") // 设置 Service 包名
                         .serviceImpl("service.impl") // 设置 Service Impl 包名
+                        .controller("controller.admin")
                         .mapper("dal.mysql") // 设置 Mapper 包名
                         .xml("mapper.xml") // 设置 Mapper XML 包名
                         //.controller("controller") //设置 Controller 包名
@@ -93,7 +94,7 @@ public class Main {
                     CustomFile queryVoCustomFile = queryVoCustomFileBuilder
                             .fileName("PageReqVO.java")
                             .templatePath("/templates/entityQueryPageVO.java.vm")
-                            .packageName("controller.vo")
+                            .packageName("controller.admin.vo")
                             .enableFileOverride()
                             .build();
                     builder.customFile(queryVoCustomFile);
@@ -103,7 +104,7 @@ public class Main {
                     CustomFile queryVoCustomFile = queryVoCustomFileBuilder
                             .fileName("ReqVO.java")
                             .templatePath("/templates/entityQueryVO.java.vm")
-                            .packageName("controller.vo")
+                            .packageName("controller.admin.vo")
                             .enableFileOverride()
                             .build();
                     builder.customFile(queryVoCustomFile);

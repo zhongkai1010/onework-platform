@@ -119,12 +119,17 @@
       </dependency>
       <dependency>
         <groupId>com.onework.boot</groupId>
-        <artifactId>onework-module-scraper-core</artifactId>
+        <artifactId>onework-module-scraper</artifactId>
         <version>${revision}</version>
       </dependency>
       <dependency>
         <groupId>com.onework.boot</groupId>
-        <artifactId>onework-module-system-core</artifactId>
+        <artifactId>onework-module-infra</artifactId>
+        <version>${revision}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.onework.boot</groupId>
+        <artifactId>onework-module-system</artifactId>
         <version>${revision}</version>
       </dependency>
       <dependency>

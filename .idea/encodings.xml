@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
+    <file url="file://$PROJECT_DIR$/onework-framework/onework-common/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/onework-framework/onework-common/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/onework-framework/onework-spring-boot-starter-jackson/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/onework-framework/onework-spring-boot-starter-jackson/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/onework-framework/onework-spring-boot-starter-mybatis/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/onework-framework/onework-spring-boot-starter-mybatis/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/onework-framework/onework-spring-boot-starter-security/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/onework-framework/onework-spring-boot-starter-security/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/onework-framework/onework-spring-boot-starter-web/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/onework-framework/onework-spring-boot-starter-web/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/onework-framework/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/onework-framework/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/onework-module-infra/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/onework-module-infra/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/onework-module-scraper-task/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/onework-module-scraper-task/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/onework-module-scraper/onework-module-scraper-core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/onework-module-scraper/onework-module-scraper-core/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/onework-module-scraper/onework-module-scraper-task/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/onework-module-scraper/onework-module-scraper-task/src/main/java/com/onework/boot/module/scraper/task/WebDriverFactory.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/onework-module-scraper/onework-module-scraper-task/src/main/java/com/onework/boot/module/scraper/task/bohe/BoheCompanyTaskServer.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/onework-module-scraper/onework-module-scraper-task/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/onework-module-scraper/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/onework-module-scraper/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/onework-module-system/onework-module-system-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/onework-module-system/onework-module-system-api/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/onework-module-system/onework-module-system-core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/onework-module-system/onework-module-system-core/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/onework-module-system/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/onework-module-system/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/onework-server/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/onework-server/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/onework-tools-generator/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/onework-tools-generator/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
+    <file url="PROJECT" charset="UTF-8" />
+  </component>
+</project>
