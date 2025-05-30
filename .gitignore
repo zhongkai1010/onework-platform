@@ -12,10 +12,7 @@ build/   # Gradle 构建输出目录
 *.iml    # IntelliJ IDEA 模块文件
 .vscode/ # Visual Studio Code 配置
 
-# 日志和临时文件
-*.log    # 日志文件
-LOG_FILE_IS_UNDEFINED  # 未定义的日志文件
-LOG_FILE_IS_UNDEFINED.*  # 未定义的日志文件的所有变体
+
 
 # 系统文件
 .DS_Store  # macOS 系统文件
@@ -31,3 +28,8 @@ nbproject/ # NetBeans 项目配置
 .project   # Eclipse 项目文件
 .classpath # Eclipse 类路径配置
 .settings/ # Eclipse 设置目录
+
+# 日志和临时文件
+*.log    # 日志文件
+LOG_FILE_IS_UNDEFINED  # 未定义的日志文件
+LOG_FILE_IS_UNDEFINED.*  # 未定义的日志文件的所有变体
