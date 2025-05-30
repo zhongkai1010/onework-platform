@@ -13,18 +13,19 @@
     <description>OneWork Server Scraper Module</description>
     <packaging>jar</packaging>
 
+    <!-- 依赖 -->
     <dependencies>
-        <!-- Spring Boot 依赖 -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
+            <groupId>com.onework.boot</groupId>
+            <artifactId>onework-spring-boot-starter-mybatis</artifactId>
         </dependency>
-        
-        <!-- 测试依赖 -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
+            <groupId>com.onework.boot</groupId>
+            <artifactId>onework-spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
         </dependency>
     </dependencies>
 </project>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/onework-platform.iml" filepath="$PROJECT_DIR$/onework-platform.iml" />
+      <module fileurl="file://$PROJECT_DIR$/onework-framework/onework-spring-boot-starter-jackson/onework-spring-boot-starter-jackson.iml" filepath="$PROJECT_DIR$/onework-framework/onework-spring-boot-starter-jackson/onework-spring-boot-starter-jackson.iml" />
+    </modules>
+  </component>
+</project>
