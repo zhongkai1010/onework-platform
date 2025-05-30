@@ -14,8 +14,6 @@
         <module>onework-server</module>
         <module>onework-module-system</module>
         <module>onework-module-infra</module>
-        <module>onework-module-scraper</module>
-        <module>onework-module-scraper-task</module>
     </modules>
 
     <name>${project.artifactId}</name>
@@ -32,7 +30,7 @@
         <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
         <!-- 看看咋放到 bom 里 -->
         <lombok.version>1.18.34</lombok.version>
-        <spring.boot.version>3.3.4</spring.boot.version>
+        <spring.boot.version>3.2.3</spring.boot.version>
         <mapstruct.version>1.6.2</mapstruct.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -127,19 +125,19 @@
         </plugins>
     </build>
 
-    <!-- 使用 huawei / aliyun 的 Maven 源，提升下载速度 -->
+    <!-- 使用 aliyun 的 Maven 源，提升下载速度 -->
     <repositories>
         <repository>
-            <id>huaweicloud</id>
-            <name>huawei</name>
-            <url>https://mirrors.huaweicloud.com/repository/maven/</url>
-        </repository>
-        <repository>
-            <id>aliyunmaven</id>
+            <id>aliyun</id>
             <name>aliyun</name>
             <url>https://maven.aliyun.com/repository/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
         </repository>
-
         <repository>
             <id>spring-milestones</id>
             <name>Spring Milestones</name>
