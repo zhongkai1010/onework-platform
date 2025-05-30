@@ -1,0 +1,3 @@
+2025-05-30 10:59:24.177 | [34m INFO 13240[0;39m | [1;33mmain [TID: N/A][0;39m [1;32mc.o.b.server.OneWorkServerApplication   [0;39m | Starting OneWorkServerApplication using Java 17.0.12 with PID 13240 (D:\projects\onework-platform\onework-server\target\classes started by zhong in D:\projects\onework-platform)
+2025-05-30 10:59:24.179 | [34m INFO 13240[0;39m | [1;33mmain [TID: N/A][0;39m [1;32mc.o.b.server.OneWorkServerApplication   [0;39m | No active profile set, falling back to 1 default profile: "default"
+2025-05-30 10:59:25.042 | [34m INFO 13240[0;39m | [1;33mmain [TID: N/A][0;39m [1;32mc.o.b.server.OneWorkServerApplication   [0;39m | Started OneWorkServerApplication in 1.455 seconds (process running for 1.682)
