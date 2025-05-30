@@ -188,14 +188,7 @@
                 <artifactId>apm-toolkit-logback-1.x</artifactId>
                 <version>${skywalking.version}</version>
             </dependency>
-
-            <!-- 工具类相关依赖 -->
-            <!-- 自定义Jackson启动器 -->
-            <dependency>
-                <groupId>com.onework.boot</groupId>
-                <artifactId>onework-spring-boot-starter-jackson</artifactId>
-                <version>${revision}</version>
-            </dependency>
+          
             <!-- Easy Trans 数据翻译 -->
             <dependency>
                 <groupId>com.fhs-opensource</groupId>

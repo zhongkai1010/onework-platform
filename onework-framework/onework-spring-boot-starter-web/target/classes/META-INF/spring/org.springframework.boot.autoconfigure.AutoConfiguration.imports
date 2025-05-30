@@ -1,3 +1,4 @@
 com.onework.boot.framework.web.config.OneworkWebAutoConfiguration
 com.onework.boot.framework.swagger.config.OneworkSwaggerAutoConfiguration
 com.onework.boot.framework.apilog.config.OneworkApiLogAutoConfiguration
+com.onework.boot.framework.jackson.config.OneworkJacksonAutoConfiguration

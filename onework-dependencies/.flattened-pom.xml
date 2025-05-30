@@ -153,11 +153,6 @@
         <version>${skywalking.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.onework.boot</groupId>
-        <artifactId>onework-spring-boot-starter-jackson</artifactId>
-        <version>${revision}</version>
-      </dependency>
-      <dependency>
         <groupId>com.fhs-opensource</groupId>
         <artifactId>easy-trans-spring-boot-starter</artifactId>
         <version>${easy-trans.version}</version>

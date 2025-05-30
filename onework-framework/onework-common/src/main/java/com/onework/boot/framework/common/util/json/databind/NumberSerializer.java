@@ -16,6 +16,7 @@ import java.io.IOException;
 @JacksonStdImpl
 public class NumberSerializer extends com.fasterxml.jackson.databind.ser.std.NumberSerializer {
 
+  
     private static final long MAX_SAFE_INTEGER = 9007199254740991L;
     private static final long MIN_SAFE_INTEGER = -9007199254740991L;
 

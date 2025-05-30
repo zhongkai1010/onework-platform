@@ -14,7 +14,6 @@ com\onework\boot\framework\common\api\logger\dto\ApiAccessLogCreateReqDTO.class
 com\onework\boot\framework\common\enums\WebFilterOrderEnum.class
 com\onework\boot\framework\common\api\logger\OperateLogCommonApi.class
 com\onework\boot\framework\common\util\servlet\ServletUtils.class
-com\onework\boot\framework\common\api\logger\ApiAccessLogCommonApi.class
 com\onework\boot\framework\common\api\permission\PermissionCommonApi.class
 com\onework\boot\framework\common\api\oauth2\dto\OAuth2AccessTokenRespDTO.class
 com\onework\boot\framework\common\api\permission\dto\DeptDataPermissionRespDTO.class

@@ -13,20 +13,17 @@
     {
       "name": "onework.web.admin-api",
       "type": "com.onework.boot.framework.web.config.WebProperties$Api",
-      "sourceType": "com.onework.boot.framework.web.config.WebProperties",
-      "sourceMethod": "public com.onework.boot.framework.web.config.WebProperties.Api getAdminApi() "
+      "sourceType": "com.onework.boot.framework.web.config.WebProperties"
     },
     {
       "name": "onework.web.admin-ui",
       "type": "com.onework.boot.framework.web.config.WebProperties$Ui",
-      "sourceType": "com.onework.boot.framework.web.config.WebProperties",
-      "sourceMethod": "public com.onework.boot.framework.web.config.WebProperties.Ui getAdminUi() "
+      "sourceType": "com.onework.boot.framework.web.config.WebProperties"
     },
     {
       "name": "onework.web.app-api",
       "type": "com.onework.boot.framework.web.config.WebProperties$Api",
-      "sourceType": "com.onework.boot.framework.web.config.WebProperties",
-      "sourceMethod": "public com.onework.boot.framework.web.config.WebProperties.Api getAppApi() "
+      "sourceType": "com.onework.boot.framework.web.config.WebProperties"
     },
     {
       "name": "onework.xss",
@@ -117,7 +114,8 @@
       "name": "onework.xss.enable",
       "type": "java.lang.Boolean",
       "description": "是否开启，默认为 true",
-      "sourceType": "com.onework.boot.framework.xss.config.XssProperties"
+      "sourceType": "com.onework.boot.framework.xss.config.XssProperties",
+      "defaultValue": true
     },
     {
       "name": "onework.xss.exclude-urls",

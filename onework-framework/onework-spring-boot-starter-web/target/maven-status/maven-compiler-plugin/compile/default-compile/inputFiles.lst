@@ -33,6 +33,7 @@ D:\projects\onework-platform\onework-framework\onework-spring-boot-starter-web\s
 D:\projects\onework-platform\onework-framework\onework-spring-boot-starter-web\src\main\java\com\onework\boot\framework\desensitize\core\slider\handler\MobileDesensitization.java
 D:\projects\onework-platform\onework-framework\onework-spring-boot-starter-web\src\main\java\com\onework\boot\framework\desensitize\core\slider\handler\PasswordDesensitization.java
 D:\projects\onework-platform\onework-framework\onework-spring-boot-starter-web\src\main\java\com\onework\boot\framework\desensitize\package-info.java
+D:\projects\onework-platform\onework-framework\onework-spring-boot-starter-web\src\main\java\com\onework\boot\framework\jackson\config\OneworkJacksonAutoConfiguration.java
 D:\projects\onework-platform\onework-framework\onework-spring-boot-starter-web\src\main\java\com\onework\boot\framework\swagger\config\OneworkSwaggerAutoConfiguration.java
 D:\projects\onework-platform\onework-framework\onework-spring-boot-starter-web\src\main\java\com\onework\boot\framework\swagger\config\SwaggerProperties.java
 D:\projects\onework-platform\onework-framework\onework-spring-boot-starter-web\src\main\java\com\onework\boot\framework\swagger\package-info.java

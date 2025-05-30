@@ -1,18 +1,15 @@
 package com.onework.boot.framework.apilog.config;
 
-import com.onework.boot.framework.apilog.core.api.ApiAccessLogStore;
 import com.onework.boot.framework.apilog.core.filter.ApiAccessLogFilter;
 import com.onework.boot.framework.apilog.core.interceptor.ApiAccessLogInterceptor;
 import com.onework.boot.framework.common.api.logger.ApiAccessLogCommonApi;
 import com.onework.boot.framework.common.enums.WebFilterOrderEnum;
 import com.onework.boot.framework.web.config.OneworkWebAutoConfiguration;
 import com.onework.boot.framework.web.config.WebProperties;
-import jakarta.annotation.Resource;
 import jakarta.servlet.Filter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
