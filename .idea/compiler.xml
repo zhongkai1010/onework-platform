@@ -18,13 +18,135 @@
           <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/mapstruct/mapstruct-processor/1.6.2/mapstruct-processor-1.6.2.jar" />
           <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/mapstruct/mapstruct/1.6.2/mapstruct-1.6.2.jar" />
         </processorPath>
-        <module name="onework-common" />
-        <module name="onework-spring-boot-starter-security" />
+        <module name="onework-module-crawler" />
         <module name="onework-module-infra" />
-        <module name="onework-tools-generator" />
-        <module name="onework-spring-boot-starter-web" />
+      </profile>
+      <profile name="Annotation profile for onework-common" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/springframework/boot/spring-boot-configuration-processor/3.2.3/spring-boot-configuration-processor-3.2.3.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/projectlombok/lombok/1.18.34/lombok-1.18.34.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/mapstruct/mapstruct-processor/1.6.2/mapstruct-processor-1.6.2.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/mapstruct/mapstruct/1.6.2/mapstruct-1.6.2.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/springframework/boot/spring-boot-configuration-processor/3.2.3/spring-boot-configuration-processor-3.2.3.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/projectlombok/lombok/1.18.34/lombok-1.18.34.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/mapstruct/mapstruct-processor/1.6.2/mapstruct-processor-1.6.2.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/mapstruct/mapstruct/1.6.2/mapstruct-1.6.2.jar" />
+        </processorPath>
+        <module name="onework-common" />
+      </profile>
+      <profile name="Annotation profile for onework-spring-boot-starter-mybatis" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/springframework/boot/spring-boot-configuration-processor/3.2.3/spring-boot-configuration-processor-3.2.3.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/projectlombok/lombok/1.18.34/lombok-1.18.34.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/mapstruct/mapstruct-processor/1.6.2/mapstruct-processor-1.6.2.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/mapstruct/mapstruct/1.6.2/mapstruct-1.6.2.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/springframework/boot/spring-boot-configuration-processor/3.2.3/spring-boot-configuration-processor-3.2.3.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/projectlombok/lombok/1.18.34/lombok-1.18.34.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/mapstruct/mapstruct-processor/1.6.2/mapstruct-processor-1.6.2.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/mapstruct/mapstruct/1.6.2/mapstruct-1.6.2.jar" />
+        </processorPath>
         <module name="onework-spring-boot-starter-mybatis" />
+      </profile>
+      <profile name="Annotation profile for onework-spring-boot-starter-security" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/springframework/boot/spring-boot-configuration-processor/3.2.3/spring-boot-configuration-processor-3.2.3.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/projectlombok/lombok/1.18.34/lombok-1.18.34.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/mapstruct/mapstruct-processor/1.6.2/mapstruct-processor-1.6.2.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/mapstruct/mapstruct/1.6.2/mapstruct-1.6.2.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/springframework/boot/spring-boot-configuration-processor/3.2.3/spring-boot-configuration-processor-3.2.3.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/projectlombok/lombok/1.18.34/lombok-1.18.34.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/mapstruct/mapstruct-processor/1.6.2/mapstruct-processor-1.6.2.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/mapstruct/mapstruct/1.6.2/mapstruct-1.6.2.jar" />
+        </processorPath>
+        <module name="onework-spring-boot-starter-security" />
+      </profile>
+      <profile name="Annotation profile for onework-spring-boot-starter-web" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/springframework/boot/spring-boot-configuration-processor/3.2.3/spring-boot-configuration-processor-3.2.3.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/projectlombok/lombok/1.18.34/lombok-1.18.34.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/mapstruct/mapstruct-processor/1.6.2/mapstruct-processor-1.6.2.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/mapstruct/mapstruct/1.6.2/mapstruct-1.6.2.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/springframework/boot/spring-boot-configuration-processor/3.2.3/spring-boot-configuration-processor-3.2.3.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/projectlombok/lombok/1.18.34/lombok-1.18.34.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/mapstruct/mapstruct-processor/1.6.2/mapstruct-processor-1.6.2.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/mapstruct/mapstruct/1.6.2/mapstruct-1.6.2.jar" />
+        </processorPath>
+        <module name="onework-spring-boot-starter-web" />
+      </profile>
+      <profile name="Annotation profile for onework-module-crawler-task" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/springframework/boot/spring-boot-configuration-processor/3.2.3/spring-boot-configuration-processor-3.2.3.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/projectlombok/lombok/1.18.34/lombok-1.18.34.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/mapstruct/mapstruct-processor/1.6.2/mapstruct-processor-1.6.2.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/mapstruct/mapstruct/1.6.2/mapstruct-1.6.2.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/springframework/boot/spring-boot-configuration-processor/3.2.3/spring-boot-configuration-processor-3.2.3.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/projectlombok/lombok/1.18.34/lombok-1.18.34.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/mapstruct/mapstruct-processor/1.6.2/mapstruct-processor-1.6.2.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/mapstruct/mapstruct/1.6.2/mapstruct-1.6.2.jar" />
+        </processorPath>
+        <module name="onework-module-crawler-task" />
+      </profile>
+      <profile name="Annotation profile for onework-module-system" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/springframework/boot/spring-boot-configuration-processor/3.2.3/spring-boot-configuration-processor-3.2.3.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/projectlombok/lombok/1.18.34/lombok-1.18.34.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/mapstruct/mapstruct-processor/1.6.2/mapstruct-processor-1.6.2.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/mapstruct/mapstruct/1.6.2/mapstruct-1.6.2.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/springframework/boot/spring-boot-configuration-processor/3.2.3/spring-boot-configuration-processor-3.2.3.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/projectlombok/lombok/1.18.34/lombok-1.18.34.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/mapstruct/mapstruct-processor/1.6.2/mapstruct-processor-1.6.2.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/mapstruct/mapstruct/1.6.2/mapstruct-1.6.2.jar" />
+        </processorPath>
         <module name="onework-module-system" />
+      </profile>
+      <profile name="Annotation profile for onework-tools-generator" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/springframework/boot/spring-boot-configuration-processor/3.2.3/spring-boot-configuration-processor-3.2.3.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/projectlombok/lombok/1.18.34/lombok-1.18.34.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/mapstruct/mapstruct-processor/1.6.2/mapstruct-processor-1.6.2.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/mapstruct/mapstruct/1.6.2/mapstruct-1.6.2.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/springframework/boot/spring-boot-configuration-processor/3.2.3/spring-boot-configuration-processor-3.2.3.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/projectlombok/lombok/1.18.34/lombok-1.18.34.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/mapstruct/mapstruct-processor/1.6.2/mapstruct-processor-1.6.2.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/mapstruct/mapstruct/1.6.2/mapstruct-1.6.2.jar" />
+        </processorPath>
+        <module name="onework-tools-generator" />
+      </profile>
+      <profile name="Annotation profile for onework-server" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/springframework/boot/spring-boot-configuration-processor/3.2.3/spring-boot-configuration-processor-3.2.3.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/projectlombok/lombok/1.18.34/lombok-1.18.34.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/mapstruct/mapstruct-processor/1.6.2/mapstruct-processor-1.6.2.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/mapstruct/mapstruct/1.6.2/mapstruct-1.6.2.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/springframework/boot/spring-boot-configuration-processor/3.2.3/spring-boot-configuration-processor-3.2.3.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/projectlombok/lombok/1.18.34/lombok-1.18.34.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/mapstruct/mapstruct-processor/1.6.2/mapstruct-processor-1.6.2.jar" />
+          <entry name="$PROJECT_DIR$/../../tools/apache-maven-3.9.9/repository/org/mapstruct/mapstruct/1.6.2/mapstruct-1.6.2.jar" />
+        </processorPath>
         <module name="onework-server" />
       </profile>
     </annotationProcessing>
@@ -47,6 +169,8 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="onework-common" options="-parameters" />
       <module name="onework-module-collection" options="-parameters" />
+      <module name="onework-module-crawler" options="-parameters" />
+      <module name="onework-module-crawler-task" options="-parameters" />
       <module name="onework-module-infra" options="-parameters" />
       <module name="onework-module-scraper" options="-parameters" />
       <module name="onework-module-scraper (1)" options="" />

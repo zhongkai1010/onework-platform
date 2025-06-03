@@ -156,6 +156,11 @@
                 <artifactId>onework-module-system</artifactId>
                 <version>${revision}</version>
             </dependency>
+            <dependency>
+                <groupId>com.onework.boot</groupId>
+                <artifactId>onework-module-crawler</artifactId>
+                <version>${revision}</version>
+            </dependency>
             <!-- 数据模块 -->
             <dependency>
                 <groupId>com.onework.boot</groupId>

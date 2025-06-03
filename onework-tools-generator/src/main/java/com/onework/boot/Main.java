@@ -19,7 +19,7 @@ public class Main {
         String url = "jdbc:mysql://127.0.0.1:33061/onework_platform?allowPublicKeyRetrieval=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false";
         String user = "root";
         String password = "123456";
-        String projectPath = Paths.get(System.getProperty("user.dir")) + "\\onework-module-scraper";
+        String projectPath = Paths.get(System.getProperty("user.dir")) + "\\onework-module-infra";
         System.out.println(projectPath);
 
         FastAutoGenerator.create(url, user, password)
@@ -30,7 +30,7 @@ public class Main {
                         //.enableSpringdoc()
                         .disableOpenDir())
                 .packageConfig(builder -> builder
-                        .parent("com.onework.boot.module.scraper") // 设置父包名
+                        .parent("com.onework.boot.module.infra") // 设置父包名
                         //.moduleName("scrape") // 设置父包模块名
                         .entity("dal.dataobject") // 设置 Entity 包名
                         .service("service") // 设置 Service 包名
@@ -45,8 +45,8 @@ public class Main {
                 // 模板配置 (TemplateConfig) 自 MyBatis-Plus 3.5.6 版本开始，模板配置已迁移至 StrategyConfig 中。以下是迁移后的配置方式。
                 .strategyConfig(builder -> builder
                         // .enableCapitalMode() // 开启大写命名
-                        .addTablePrefix("ow_") // 增加过滤表前缀
-                        .likeTable(new LikeTable("ow_")) // 模糊匹配表名
+                        .addTablePrefix("infra_") // 增加过滤表前缀
+                        .likeTable(new LikeTable("infra_")) // 模糊匹配表名
                 ).strategyConfig(builder -> builder
                         .entityBuilder() // 实体策略配置
                         //.idType(IdType.AUTO)

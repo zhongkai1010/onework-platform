@@ -85,7 +85,7 @@ mybatis-plus: # MyBatis Plus配置
     map-underscore-to-camel-case: true # 虽然默认为 true ，但是还是显示去指定下
   global-config:
     db-config:
-      id-type: NONE # "智能"模式，基于 IdTypeEnvironmentPostProcessor + 数据源的类型，自动适配成 AUTO、INPUT 模式
+      id-type: ASSIGN_ID # "智能"模式，基于 IdTypeEnvironmentPostProcessor + 数据源的类型，自动适配成 AUTO、INPUT 模式
       logic-delete-value: 1 # 逻辑已删除值(默认为 1)
       logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
     banner: false # 关闭控制台的 Banner 打印
@@ -108,3 +108,4 @@ onework: # OneWork配置
     license: MIT # 许可证
     license-url: https://github.com/zhongkai1010/onework-platform/LICENSE # 许可证地址
   security:
+    mock-enable: true
