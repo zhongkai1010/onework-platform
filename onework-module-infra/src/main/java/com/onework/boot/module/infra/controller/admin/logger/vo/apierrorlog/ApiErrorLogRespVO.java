@@ -1,6 +1,5 @@
 package com.onework.boot.module.infra.controller.admin.logger.vo.apierrorlog;
 
-
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

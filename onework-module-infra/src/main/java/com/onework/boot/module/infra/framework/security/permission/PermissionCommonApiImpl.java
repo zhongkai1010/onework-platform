@@ -9,8 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * 权限 API 实现类
- */
+ * 权限 API 实现类 */
 @Service
 public class PermissionCommonApiImpl implements PermissionCommonApi {
 

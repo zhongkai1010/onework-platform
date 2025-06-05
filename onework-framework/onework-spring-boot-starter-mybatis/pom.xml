@@ -45,9 +45,8 @@
         <!-- 动态数据源支持 -->
         <dependency>
             <groupId>com.baomidou</groupId>
-            <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+            <artifactId>dynamic-datasource-spring-boot3-starter</artifactId> <!-- 多数据源 -->
         </dependency>
-
         <!-- ==================== MyBatis Plus 扩展 ==================== -->
         <!-- SQL 解析器 -->
         <dependency>

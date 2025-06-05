@@ -25,6 +25,26 @@
             <artifactId>onework-spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.onework.boot</groupId>
+            <artifactId>onework-spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.onework.boot</groupId>
+            <artifactId>onework-module-infra</artifactId>
+        </dependency>
+
+        <!-- 添加基础框架依赖 -->
+        <dependency>
+            <groupId>com.onework.boot</groupId>
+            <artifactId>onework-common</artifactId>
+        </dependency>
+       
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+        </dependency>
+    
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>

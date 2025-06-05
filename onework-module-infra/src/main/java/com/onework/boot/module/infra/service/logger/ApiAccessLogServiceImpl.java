@@ -1,6 +1,5 @@
 package com.onework.boot.module.infra.service.logger;
 
-
 import com.onework.boot.framework.common.api.logger.dto.ApiAccessLogCreateReqDTO;
 import com.onework.boot.framework.common.pojo.PageResult;
 import com.onework.boot.framework.common.string.StrUtils;
@@ -17,7 +16,6 @@ import java.time.LocalDateTime;
 
 import static com.onework.boot.module.infra.dal.dataobject.logger.ApiAccessLogDO.REQUEST_PARAMS_MAX_LENGTH;
 import static com.onework.boot.module.infra.dal.dataobject.logger.ApiAccessLogDO.RESULT_MSG_MAX_LENGTH;
-
 
 /**
  * API 访问日志 Service 实现类
@@ -37,12 +35,6 @@ public class ApiAccessLogServiceImpl implements ApiAccessLogService {
         apiAccessLog.setRequestParams(StrUtils.maxLength(apiAccessLog.getRequestParams(), REQUEST_PARAMS_MAX_LENGTH));
         apiAccessLog.setResultMsg(StrUtils.maxLength(apiAccessLog.getResultMsg(), RESULT_MSG_MAX_LENGTH));
         apiAccessLogMapper.insert(apiAccessLog);
-//        if (TenantContextHolder.getTenantId() != null) {
-//            apiAccessLogMapper.insert(apiAccessLog);
-//        } else {
-//            // 极端情况下，上下文中没有租户时，此时忽略租户上下文，避免插入失败！
-//            TenantUtils.executeIgnore(() -> apiAccessLogMapper.insert(apiAccessLog));
-//        }
     }
 
     @Override

@@ -1,16 +1,17 @@
 package com.onework.boot.module.infra.dal.dataobject.logger;
 
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.onework.boot.framework.apilog.core.enums.OperateTypeEnum;
 import com.onework.boot.framework.common.enums.UserTypeEnum;
 import com.onework.boot.framework.mybatis.core.dataobject.BaseDO;
+import com.onework.boot.module.infra.enums.logger.ApiErrorLogProcessStatusEnum;
+import com.baomidou.mybatisplus.annotation.KeySequence;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
 
 import java.time.LocalDateTime;
 
 /**
- * API 错误日志
+ * API 异常数据
  *
  */
 @TableName("infra_api_error_log")
@@ -20,6 +21,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@KeySequence(value = "infra_api_error_log_seq")
 public class ApiErrorLogDO extends BaseDO {
 
     /**
@@ -28,25 +30,20 @@ public class ApiErrorLogDO extends BaseDO {
     public static final Integer REQUEST_PARAMS_MAX_LENGTH = 8000;
 
     /**
-     * {@link #resultMsg} 的最大长度
-     */
-    public static final Integer RESULT_MSG_MAX_LENGTH = 512;
-
-    /**
      * 编号
      */
-    @TableId("uid")
-    private String uid;
+    @TableId
+    private Long id;
+    /**
+     * 用户编号
+     */
+    private Long userId;
     /**
      * 链路追踪编号
      *
      * 一般来说，通过链路追踪编号，可以将访问日志，错误日志，链路追踪日志，logger 打印日志等，结合在一起，从而进行排错。
      */
     private String traceId;
-    /**
-     * 用户编号
-     */
-    private Long userId;
     /**
      * 用户类型
      *
@@ -56,7 +53,7 @@ public class ApiErrorLogDO extends BaseDO {
     /**
      * 应用名
      *
-     * 目前读取 `spring.application.name` 配置项
+     * 目前读取 spring.application.name
      */
     private String applicationName;
 
@@ -78,10 +75,6 @@ public class ApiErrorLogDO extends BaseDO {
      */
     private String requestParams;
     /**
-     * 响应结果
-     */
-    private String responseBody;
-    /**
      * 用户 IP
      */
     private String userIp;
@@ -90,81 +83,58 @@ public class ApiErrorLogDO extends BaseDO {
      */
     private String userAgent;
 
-    // ========== 执行相关字段 ==========
-
-    /**
-     * 操作模块
-     */
-    private String operateModule;
-    /**
-     * 操作名
-     */
-    private String operateName;
-    /**
-     * 操作分类
-     *
-     * 枚举 {@link OperateTypeEnum}
-     */
-    private Integer operateType;
-
-    /**
-     * 开始请求时间
-     */
-    private LocalDateTime beginTime;
-    /**
-     * 结束请求时间
-     */
-    private LocalDateTime endTime;
-    /**
-     * 执行时长，单位：毫秒
-     */
-    private Integer duration;
-
-    /**
-     * 结果码
-     */
-    private Integer resultCode;
-    /**
-     * 结果提示
-     */
-    private String resultMsg;
-
     // ========== 异常相关字段 ==========
 
     /**
-     * 异常名
-     */
-    private String exceptionName;
-    /**
-     * 异常发生的时间
+     * 异常发生时间
      */
     private LocalDateTime exceptionTime;
     /**
-     * 异常的消息
+     * 异常名
+     *
+     * {@link Throwable#getClass()} 的类全名
+     */
+    private String exceptionName;
+    /**
+     * 异常导致的消息
+     *
+     * {@link cn.hutool.core.exceptions.ExceptionUtil#getMessage(Throwable)}
      */
     private String exceptionMessage;
     /**
      * 异常导致的根消息
+     *
+     * {@link cn.hutool.core.exceptions.ExceptionUtil#getRootCauseMessage(Throwable)}
      */
     private String exceptionRootCauseMessage;
     /**
      * 异常的栈轨迹
+     *
+     * {@link org.apache.commons.lang3.exception.ExceptionUtils#getStackTrace(Throwable)}
      */
     private String exceptionStackTrace;
     /**
      * 异常发生的类全名
+     *
+     * {@link StackTraceElement#getClassName()}
      */
     private String exceptionClassName;
     /**
      * 异常发生的类文件
+     *
+     * {@link StackTraceElement#getFileName()}
      */
     private String exceptionFileName;
     /**
      * 异常发生的方法名
+     *
+     * {@link StackTraceElement#getMethodName()}
      */
     private String exceptionMethodName;
     /**
      * 异常发生的方法所在行
+     *
+     * {@link StackTraceElement#getLineNumber()}
      */
     private Integer exceptionLineNumber;
 
@@ -182,6 +152,8 @@ public class ApiErrorLogDO extends BaseDO {
     private LocalDateTime processTime;
     /**
      * 处理用户编号
+     *
+     * 关联 cn.iocoder.yudao.adminserver.modules.system.dal.dataobject.user.SysUserDO.SysUserDO#getId()
      */
     private Long processUserId;
 

@@ -1,0 +1,38 @@
+package com.onework.boot.module.system.api.permission;
+
+import com.onework.boot.framework.common.api.permission.PermissionCommonApi;
+import com.onework.boot.framework.common.api.permission.dto.DeptDataPermissionRespDTO;
+import com.onework.boot.module.system.service.permission.PermissionService;
+import org.springframework.stereotype.Service;
+import org.springframework.context.annotation.Primary;
+
+import jakarta.annotation.Resource;
+import java.util.Collection;
+import java.util.Set;
+
+/**
+ * 权限 API 实现类
+ *
+ */
+@Service
+@Primary
+public class PermissionApiImpl implements PermissionCommonApi {
+
+    @Resource
+    private PermissionService permissionService;
+
+    @Override
+    public boolean hasAnyPermissions(Long userId, String... permissions) {
+        return permissionService.hasAnyPermissions(userId, permissions);
+    }
+
+    @Override
+    public boolean hasAnyRoles(Long userId, String... roles) {
+        return permissionService.hasAnyRoles(userId, roles);
+    }
+
+    @Override
+    public DeptDataPermissionRespDTO getDeptDataPermission(Long userId) {
+        return permissionService.getDeptDataPermission(userId);
+    }
+}

@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 public class ApiAccessLogRespVO {
 
     @Schema(description = "日志主键", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
-
     private Long id;
 
     @Schema(description = "链路追踪编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "66600cb6-7852-11eb-9439-0242ac130002")
@@ -22,9 +21,11 @@ public class ApiAccessLogRespVO {
     private Long userId;
 
     @Schema(description = "用户类型，参见 UserTypeEnum 枚举", requiredMode = Schema.RequiredMode.REQUIRED, example = "2")
+
     private Integer userType;
 
     @Schema(description = "应用名", requiredMode = Schema.RequiredMode.REQUIRED, example = "dashboard")
+
     private String applicationName;
 
     @Schema(description = "请求方法名", requiredMode = Schema.RequiredMode.REQUIRED, example = "GET")
@@ -40,12 +41,15 @@ public class ApiAccessLogRespVO {
     private String requestParams;
 
     @Schema(description = "响应结果")
+
     private String responseBody;
 
     @Schema(description = "用户 IP", requiredMode = Schema.RequiredMode.REQUIRED, example = "127.0.0.1")
+
     private String userIp;
 
     @Schema(description = "浏览器 UA", requiredMode = Schema.RequiredMode.REQUIRED, example = "Mozilla/5.0")
+
     private String userAgent;
 
     @Schema(description = "操作模块", requiredMode = Schema.RequiredMode.REQUIRED, example = "商品模块")
@@ -53,9 +57,11 @@ public class ApiAccessLogRespVO {
     private String operateModule;
 
     @Schema(description = "操作名", requiredMode = Schema.RequiredMode.REQUIRED, example = "创建商品")
+
     private String operateName;
 
     @Schema(description = "操作分类", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+
     private Integer operateType;
 
     @Schema(description = "开始请求时间", requiredMode = Schema.RequiredMode.REQUIRED)
@@ -75,6 +81,7 @@ public class ApiAccessLogRespVO {
     private Integer resultCode;
 
     @Schema(description = "结果提示", example = "芋道源码，牛逼！")
+
     private String resultMsg;
 
     @Schema(description = "创建时间", requiredMode = Schema.RequiredMode.REQUIRED)

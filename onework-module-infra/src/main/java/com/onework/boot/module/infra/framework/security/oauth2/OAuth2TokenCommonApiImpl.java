@@ -11,8 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * OAuth2.0 Token API 实现类
- */
+ * OAuth2.0 Token API 实现类 */
 @Service
 public class OAuth2TokenCommonApiImpl implements OAuth2TokenCommonApi {
 

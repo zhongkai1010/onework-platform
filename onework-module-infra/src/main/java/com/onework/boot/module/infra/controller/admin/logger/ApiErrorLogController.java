@@ -13,7 +13,7 @@ import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
-
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,8 +35,8 @@ public class ApiErrorLogController {
             @Parameter(name = "id", description = "编号", required = true, example = "1024"),
             @Parameter(name = "processStatus", description = "处理状态", required = true, example = "1")
     })
-
-    public CommonResult<Boolean> updateApiErrorLogProcess(@RequestParam("id") String id,
+    @PreAuthorize("@ss.hasPermission('infra:api-error-log:update-status')")
+    public CommonResult<Boolean> updateApiErrorLogProcess(@RequestParam("id") Long id,
                                                           @RequestParam("processStatus") Integer processStatus) {
         apiErrorLogService.updateApiErrorLogProcess(id, processStatus, getLoginUserId());
         return success(true);
@@ -44,7 +44,7 @@ public class ApiErrorLogController {
 
     @GetMapping("/page")
     @Operation(summary = "获得 API 错误日志分页")
-
+    @PreAuthorize("@ss.hasPermission('infra:api-error-log:query')")
     public CommonResult<PageResult<ApiErrorLogRespVO>> getApiErrorLogPage(@Valid ApiErrorLogPageReqVO pageReqVO) {
         PageResult<ApiErrorLogDO> pageResult = apiErrorLogService.getApiErrorLogPage(pageReqVO);
         return success(BeanUtils.toBean(pageResult, ApiErrorLogRespVO.class));

@@ -32,6 +32,9 @@
         <jsoup.version>1.18.1</jsoup.version>
         <bizlog-sdk.version>3.0.6</bizlog-sdk.version>
         <transmittable-thread-local.version>2.14.5</transmittable-thread-local.version>
+        <mapstruct.version>1.6.3</mapstruct.version>
+        <tika-core.version>3.1.0</tika-core.version>
+
         <!-- Web 相关版本 -->
         <springdoc.version>1.7.0</springdoc.version>
         <knife4j.version>4.5.0</knife4j.version>
@@ -124,7 +127,7 @@
             <!-- 动态数据源 -->
             <dependency>
                 <groupId>com.baomidou</groupId>
-                <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+                <artifactId>dynamic-datasource-spring-boot3-starter</artifactId> <!-- 多数据源 -->
                 <version>${dynamic-datasource.version}</version>
             </dependency>
             <!-- MyBatis Plus 联表查询 -->
@@ -154,11 +157,6 @@
             <dependency>
                 <groupId>com.onework.boot</groupId>
                 <artifactId>onework-module-system</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.onework.boot</groupId>
-                <artifactId>onework-module-crawler</artifactId>
                 <version>${revision}</version>
             </dependency>
             <!-- 数据模块 -->
@@ -238,6 +236,21 @@
                 <groupId>org.seleniumhq.selenium</groupId>
                 <artifactId>selenium-java</artifactId>
                 <version>${selenium.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${mapstruct.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-generator</artifactId> <!-- 代码生成器，使用它解析表结构 -->
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.tika</groupId>
+                <artifactId>tika-core</artifactId> <!-- 文件客户端：文件类型的识别 -->
+                <version>${tika-core.version}</version>
             </dependency>
 
         </dependencies>

@@ -1,13 +1,11 @@
 package com.onework.boot.module.infra.enums;
 
-
 import com.onework.boot.framework.common.exception.ErrorCode;
 
 /**
  * Infra 错误码枚举类
  *
- * infra 系统，使用 1-001-000-000 段
- */
+ * infra 系统，使用 1-001-000-000 段 */
 public interface ErrorCodeConstants {
 
     // ========== 参数配置 1-001-000-000 ==========
@@ -61,7 +59,7 @@ public interface ErrorCodeConstants {
     ErrorCode DEMO01_CONTACT_NOT_EXISTS = new ErrorCode(1_001_201_000, "示例联系人不存在");
     ErrorCode DEMO02_CATEGORY_NOT_EXISTS = new ErrorCode(1_001_201_001, "示例分类不存在");
     ErrorCode DEMO02_CATEGORY_EXITS_CHILDREN = new ErrorCode(1_001_201_002, "存在存在子示例分类，无法删除");
-    ErrorCode DEMO02_CATEGORY_PARENT_NOT_EXITS = new ErrorCode(1_001_201_003, "父级示例分类不存在");
+    ErrorCode DEMO02_CATEGORY_PARENT_NOT_EXITS = new ErrorCode(1_001_201_003,"父级示例分类不存在");
     ErrorCode DEMO02_CATEGORY_PARENT_ERROR = new ErrorCode(1_001_201_004, "不能设置自己为父示例分类");
     ErrorCode DEMO02_CATEGORY_NAME_DUPLICATE = new ErrorCode(1_001_201_005, "已经存在该名字的示例分类");
     ErrorCode DEMO02_CATEGORY_PARENT_IS_CHILD = new ErrorCode(1_001_201_006, "不能设置自己的子示例分类为父示例分类");
@@ -69,5 +67,5 @@ public interface ErrorCodeConstants {
     ErrorCode DEMO03_COURSE_NOT_EXISTS = new ErrorCode(1_001_201_008, "学生课程不存在");
     ErrorCode DEMO03_GRADE_NOT_EXISTS = new ErrorCode(1_001_201_009, "学生班级不存在");
     ErrorCode DEMO03_GRADE_EXISTS = new ErrorCode(1_001_201_010, "学生班级已存在");
-}
 
+}

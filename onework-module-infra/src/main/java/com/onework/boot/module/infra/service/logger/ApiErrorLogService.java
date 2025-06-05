@@ -1,6 +1,5 @@
 package com.onework.boot.module.infra.service.logger;
 
-
 import com.onework.boot.framework.common.api.logger.dto.ApiErrorLogCreateReqDTO;
 import com.onework.boot.framework.common.pojo.PageResult;
 import com.onework.boot.module.infra.controller.admin.logger.vo.apierrorlog.ApiErrorLogPageReqVO;
@@ -30,11 +29,11 @@ public interface ApiErrorLogService {
     /**
      * 更新 API 错误日志已处理
      *
-     * @param uid            API 日志编号
+     * @param id            API 日志编号
      * @param processStatus 处理结果
      * @param processUserId 处理人
      */
-    void updateApiErrorLogProcess(String uid, Integer processStatus, Long processUserId);
+    void updateApiErrorLogProcess(Long id, Integer processStatus, Long processUserId);
 
     /**
      * 清理 exceedDay 天前的错误日志

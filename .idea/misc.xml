@@ -29,6 +29,8 @@
     </option>
     <option name="ignoredFiles">
       <set>
+        <option value="$PROJECT_DIR$/onework-module-crawler-task/pom.xml" />
+        <option value="$PROJECT_DIR$/onework-module-crawler/pom.xml" />
         <option value="$PROJECT_DIR$/onework-module-scraper-task/pom.xml" />
         <option value="$PROJECT_DIR$/onework-module-scraper/pom.xml" />
       </set>

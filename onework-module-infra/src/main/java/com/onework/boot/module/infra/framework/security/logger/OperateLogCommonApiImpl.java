@@ -4,12 +4,13 @@ import com.onework.boot.framework.common.api.logger.OperateLogCommonApi;
 import com.onework.boot.framework.common.api.logger.dto.OperateLogCreateReqDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.context.annotation.Primary;
 
 /**
- * 操作日志 API 实现类
- */
+ * 操作日志 API 实现类 */
 @Slf4j
 @Service
+@Primary
 public class OperateLogCommonApiImpl implements OperateLogCommonApi {
 
     @Override

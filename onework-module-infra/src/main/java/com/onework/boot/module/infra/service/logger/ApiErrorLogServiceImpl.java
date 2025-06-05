@@ -1,6 +1,5 @@
 package com.onework.boot.module.infra.service.logger;
 
-
 import com.onework.boot.framework.common.api.logger.dto.ApiErrorLogCreateReqDTO;
 import com.onework.boot.framework.common.pojo.PageResult;
 import com.onework.boot.framework.common.string.StrUtils;
@@ -17,10 +16,9 @@ import org.springframework.validation.annotation.Validated;
 import java.time.LocalDateTime;
 
 import static com.onework.boot.framework.common.exception.util.ServiceExceptionUtil.exception;
-import static com.onework.boot.module.infra.dal.dataobject.logger.ApiAccessLogDO.REQUEST_PARAMS_MAX_LENGTH;
+import static com.onework.boot.module.infra.dal.dataobject.logger.ApiErrorLogDO.REQUEST_PARAMS_MAX_LENGTH;
 import static com.onework.boot.module.infra.enums.ErrorCodeConstants.API_ERROR_LOG_NOT_FOUND;
 import static com.onework.boot.module.infra.enums.ErrorCodeConstants.API_ERROR_LOG_PROCESSED;
-
 
 /**
  * API 错误日志 Service 实现类
@@ -38,12 +36,6 @@ public class ApiErrorLogServiceImpl implements ApiErrorLogService {
     public void createApiErrorLog(ApiErrorLogCreateReqDTO createDTO) {
         ApiErrorLogDO apiErrorLog = BeanUtils.toBean(createDTO, ApiErrorLogDO.class);
         apiErrorLog.setRequestParams(StrUtils.maxLength(apiErrorLog.getRequestParams(), REQUEST_PARAMS_MAX_LENGTH));
-//        if (TenantContextHolder.getTenantId() != null) {
-//            apiErrorLogMapper.insert(apiErrorLog);
-//        } else {
-//            // 极端情况下，上下文中没有租户时，此时忽略租户上下文，避免插入失败！
-//            TenantUtils.executeIgnore(() -> apiErrorLogMapper.insert(apiErrorLog));
-//        }
         apiErrorLogMapper.insert(apiErrorLog);
     }
 
@@ -53,8 +45,8 @@ public class ApiErrorLogServiceImpl implements ApiErrorLogService {
     }
 
     @Override
-    public void updateApiErrorLogProcess(String uid, Integer processStatus, Long processUserId) {
-        ApiErrorLogDO errorLog = apiErrorLogMapper.selectById(uid);
+    public void updateApiErrorLogProcess(Long id, Integer processStatus, Long processUserId) {
+        ApiErrorLogDO errorLog = apiErrorLogMapper.selectById(id);
         if (errorLog == null) {
             throw exception(API_ERROR_LOG_NOT_FOUND);
         }
@@ -62,7 +54,7 @@ public class ApiErrorLogServiceImpl implements ApiErrorLogService {
             throw exception(API_ERROR_LOG_PROCESSED);
         }
         // 标记处理
-        apiErrorLogMapper.updateById(ApiErrorLogDO.builder().uid(uid).processStatus(processStatus)
+        apiErrorLogMapper.updateById(ApiErrorLogDO.builder().id(id).processStatus(processStatus)
                 .processUserId(processUserId).processTime(LocalDateTime.now()).build());
     }
 

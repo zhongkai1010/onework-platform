@@ -14,8 +14,6 @@
         <module>onework-server</module>
         <module>onework-module-system</module>
         <module>onework-module-infra</module>
-        <module>onework-module-crawler</module>
-        <module>onework-module-crawler-task</module>
     </modules>
 
     <name>${project.artifactId}</name>

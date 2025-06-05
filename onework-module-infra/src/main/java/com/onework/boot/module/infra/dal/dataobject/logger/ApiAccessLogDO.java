@@ -1,11 +1,11 @@
 package com.onework.boot.module.infra.dal.dataobject.logger;
 
-import com.baomidou.mybatisplus.annotation.KeySequence;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.onework.boot.framework.apilog.core.enums.OperateTypeEnum;
 import com.onework.boot.framework.common.enums.UserTypeEnum;
 import com.onework.boot.framework.common.pojo.CommonResult;
+import com.baomidou.mybatisplus.annotation.KeySequence;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.onework.boot.framework.mybatis.core.dataobject.BaseDO;
 import lombok.*;
 
@@ -16,8 +16,13 @@ import java.time.LocalDateTime;
  *
  */
 @TableName("infra_api_access_log")
-@Getter
-@Setter
+@KeySequence(value = "infra_api_access_log_seq")
+@Data
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ApiAccessLogDO extends BaseDO {
 
     /**
@@ -33,8 +38,8 @@ public class ApiAccessLogDO extends BaseDO {
     /**
      * 编号
      */
-    @TableId("uid")
-    private String uid;
+    @TableId
+    private Long id;
     /**
      * 链路追踪编号
      *
