@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <!-- 父项目配置 -->
+    <parent>
+        <groupId>com.onework.boot</groupId>
+        <artifactId>onework-framework</artifactId>
+        <version>${revision}</version>
+    </parent>
+    <packaging>jar</packaging>
+    <!-- 基础信息 -->
+    <name>${project.artifactId}</name>
+    <artifactId>onework-spring-boot-starter-ip</artifactId>
+    <description>
+        IP地址解析和地理位置查询模块
+        提供IP地址解析、地理位置查询等功能
+        支持国家、省份、城市、地区等多级地理位置信息查询
+        基于ip2region实现高效的IP地址查询
+    </description>
+
+    <!-- 项目依赖配置 -->
+    <dependencies>
+        <!-- 公共模块依赖 -->
+        <dependency>
+            <groupId>com.onework.boot</groupId>
+            <artifactId>onework-common</artifactId>
+        </dependency>
+
+        <!-- Lombok：简化Java代码的工具 -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- SLF4J：日志门面，提供统一的日志接口 -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <scope>provided</scope> <!-- 设置为 provided，只有工具类需要使用到 -->
+        </dependency>
+
+        <!-- IP地址检索：基于ip2region实现的高性能IP地址查询库 -->
+        <dependency>
+            <groupId>org.lionsoul</groupId>
+            <artifactId>ip2region</artifactId>
+        </dependency>
+
+        <!-- Jackson 注解：用于处理JSON序列化时的循环引用问题 -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+        </dependency>
+
+        <!-- Test 测试相关 -->
+        <dependency>
+            <groupId>com.onework.boot</groupId>
+            <artifactId>onework-spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+</project>

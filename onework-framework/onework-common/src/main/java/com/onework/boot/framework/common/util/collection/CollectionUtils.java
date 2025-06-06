@@ -4,12 +4,14 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ArrayUtil;
 import com.google.common.collect.ImmutableMap;
+import com.onework.boot.framework.common.pojo.PageResult;
 
 import java.util.*;
 import java.util.function.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static cn.hutool.core.convert.Convert.toCollection;
 import static java.util.Arrays.asList;
 
 /**
@@ -70,6 +72,13 @@ public class CollectionUtils {
             return new ArrayList<>();
         }
         return from.stream().filter(filter).map(func).filter(Objects::nonNull).collect(Collectors.toList());
+    }
+
+    public static <T, U> PageResult<U> convertPage(PageResult<T> from, Function<T, U> func) {
+        if (ArrayUtil.isEmpty(from)) {
+            return new PageResult<>(from.getTotal());
+        }
+        return new PageResult<>(convertList(from.getList(), func), from.getTotal());
     }
 
     public static <T, U> List<U> convertListByFlatMap(Collection<T> from,
@@ -323,7 +332,19 @@ public class CollectionUtils {
     }
 
     public static <T> List<T> newArrayList(List<List<T>> list) {
-        return list.stream().flatMap(Collection::stream).collect(Collectors.toList());
+        return list.stream().filter(Objects::nonNull).flatMap(Collection::stream).collect(Collectors.toList());
     }
 
+    /**
+     * 转换为 LinkedHashSet
+     *
+     * @param <T>         元素类型
+     * @param elementType 集合中元素类型
+     * @param value       被转换的值
+     * @return {@link LinkedHashSet}
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> LinkedHashSet<T> toLinkedHashSet(Class<T> elementType, Object value) {
+        return (LinkedHashSet<T>) toCollection(LinkedHashSet.class, elementType, value);
+    }
 }

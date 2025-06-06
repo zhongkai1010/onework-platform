@@ -1,66 +1,112 @@
+#################### 基础配置 ####################
 spring:
   application:
     name: onework-server # 应用名称
   main:
     allow-circular-references: true # 允许循环依赖，因为项目是三层架构，无法避免这个情况
+    banner-mode: log # 控制台打印 Banner
   devtools:
     restart:
       enabled: true # 启用热部署
       additional-paths: src/main/java # 热部署监控的目录
-  # Redis 配置。Redisson 默认的配置足够使用，一般不需要进行调优
+  # 文件编码配置
+  messages:
+    encoding: UTF-8
+  # Jackson 配置
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    serialization:
+      write-dates-as-timestamps: false
+    default-property-inclusion: non_null
+
+  #################### Redis 配置 ####################
   data:
     redis:
       host: 127.0.0.1 # 地址
       port: 63791 # 端口
       database: 1 # 数据库索引
   #    password: 123456 # 密码，建议生产环境开启
-  # 数据源配置项
+
+  #################### 数据源配置 ####################
   datasource:
     druid: # Druid 【监控】相关的全局配置
       web-stat-filter:
         enabled: true
+        url-pattern: /* # 监控URL
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*" # 排除的URL
+        session-stat-enable: true # 开启session统计功能
+        session-stat-max-count: 1000 # 设置session统计最大个数
+        principal-session-name: user # 设置session中user的标识
+        principal-cookie-name: user # 设置cookie中user的标识
       stat-view-servlet:
         enabled: true
         allow: # 设置白名单，不填则允许所有访问
         url-pattern: /druid/*
-        login-username: # 控制台管理用户名和密码
-        login-password:
+        login-username: admin # 控制台管理用户名
+        login-password: 123456 # 控制台管理密码
+        reset-enable: false # 禁用HTML页面上的"Reset All"功能
       filter:
         stat:
           enabled: true
           log-slow-sql: true # 慢 SQL 记录
-          slow-sql-millis: 100
-          merge-sql: true
+          slow-sql-millis: 1000 # 慢 SQL 阈值，单位：毫秒
+          merge-sql: true # 合并SQL显示
         wall:
           config:
-            multi-statement-allow: true
+            multi-statement-allow: true # 允许批量更新
+            none-base-statement-allow: true # 允许非基本语句的其他语句
+            call-allow: true # 允许调用存储过程
+            select-allow: true # 允许SELECT语句
+            select-where-allow: true # 允许SELECT WHERE语句
+            select-union-allow: true # 允许SELECT UNION语句
+            select-into-allow: true # 允许SELECT INTO语句
+            insert-allow: true # 允许INSERT语句
+            update-allow: true # 允许UPDATE语句
+            delete-allow: true # 允许DELETE语句
+            truncate-allow: true # 允许TRUNCATE语句
+            create-allow: true # 允许CREATE语句
+            alter-allow: true # 允许ALTER语句
+            drop-allow: true # 允许DROP语句
+            comment-allow: true # 允许注释语句
+            none-base-statement-allow: true # 允许非基本语句的其他语句
     dynamic: # 多数据源配置
       druid: # Druid 【连接池】相关的全局配置
         initial-size: 5 # 初始连接数
-        min-idle: 10 # 最小连接池数量
+        min-idle: 5 # 最小连接池数量
         max-active: 20 # 最大连接池数量
-        max-wait: 600000 # 配置获取连接等待超时的时间，单位：毫秒
-        time-between-eviction-runs-millis: 60000 # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位：毫秒
-        min-evictable-idle-time-millis: 300000 # 配置一个连接在池中最小生存的时间，单位：毫秒
-        max-evictable-idle-time-millis: 900000 # 配置一个连接在池中最大生存的时间，单位：毫秒
-        validation-query: SELECT 1 # 配置检测连接是否有效
-        test-while-idle: true
-        test-on-borrow: false
-        test-on-return: false
+        max-wait: 60000 # 获取连接等待超时时间
+        time-between-eviction-runs-millis: 60000 # 空闲连接检测间隔
+        min-evictable-idle-time-millis: 300000 # 连接最小生存时间
+        max-evictable-idle-time-millis: 900000 # 连接最大生存时间
+        validation-query: SELECT 1 # 检测连接是否有效
+        test-while-idle: true # 空闲时检测连接
+        test-on-borrow: false # 获取连接时检测
+        test-on-return: false # 归还连接时检测
+        # 连接失败重试配置
+        fail-fast: true # 快速失败
+        break-after-acquire-failure: true # 获取连接失败后中断
+        connection-error-retry-attempts: 3 # 重试次数
+        keep-alive: true # 保持连接活跃
+        # 监控配置
+        filters: stat,wall,slf4j # 监控过滤器
+        # 性能配置
+        pool-prepared-statements: true # 开启PSCache
+        max-pool-prepared-statement-per-connection-size: 20 # 指定每个连接上PSCache的大小
+        async-init: true # 异步初始化策略
       primary: master
       datasource:
         master:
           url: jdbc:mysql://127.0.0.1:33061/onework_platform?useSSL=false&useUnicode=true&allowPublicKeyRetrieval=true&characterEncoding=UTF-8 # 数据库连接URL
           username: root # 数据库用户名
           password: 123456 # 数据库密码
-        slave: # 模拟从库，可根据自己需要修改 # 模拟从库，可根据自己需要修改
+        slave: # 模拟从库，可根据自己需要修改
           lazy: true # 开启懒加载，保证启动速度
           url: jdbc:mysql://127.0.0.1:33061/onework_platform?useSSL=false&useUnicode=true&allowPublicKeyRetrieval=true&characterEncoding=UTF-8 # 数据库连接URL
           username: root # 数据库用户名
           password: 123456 # 数据库密码
 
-####################################################################
-
+#################### API 文档配置 ####################
 springdoc: # SpringDoc配置
   api-docs:
     enabled: true # 是否启用API文档
@@ -70,13 +116,14 @@ springdoc: # SpringDoc配置
     path: /swagger-ui # Swagger UI路径
     tags-sorter: alpha # 标签排序方式
     operations-sorter: alpha # 操作排序方式
-  default-flat-param-object: true # 是否启用扁平化参数对象，参见 https://doc.xiaominfo.com/docs/faq/v4/knife4j-parameterobject-flat-param 文档
+  default-flat-param-object: true # 是否启用扁平化参数对象
   group-configs: # 分组配置
     - group: "default" # 分组名称
       display-name: "测试" # 显示名称
       paths-to-match: "/**" # 匹配路径
       packages-to-scan: ${onework.info.base-package} # 扫描包路径
 
+#################### Knife4j 配置 ####################
 knife4j: # Knife4j配置
   enable: true # 是否启用
   setting:
@@ -84,8 +131,7 @@ knife4j: # Knife4j配置
     enable-swagger-models: true # 是否启用Swagger Models
     enable-document-manage: true # 是否启用文档管理
 
-####################################################################
-
+#################### MyBatis Plus 配置 ####################
 mybatis-plus-join: # MyBatis Plus Join配置
   banner: false # 是否打印 mybatis plus join banner，默认true
   sub-table-logic: true # 全局启用副表逻辑删除，默认true。关闭后关联查询不会加副表逻辑删除
@@ -104,14 +150,41 @@ mybatis-plus: # MyBatis Plus配置
     banner: false # 关闭控制台的 Banner 打印
   type-aliases-package: ${onework.info.base-package}.*.*.dal.dataobject # 实体类包路径
 
-####################################################################
+#################### 日志配置 ####################
+logging:
+  file:
+    name: ${user.home}/logs/${spring.application.name}.log # 日志文件名，全路径
+    max-size: 100MB # 单个日志文件最大大小
+    max-history: 30 # 日志文件保留天数
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n" # 控制台输出格式
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n" # 文件输出格式
+  level:
+    root: INFO # 根日志级别
+    # 配置自己写的 MyBatis Mapper 打印日志
+    com.onework.boot.module.infra.dal.mysql: debug
+    com.onework.boot.module.infra.dal.mysql.logger.ApiErrorLogMapper: INFO # 配置 ApiErrorLogMapper 的日志级别为 info，避免和 GlobalExceptionHandler 重复打印
+    com.onework.boot.module.infra.dal.mysql.job.JobLogMapper: INFO # 配置 JobLogMapper 的日志级别为 info
+    com.onework.boot.module.infra.dal.mysql.file.FileConfigMapper: INFO # 配置 FileConfigMapper 的日志级别为 info
+    com.onework.boot.module.system.dal.mysql: debug
+    com.onework.boot.module.system.dal.mysql.sms.SmsChannelMapper: INFO # 配置 SmsChannelMapper 的日志级别为 info
+    org.springframework.context.support.PostProcessorRegistrationDelegate: ERROR # TODO 芋艿：先禁用，Spring Boot 3.X 存在部分错误的 WARN 提示
+    # 第三方框架日志级别
+    org.springframework: INFO
+    org.hibernate: INFO
+    org.apache: INFO
+    com.alibaba.druid: INFO
+    com.baomidou.dynamic: INFO
 
+#################### OneWork 配置 ####################
 onework: # OneWork配置
   info:
     base-package: com.onework.boot # 基础包路径
     version: 1.0.0 # 版本号
   xss:
     enable: true # 是否启用XSS防护
+  access-log: # 访问日志的配置项
+    enable: true
   swagger:
     title: OneWork 开发平台 # 标题
     description: 提供管理后台、用户 App 的所有功能 # 描述
@@ -121,7 +194,7 @@ onework: # OneWork配置
     license: MIT # 许可证
     license-url: https://github.com/zhongkai1010/onework-platform/LICENSE # 许可证地址
   security:
-    mock-enable: true
+    mock-enable: false
   sms-code: # 短信验证码相关的配置项
     expire-times: 10m
     send-frequency: 1m

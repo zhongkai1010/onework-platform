@@ -10,7 +10,11 @@
     <packaging>pom</packaging>
 
     <name>${project.artifactId}</name>
-    <description>基础 bom 文件，管理整个项目的依赖版本</description>
+    <description>
+        本项目 BOM（Bill of Materials）文件，统一管理 oneWork 平台所有模块的依赖版本，
+        便于多模块协同开发、版本一致性控制和依赖冲突规避。
+        适用于 oneWork 平台及其所有子模块的 Maven 依赖版本集中管理。
+    </description>
     <url>https://github.com/zhongkai/onework-platform</url>
 
     <properties>
@@ -25,6 +29,7 @@
         <mybatis-plus.version>3.5.9</mybatis-plus.version>
         <mybatis-plus-join.version>1.4.13</mybatis-plus-join.version>
         <dynamic-datasource.version>4.3.1</dynamic-datasource.version>
+        <redisson.version>3.41.0</redisson.version>
         <!-- 工具类相关版本 -->
         <fastjson.version>2.0.53</fastjson.version>
         <hutool.version>5.8.25</hutool.version>
@@ -34,7 +39,8 @@
         <transmittable-thread-local.version>2.14.5</transmittable-thread-local.version>
         <mapstruct.version>1.6.3</mapstruct.version>
         <tika-core.version>3.1.0</tika-core.version>
-
+        <ip2region.version>2.7.0</ip2region.version>
+        <easyexcel.version>4.0.3</easyexcel.version>
         <!-- Web 相关版本 -->
         <springdoc.version>1.7.0</springdoc.version>
         <knife4j.version>4.5.0</knife4j.version>
@@ -42,11 +48,15 @@
         <guava.version>33.2.1-jre</guava.version>
         <!-- 监控相关版本 -->
         <skywalking.version>9.3.0</skywalking.version>
+        <!-- Test 测试相关 -->
+        <jedis-mock.version>1.1.8</jedis-mock.version>
+        <podam.version>8.0.2.RELEASE</podam.version>
+        <mockito-inline.version>5.2.0</mockito-inline.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-            <!-- Spring Boot 相关依赖 -->
+            <!-- ================== Spring Boot 相关 ================== -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
@@ -54,13 +64,13 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <!-- Spring Boot 配置处理器 -->
+            <!-- Spring Boot 配置元数据处理器，支持自动提示 -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-configuration-processor</artifactId>
                 <version>${spring.boot.version}</version>
             </dependency>
-            <!-- Spring Shell 命令行工具 -->
+            <!-- Spring Shell 命令行工具依赖 -->
             <dependency>
                 <groupId>org.springframework.shell</groupId>
                 <artifactId>spring-shell-dependencies</artifactId>
@@ -68,125 +78,210 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <!-- Web 相关依赖 -->
-            <!-- Knife4j API文档工具 -->
+
+            <!-- ================== Web 相关 ================== -->
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
                 <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
                 <version>${knife4j.version}</version>
             </dependency>
-            <!-- 自定义Web启动器 -->
-            <dependency>
-                <groupId>com.onework.boot</groupId>
-                <artifactId>onework-spring-boot-starter-web</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <!-- 自定义安全启动器 -->
-            <dependency>
-                <groupId>com.onework.boot</groupId>
-                <artifactId>onework-spring-boot-starter-security</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <!-- SpringDoc API文档 -->
+            <!-- SpringDoc OpenAPI 文档生成工具 -->
             <dependency>
                 <groupId>org.springdoc</groupId>
                 <artifactId>springdoc-openapi-ui</artifactId>
                 <version>${springdoc.version}</version>
             </dependency>
-            <!-- 数据库相关依赖 -->
-            <!-- 自定义MyBatis启动器 -->
+            <!-- 项目自研 Web 启动器 -->
+            <dependency>
+                <groupId>com.onework.boot</groupId>
+                <artifactId>onework-spring-boot-starter-web</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- 项目自研安全启动器 -->
+            <dependency>
+                <groupId>com.onework.boot</groupId>
+                <artifactId>onework-spring-boot-starter-security</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <!-- ================== 数据库相关 ================== -->
             <dependency>
                 <groupId>com.onework.boot</groupId>
                 <artifactId>onework-spring-boot-starter-mybatis</artifactId>
                 <version>${revision}</version>
             </dependency>
-            <!-- MyBatis Plus 启动器 -->
+            <!-- MyBatis-Plus ORM 框架 -->
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
                 <version>${mybatis-plus.version}</version>
             </dependency>
-            <!-- Easy Trans MyBatis Plus扩展 -->
+            <!-- Easy Trans MyBatis Plus 扩展，支持数据翻译 -->
             <dependency>
                 <groupId>com.fhs-opensource</groupId>
                 <artifactId>easy-trans-mybatis-plus-extend</artifactId>
                 <version>${easy-trans.version}</version>
             </dependency>
-            <!-- MyBatis Plus JSqlParser -->
+            <!-- MyBatis-Plus SQL 解析器 -->
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-jsqlparser</artifactId>
                 <version>${mybatis-plus.version}</version>
             </dependency>
-            <!-- Druid数据库连接池 -->
+            <!-- Druid 数据库连接池 -->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid-spring-boot-3-starter</artifactId>
                 <version>${druid.version}</version>
             </dependency>
-            <!-- 动态数据源 -->
+            <!-- 动态数据源支持 -->
             <dependency>
                 <groupId>com.baomidou</groupId>
-                <artifactId>dynamic-datasource-spring-boot3-starter</artifactId> <!-- 多数据源 -->
+                <artifactId>dynamic-datasource-spring-boot3-starter</artifactId>
                 <version>${dynamic-datasource.version}</version>
             </dependency>
-            <!-- MyBatis Plus 联表查询 -->
+            <!-- MyBatis-Plus 联表查询扩展 -->
             <dependency>
                 <groupId>com.github.yulichang</groupId>
                 <artifactId>mybatis-plus-join-boot-starter</artifactId>
                 <version>${mybatis-plus-join.version}</version>
             </dependency>
 
-            <!-- 业务组件 -->
+            <!-- ================== 业务模块 ================== -->
+            <dependency>
+                <groupId>com.onework.boot</groupId>
+                <artifactId>onework-module-infra</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- 项目自研系统模块 -->
+            <dependency>
+                <groupId>com.onework.boot</groupId>
+                <artifactId>onework-module-system</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- 项目自研通用模块 -->
+            <dependency>
+                <groupId>com.onework.boot</groupId>
+                <artifactId>onework-common</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.onework.boot</groupId>
+                <artifactId>onework-spring-boot-starter-test</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- 项目自研 Redis 启动器 -->
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-boot-starter</artifactId>
+                <version>${redisson.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-actuator</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.onework.boot</groupId>
+                <artifactId>onework-spring-boot-starter-redis</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <!-- ================== 工具类/通用组件 ================== -->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+            <!-- Hutool Java 工具包 -->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <!-- JSoup HTML 解析器 -->
+            <dependency>
+                <groupId>org.jsoup</groupId>
+                <artifactId>jsoup</artifactId>
+                <version>${jsoup.version}</version>
+            </dependency>
+            <!-- Fastjson2 JSON 处理工具 -->
+            <dependency>
+                <groupId>com.alibaba.fastjson2</groupId>
+                <artifactId>fastjson2</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+            <!-- Selenium Web 自动化测试工具 -->
+            <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-java</artifactId>
+                <version>${selenium.version}</version>
+            </dependency>
+            <!-- MapStruct 对象映射工具 -->
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${mapstruct.version}</version>
+            </dependency>
+            <!-- MyBatis-Plus 代码生成器 -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-generator</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <!-- Apache Tika 文件类型识别工具 -->
+            <dependency>
+                <groupId>org.apache.tika</groupId>
+                <artifactId>tika-core</artifactId>
+                <version>${tika-core.version}</version>
+            </dependency>
+            <!-- TransmittableThreadLocal 线程变量传递工具 -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>transmittable-thread-local</artifactId>
+                <version>${transmittable-thread-local.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.onework.boot</groupId>
+                <artifactId>onework-spring-boot-starter-excel</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.onework.boot</groupId>
+                <artifactId>onework-spring-boot-starter-ip</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- ================== 监控与日志 ================== -->
+            <dependency>
+                <groupId>org.apache.skywalking</groupId>
+                <artifactId>apm-toolkit-trace</artifactId>
+                <version>${skywalking.version}</version>
+            </dependency>
+            <!-- SkyWalking Logback 日志集成 -->
+            <dependency>
+                <groupId>org.apache.skywalking</groupId>
+                <artifactId>apm-toolkit-logback-1.x</artifactId>
+                <version>${skywalking.version}</version>
+            </dependency>
+            <!-- BizLog 业务日志组件 -->
             <dependency>
                 <groupId>io.github.mouzt</groupId>
                 <artifactId>bizlog-sdk</artifactId>
                 <version>${bizlog-sdk.version}</version>
                 <exclusions>
-                    <exclusion> <!-- 排除掉springboot依赖使用项目的 -->
+                    <exclusion>
                         <groupId>org.springframework.boot</groupId>
                         <artifactId>spring-boot-starter</artifactId>
                     </exclusion>
                 </exclusions>
             </dependency>
             <dependency>
-                <groupId>com.onework.boot</groupId>
-                <artifactId>onework-module-infra</artifactId>
-                <version>${revision}</version>
+                <groupId>org.lionsoul</groupId>
+                <artifactId>ip2region</artifactId>
+                <version>${ip2region.version}</version>
             </dependency>
-            <dependency>
-                <groupId>com.onework.boot</groupId>
-                <artifactId>onework-module-system</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <!-- 数据模块 -->
-            <dependency>
-                <groupId>com.onework.boot</groupId>
-                <artifactId>onework-data</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <!-- 公共模块 -->
-            <dependency>
-                <groupId>com.onework.boot</groupId>
-                <artifactId>onework-common</artifactId>
-                <version>${revision}</version>
-            </dependency>
-
-            <!-- 监控相关依赖 -->
-            <!-- SkyWalking 追踪工具 -->
-            <dependency>
-                <groupId>org.apache.skywalking</groupId>
-                <artifactId>apm-toolkit-trace</artifactId>
-                <version>${skywalking.version}</version>
-            </dependency>
-            <!-- SkyWalking Logback集成 -->
-            <dependency>
-                <groupId>org.apache.skywalking</groupId>
-                <artifactId>apm-toolkit-logback-1.x</artifactId>
-                <version>${skywalking.version}</version>
-            </dependency>
-
-            <!-- Easy Trans 数据翻译 -->
+            <!-- Easy Trans 数据翻译组件 -->
             <dependency>
                 <groupId>com.fhs-opensource</groupId>
                 <artifactId>easy-trans-spring-boot-starter</artifactId>
@@ -202,57 +297,27 @@
                     </exclusion>
                 </exclusions>
             </dependency>
+            <!-- Test 测试相关 -->
+            <dependency>
+                <groupId>com.github.fppt</groupId> <!-- 单元测试，我们采用内嵌的 Redis 数据库 -->
+                <artifactId>jedis-mock</artifactId>
+                <version>${jedis-mock.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>uk.co.jemos.podam</groupId> <!-- 单元测试，随机生成 POJO 类 -->
+                <artifactId>podam</artifactId>
+                <version>${podam.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-inline</artifactId>
+                <version>${mockito-inline.version}</version> <!-- 支持 Mockito 的 final 类与 static 方法的 mock -->
+            </dependency>
             <dependency>
                 <groupId>com.alibaba</groupId>
-                <artifactId>transmittable-thread-local</artifactId> <!-- 解决 ThreadLocal 父子线程的传值问题 -->
-                <version>${transmittable-thread-local.version}</version>
+                <artifactId>easyexcel</artifactId>
+                <version>${easyexcel.version}</version>
             </dependency>
-            <!-- Google Guava工具包 -->
-            <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <version>${guava.version}</version>
-            </dependency>
-            <!-- JSoup HTML解析器 -->
-            <dependency>
-                <groupId>org.jsoup</groupId>
-                <artifactId>jsoup</artifactId>
-                <version>${jsoup.version}</version>
-            </dependency>
-            <!-- Fastjson2 JSON工具 -->
-            <dependency>
-                <groupId>com.alibaba.fastjson2</groupId>
-                <artifactId>fastjson2</artifactId>
-                <version>${fastjson.version}</version>
-            </dependency>
-            <!-- Hutool工具包 -->
-            <dependency>
-                <groupId>cn.hutool</groupId>
-                <artifactId>hutool-all</artifactId>
-                <version>${hutool.version}</version>
-            </dependency>
-            <!-- Selenium Web自动化测试 -->
-            <dependency>
-                <groupId>org.seleniumhq.selenium</groupId>
-                <artifactId>selenium-java</artifactId>
-                <version>${selenium.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.mapstruct</groupId>
-                <artifactId>mapstruct</artifactId>
-                <version>${mapstruct.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-generator</artifactId> <!-- 代码生成器，使用它解析表结构 -->
-                <version>${mybatis-plus.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.tika</groupId>
-                <artifactId>tika-core</artifactId> <!-- 文件客户端：文件类型的识别 -->
-                <version>${tika-core.version}</version>
-            </dependency>
-
         </dependencies>
     </dependencyManagement>
 

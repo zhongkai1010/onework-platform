@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
  * 操作日志 API 实现类 */
 @Slf4j
 @Service
-@Primary
 public class OperateLogCommonApiImpl implements OperateLogCommonApi {
 
     @Override

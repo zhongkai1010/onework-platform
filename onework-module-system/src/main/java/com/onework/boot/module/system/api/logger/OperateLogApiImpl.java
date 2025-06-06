@@ -9,6 +9,7 @@ import com.onework.boot.module.system.api.logger.dto.OperateLogRespDTO;
 import com.onework.boot.module.system.dal.dataobject.logger.OperateLogDO;
 import com.onework.boot.module.system.service.logger.OperateLogService;
 import jakarta.annotation.Resource;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -18,6 +19,7 @@ import org.springframework.validation.annotation.Validated;
  */
 @Service
 @Validated
+@Primary
 public class OperateLogApiImpl implements OperateLogApi {
 
     @Resource

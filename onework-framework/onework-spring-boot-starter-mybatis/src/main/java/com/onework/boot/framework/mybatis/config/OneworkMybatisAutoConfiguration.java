@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Bean;
 // / 目的：先于 MyBatis Plus 自动配置，避免 @MapperScan 可能扫描不到 Mapper 打印 warn 日志
 @MapperScan(value = "${onework.info.base-package}", annotationClass = Mapper.class,
         lazyInitialization = "${mybatis.lazy-initialization:false}") // Mapper 懒加载，目前仅用于单元测试
-public class OneWorkMybatisAutoConfiguration {
+public class OneworkMybatisAutoConfiguration {
 
     @Bean
     public MetaObjectHandler defaultMetaObjectHandler() {
