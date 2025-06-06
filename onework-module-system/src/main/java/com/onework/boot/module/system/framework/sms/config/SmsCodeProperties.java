@@ -1,10 +1,10 @@
 package com.onework.boot.module.system.framework.sms.config;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
-import jakarta.validation.constraints.NotNull;
 import java.time.Duration;
 
 @ConfigurationProperties(prefix = "onework.sms-code")

@@ -1,12 +1,11 @@
 package com.onework.boot.module.system.framework.sms.core.property;
 
 import com.onework.boot.module.system.framework.sms.core.enums.SmsChannelEnum;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.springframework.validation.annotation.Validated;
-
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 
 /**
  * 短信渠道配置类

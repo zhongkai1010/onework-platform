@@ -4,8 +4,8 @@ import com.onework.boot.framework.common.pojo.PageResult;
 import com.onework.boot.module.system.controller.admin.mail.vo.template.MailTemplatePageReqVO;
 import com.onework.boot.module.system.controller.admin.mail.vo.template.MailTemplateSaveReqVO;
 import com.onework.boot.module.system.dal.dataobject.mail.MailTemplateDO;
-
 import jakarta.validation.Valid;
+
 import java.util.List;
 import java.util.Map;
 

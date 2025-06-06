@@ -1,6 +1,7 @@
 package com.onework.boot.module.system.service.mail;
 
 import cn.hutool.core.util.StrUtil;
+import com.google.common.annotations.VisibleForTesting;
 import com.onework.boot.framework.common.enums.CommonStatusEnum;
 import com.onework.boot.framework.common.enums.UserTypeEnum;
 import com.onework.boot.module.system.dal.dataobject.mail.MailAccountDO;
@@ -8,7 +9,6 @@ import com.onework.boot.module.system.dal.dataobject.mail.MailTemplateDO;
 import com.onework.boot.module.system.dal.dataobject.user.AdminUserDO;
 import com.onework.boot.module.system.service.member.MemberService;
 import com.onework.boot.module.system.service.user.AdminUserService;
-import com.google.common.annotations.VisibleForTesting;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -34,16 +34,12 @@ public class MailSendServiceImpl implements MailSendService {
     private AdminUserService adminUserService;
     @Resource
     private MemberService memberService;
-
     @Resource
     private MailAccountService mailAccountService;
     @Resource
     private MailTemplateService mailTemplateService;
-
     @Resource
     private MailLogService mailLogService;
-//    @Resource
-//    private MailProducer mailProducer;
 
     @Override
     public Long sendSingleMailToAdmin(String mail, Long userId,
@@ -86,40 +82,9 @@ public class MailSendServiceImpl implements MailSendService {
         Boolean isSend = CommonStatusEnum.ENABLE.getStatus().equals(template.getStatus());
         String title = mailTemplateService.formatMailTemplateContent(template.getTitle(), templateParams);
         String content = mailTemplateService.formatMailTemplateContent(template.getContent(), templateParams);
-        Long sendLogId = mailLogService.createMailLog(userId, userType, mail,
+        return mailLogService.createMailLog(userId, userType, mail,
                 account, template, content, templateParams, isSend);
-        // 发送 MQ 消息，异步执行发送短信
-//        if (isSend) {
-//            mailProducer.sendMailSendMessage(sendLogId, mail, account.getId(),
-//                    template.getNickname(), title, content);
-//        }
-        return sendLogId;
     }
-
-//    @Override
-//    public void doSendMail(MailSendMessage message) {
-//        // 1. 创建发送账号
-//        MailAccountDO account = validateMailAccount(message.getAccountId());
-//        MailAccount mailAccount  = buildMailAccount(account, message.getNickname());
-//        // 2. 发送邮件
-//        try {
-//            String messageId = MailUtil.send(mailAccount, message.getMail(),
-//                    message.getTitle(), message.getContent(), true);
-//            // 3. 更新结果（成功）
-//            mailLogService.updateMailSendResult(message.getLogId(), messageId, null);
-//        } catch (Exception e) {
-//            // 3. 更新结果（异常）
-//            mailLogService.updateMailSendResult(message.getLogId(), null, e);
-//        }
-//    }
-//
-//    private MailAccount buildMailAccount(MailAccountDO account, String nickname) {
-//        String from = StrUtil.isNotEmpty(nickname) ? nickname + " <" + account.getMail() + ">" : account.getMail();
-//        return new MailAccount().setFrom(from).setAuth(true)
-//                .setUser(account.getUsername()).setPass(account.getPassword().toCharArray())
-//                .setHost(account.getHost()).setPort(account.getPort())
-//                .setSslEnable(account.getSslEnable()).setStarttlsEnable(account.getStarttlsEnable());
-//    }
 
     @VisibleForTesting
     MailTemplateDO validateMailTemplate(String templateCode) {
@@ -166,5 +131,4 @@ public class MailSendServiceImpl implements MailSendService {
             }
         });
     }
-
 }

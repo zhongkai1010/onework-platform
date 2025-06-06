@@ -4,9 +4,9 @@ import com.onework.boot.framework.common.util.object.BeanUtils;
 import com.onework.boot.module.system.api.dept.dto.PostRespDTO;
 import com.onework.boot.module.system.dal.dataobject.dept.PostDO;
 import com.onework.boot.module.system.service.dept.PostService;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
-import jakarta.annotation.Resource;
 import java.util.Collection;
 import java.util.List;
 

@@ -65,6 +65,12 @@ public class HuaweiSmsClient extends AbstractSmsClient {
         Assert.isTrue(keys.length == 2, "华为云短信 apiKey 配置格式错误，请配置 为[accessKeyId sender]");
     }
 
+    private static void appendToBody(StringBuilder body, String key, String value) {
+        if (StrUtil.isNotEmpty(value)) {
+            body.append(key).append(HttpUtils.encodeUtf8(value));
+        }
+    }
+
     private String getAccessKey() {
         return StrUtil.subBefore(properties.getApiKey(), " ", true);
     }
@@ -117,7 +123,7 @@ public class HuaweiSmsClient extends AbstractSmsClient {
         // 1.2 构建签名 Header
         String canonicalQueryString = ""; // 查询参数为空
         String canonicalHeaders = "content-type:application/x-www-form-urlencoded\n"
-                + "host:"+ HOST +"\n" + "x-sdk-date:" + sdkDate + "\n";
+                + "host:" + HOST + "\n" + "x-sdk-date:" + sdkDate + "\n";
         String canonicalRequest = method + "\n" + uri + "\n" + canonicalQueryString + "\n"
                 + canonicalHeaders + "\n" + SIGNEDHEADERS + "\n" + sha256Hex(requestBody);
         String stringToSign = "SDK-HMAC-SHA256" + "\n" + sdkDate + "\n" + sha256Hex(canonicalRequest);
@@ -151,12 +157,6 @@ public class HuaweiSmsClient extends AbstractSmsClient {
         Assert.isTrue(strs.length == 2, "格式不正确，需要满足：apiTemplateId sender");
         return new SmsTemplateRespDTO().setId(apiTemplateId).setContent(null)
                 .setAuditStatus(SmsTemplateAuditStatusEnum.SUCCESS.getStatus()).setAuditReason(null);
-    }
-
-    private static void appendToBody(StringBuilder body, String key, String value) {
-        if (StrUtil.isNotEmpty(value)) {
-            body.append(key).append(HttpUtils.encodeUtf8(value));
-        }
     }
 
 }

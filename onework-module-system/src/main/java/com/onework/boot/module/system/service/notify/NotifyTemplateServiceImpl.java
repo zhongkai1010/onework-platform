@@ -2,6 +2,7 @@ package com.onework.boot.module.system.service.notify;
 
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
+import com.google.common.annotations.VisibleForTesting;
 import com.onework.boot.framework.common.pojo.PageResult;
 import com.onework.boot.framework.common.util.object.BeanUtils;
 import com.onework.boot.module.system.controller.admin.notify.vo.template.NotifyTemplatePageReqVO;
@@ -9,14 +10,13 @@ import com.onework.boot.module.system.controller.admin.notify.vo.template.Notify
 import com.onework.boot.module.system.dal.dataobject.notify.NotifyTemplateDO;
 import com.onework.boot.module.system.dal.mysql.notify.NotifyTemplateMapper;
 import com.onework.boot.module.system.dal.redis.RedisKeyConstants;
-import com.google.common.annotations.VisibleForTesting;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import jakarta.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;

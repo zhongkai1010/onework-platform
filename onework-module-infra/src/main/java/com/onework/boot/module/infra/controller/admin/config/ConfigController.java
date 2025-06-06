@@ -1,8 +1,6 @@
 package com.onework.boot.module.infra.controller.admin.config;
 
-import com.onework.boot.framework.apilog.core.annotation.ApiAccessLog;
 import com.onework.boot.framework.common.pojo.CommonResult;
-import com.onework.boot.framework.common.pojo.PageParam;
 import com.onework.boot.framework.common.pojo.PageResult;
 import com.onework.boot.module.infra.controller.admin.config.vo.ConfigPageReqVO;
 import com.onework.boot.module.infra.controller.admin.config.vo.ConfigRespVO;
@@ -15,14 +13,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
-import java.util.List;
 
 import static com.onework.boot.framework.common.exception.util.ServiceExceptionUtil.exception;
 import static com.onework.boot.framework.common.pojo.CommonResult.success;

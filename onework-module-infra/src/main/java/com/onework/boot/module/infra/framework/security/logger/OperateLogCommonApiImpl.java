@@ -3,8 +3,8 @@ package com.onework.boot.module.infra.framework.security.logger;
 import com.onework.boot.framework.common.api.logger.OperateLogCommonApi;
 import com.onework.boot.framework.common.api.logger.dto.OperateLogCreateReqDTO;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Service;
 
 /**
  * 操作日志 API 实现类 */

@@ -2,10 +2,9 @@ package com.onework.boot.module.system.api.sms;
 
 import com.onework.boot.module.system.api.sms.dto.send.SmsSendSingleToUserReqDTO;
 import com.onework.boot.module.system.service.sms.SmsSendService;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
-
-import jakarta.annotation.Resource;
 
 /**
  * 短信发送 API 接口

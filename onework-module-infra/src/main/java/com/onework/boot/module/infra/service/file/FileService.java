@@ -3,7 +3,6 @@ package com.onework.boot.module.infra.service.file;
 import com.onework.boot.framework.common.pojo.PageResult;
 import com.onework.boot.module.infra.controller.admin.file.vo.file.FileCreateReqVO;
 import com.onework.boot.module.infra.controller.admin.file.vo.file.FilePageReqVO;
-import com.onework.boot.module.infra.controller.admin.file.vo.file.FilePresignedUrlRespVO;
 import com.onework.boot.module.infra.dal.dataobject.file.FileDO;
 import jakarta.validation.constraints.NotEmpty;
 

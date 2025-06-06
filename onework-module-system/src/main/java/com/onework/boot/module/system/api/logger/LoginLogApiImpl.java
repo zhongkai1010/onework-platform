@@ -2,10 +2,9 @@ package com.onework.boot.module.system.api.logger;
 
 import com.onework.boot.module.system.api.logger.dto.LoginLogCreateReqDTO;
 import com.onework.boot.module.system.service.logger.LoginLogService;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
-
-import jakarta.annotation.Resource;
 
 /**
  * 登录日志的 API 实现类

@@ -9,6 +9,7 @@ import cn.hutool.crypto.digest.DigestUtil;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import com.google.common.annotations.VisibleForTesting;
 import com.onework.boot.framework.common.core.KeyValue;
 import com.onework.boot.framework.common.util.collection.MapUtils;
 import com.onework.boot.framework.common.util.http.HttpUtils;
@@ -18,12 +19,9 @@ import com.onework.boot.module.system.framework.sms.core.client.dto.SmsSendRespD
 import com.onework.boot.module.system.framework.sms.core.client.dto.SmsTemplateRespDTO;
 import com.onework.boot.module.system.framework.sms.core.enums.SmsTemplateAuditStatusEnum;
 import com.onework.boot.module.system.framework.sms.core.property.SmsChannelProperties;
-import com.google.common.annotations.VisibleForTesting;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -48,6 +46,21 @@ public class AliyunSmsClient extends AbstractSmsClient {
         super(properties);
         Assert.notEmpty(properties.getApiKey(), "apiKey 不能为空");
         Assert.notEmpty(properties.getApiSecret(), "apiSecret 不能为空");
+    }
+
+    /**
+     * 对指定的字符串进行 URL 编码，并对特定的字符进行替换，以符合URL编码规范
+     *
+     * @param str 需要进行 URL 编码的字符串
+     * @return 编码后的字符串
+     */
+    @SneakyThrows
+    private static String percentCode(String str) {
+        Assert.notNull(str, "str 不能为空");
+        return HttpUtils.encodeUtf8(str)
+                .replace("+", "%20") // 加号 "+" 被替换为 "%20"
+                .replace("*", "%2A") // 星号 "*" 被替换为 "%2A"
+                .replace("%7E", "~"); // 波浪号 "%7E" 被替换为 "~"
     }
 
     @Override
@@ -115,10 +128,14 @@ public class AliyunSmsClient extends AbstractSmsClient {
     @VisibleForTesting
     Integer convertSmsTemplateAuditStatus(Integer templateStatus) {
         switch (templateStatus) {
-            case 0: return SmsTemplateAuditStatusEnum.CHECKING.getStatus();
-            case 1: return SmsTemplateAuditStatusEnum.SUCCESS.getStatus();
-            case 2: return SmsTemplateAuditStatusEnum.FAIL.getStatus();
-            default: throw new IllegalArgumentException(String.format("未知审核状态(%d)", templateStatus));
+            case 0:
+                return SmsTemplateAuditStatusEnum.CHECKING.getStatus();
+            case 1:
+                return SmsTemplateAuditStatusEnum.SUCCESS.getStatus();
+            case 2:
+                return SmsTemplateAuditStatusEnum.FAIL.getStatus();
+            default:
+                throw new IllegalArgumentException(String.format("未知审核状态(%d)", templateStatus));
         }
     }
 
@@ -173,21 +190,6 @@ public class AliyunSmsClient extends AbstractSmsClient {
         // 5. 发起请求
         String responseBody = HttpUtils.post(URL + "?" + queryString, headers, requestBody);
         return JSONUtil.parseObj(responseBody);
-    }
-
-    /**
-     * 对指定的字符串进行 URL 编码，并对特定的字符进行替换，以符合URL编码规范
-     *
-     * @param str 需要进行 URL 编码的字符串
-     * @return 编码后的字符串
-     */
-    @SneakyThrows
-    private static String percentCode(String str) {
-        Assert.notNull(str, "str 不能为空");
-        return HttpUtils.encodeUtf8(str)
-                .replace("+", "%20") // 加号 "+" 被替换为 "%20"
-                .replace("*", "%2A") // 星号 "*" 被替换为 "%2A"
-                .replace("%7E", "~"); // 波浪号 "%7E" 被替换为 "~"
     }
 
 }

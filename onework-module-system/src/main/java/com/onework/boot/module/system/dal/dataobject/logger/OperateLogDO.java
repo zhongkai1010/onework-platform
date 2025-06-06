@@ -1,9 +1,9 @@
 package com.onework.boot.module.system.dal.dataobject.logger;
 
-import com.onework.boot.framework.common.enums.UserTypeEnum;
 import com.baomidou.mybatisplus.annotation.KeySequence;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.onework.boot.framework.common.enums.UserTypeEnum;
 import com.onework.boot.framework.mybatis.core.dataobject.BaseDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

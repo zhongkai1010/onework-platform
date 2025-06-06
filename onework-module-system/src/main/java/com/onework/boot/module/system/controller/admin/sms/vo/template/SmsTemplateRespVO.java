@@ -14,10 +14,10 @@ public class SmsTemplateRespVO {
     private Long id;
 
     @Schema(description = "短信类型，参见 SmsTemplateTypeEnum 枚举类", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-     private Integer type;
+    private Integer type;
 
     @Schema(description = "开启状态，参见 CommonStatusEnum 枚举类", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-     private Integer status;
+    private Integer status;
 
     @Schema(description = "模板编码", requiredMode = Schema.RequiredMode.REQUIRED, example = "test_01")
     private String code;
@@ -41,7 +41,7 @@ public class SmsTemplateRespVO {
     private Long channelId;
 
     @Schema(description = "短信渠道编码", requiredMode = Schema.RequiredMode.REQUIRED, example = "ALIYUN")
- 
+
     private String channelCode;
 
     @Schema(description = "创建时间", requiredMode = Schema.RequiredMode.REQUIRED)

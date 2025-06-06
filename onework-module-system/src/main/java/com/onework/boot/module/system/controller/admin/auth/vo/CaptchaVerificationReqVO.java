@@ -1,9 +1,8 @@
 package com.onework.boot.module.system.controller.admin.auth.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
-
 import jakarta.validation.constraints.NotEmpty;
+import lombok.Data;
 
 @Schema(description = "验证码验证 Request VO")
 @Data

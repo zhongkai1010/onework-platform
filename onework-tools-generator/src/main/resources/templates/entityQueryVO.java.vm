@@ -1,6 +1,6 @@
 package ${package.Controller}.vo;
 
- import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -8,7 +8,6 @@ import lombok.ToString;
 @Schema(description = "$!{table.comment} Request VO")
 @Data
 @ToString(callSuper = true)
-public class ${entity}ReqVO
-{
+public class ${entity}ReqVO {
 
 }

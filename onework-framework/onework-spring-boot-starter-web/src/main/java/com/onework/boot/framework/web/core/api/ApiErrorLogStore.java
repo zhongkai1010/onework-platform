@@ -11,7 +11,7 @@ public interface ApiErrorLogStore {
      *
      * @param createDTO 创建信息
      */
-    default void createApiErrorLog(@Valid ApiErrorLogDTO createDTO){
+    default void createApiErrorLog(@Valid ApiErrorLogDTO createDTO) {
 
     }
 

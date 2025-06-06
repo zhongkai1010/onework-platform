@@ -4,8 +4,8 @@ import com.onework.boot.framework.common.pojo.PageResult;
 import com.onework.boot.module.system.controller.admin.mail.vo.account.MailAccountPageReqVO;
 import com.onework.boot.module.system.controller.admin.mail.vo.account.MailAccountSaveReqVO;
 import com.onework.boot.module.system.dal.dataobject.mail.MailAccountDO;
-
 import jakarta.validation.Valid;
+
 import java.util.List;
 
 /**

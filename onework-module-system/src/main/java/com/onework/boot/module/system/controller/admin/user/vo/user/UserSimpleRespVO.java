@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-import org.checkerframework.checker.units.qual.C;
 
 @Schema(description = "管理后台 - 用户精简信息 Response VO")
 @Data

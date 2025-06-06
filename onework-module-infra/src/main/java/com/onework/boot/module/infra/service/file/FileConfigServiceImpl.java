@@ -2,6 +2,8 @@ package com.onework.boot.module.infra.service.file;
 
 import cn.hutool.core.io.resource.ResourceUtil;
 import cn.hutool.core.util.IdUtil;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import com.onework.boot.framework.common.pojo.PageResult;
 import com.onework.boot.framework.common.util.json.JsonUtils;
 import com.onework.boot.framework.common.util.validation.ValidationUtils;
@@ -14,8 +16,6 @@ import com.onework.boot.module.infra.framework.file.core.client.FileClient;
 import com.onework.boot.module.infra.framework.file.core.client.FileClientConfig;
 import com.onework.boot.module.infra.framework.file.core.client.FileClientFactory;
 import com.onework.boot.module.infra.framework.file.core.enums.FileStorageEnum;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
 import jakarta.annotation.Resource;
 import jakarta.validation.Validator;
 import lombok.Getter;
@@ -43,7 +43,10 @@ import static com.onework.boot.module.infra.enums.ErrorCodeConstants.FILE_CONFIG
 public class FileConfigServiceImpl implements FileConfigService {
 
     private static final Long CACHE_MASTER_ID = 0L;
-
+    @Resource
+    private FileClientFactory fileClientFactory;
+    @Resource
+    private FileConfigMapper fileConfigMapper;
     /**
      * {@link FileClient} 缓存，通过它异步刷新 fileClientFactory
      */
@@ -62,13 +65,6 @@ public class FileConfigServiceImpl implements FileConfigService {
                 }
 
             });
-
-    @Resource
-    private FileClientFactory fileClientFactory;
-
-    @Resource
-    private FileConfigMapper fileConfigMapper;
-
     @Resource
     private Validator validator;
 

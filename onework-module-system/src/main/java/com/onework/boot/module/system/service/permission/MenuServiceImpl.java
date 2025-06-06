@@ -3,6 +3,8 @@ package com.onework.boot.module.system.service.permission;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.Lists;
 import com.onework.boot.framework.common.enums.CommonStatusEnum;
 import com.onework.boot.framework.common.util.object.BeanUtils;
 import com.onework.boot.module.system.controller.admin.permission.vo.menu.MenuListReqVO;
@@ -11,13 +13,10 @@ import com.onework.boot.module.system.dal.dataobject.permission.MenuDO;
 import com.onework.boot.module.system.dal.mysql.permission.MenuMapper;
 import com.onework.boot.module.system.dal.redis.RedisKeyConstants;
 import com.onework.boot.module.system.enums.permission.MenuTypeEnum;
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.collect.Lists;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -118,7 +117,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public List<MenuDO> filterDisableMenus(List<MenuDO> menuList) {
-        if (CollUtil.isEmpty(menuList)){
+        if (CollUtil.isEmpty(menuList)) {
             return Collections.emptyList();
         }
         Map<Long, MenuDO> menuMap = convertMap(menuList, MenuDO::getId);

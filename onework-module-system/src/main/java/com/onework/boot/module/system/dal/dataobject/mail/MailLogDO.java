@@ -1,12 +1,12 @@
 package com.onework.boot.module.system.dal.dataobject.mail;
 
-import com.onework.boot.framework.common.enums.UserTypeEnum;
-import com.onework.boot.framework.mybatis.core.dataobject.BaseDO;
-import com.onework.boot.module.system.enums.mail.MailSendStatusEnum;
 import com.baomidou.mybatisplus.annotation.KeySequence;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
+import com.onework.boot.framework.common.enums.UserTypeEnum;
+import com.onework.boot.framework.mybatis.core.dataobject.BaseDO;
+import com.onework.boot.module.system.enums.mail.MailSendStatusEnum;
 import lombok.*;
 import lombok.experimental.Accessors;
 

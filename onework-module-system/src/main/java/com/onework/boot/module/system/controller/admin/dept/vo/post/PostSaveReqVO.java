@@ -3,11 +3,10 @@ package com.onework.boot.module.system.controller.admin.dept.vo.post;
 import com.onework.boot.framework.common.enums.CommonStatusEnum;
 import com.onework.boot.framework.common.validation.InEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
 
 @Schema(description = "管理后台 - 岗位创建/修改 Request VO")
 @Data

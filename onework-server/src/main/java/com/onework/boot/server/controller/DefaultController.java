@@ -22,7 +22,7 @@ public class DefaultController {
     /**
      * 测试接口：打印 query、header、body
      */
-    @RequestMapping(value = { "/test" })
+    @RequestMapping(value = {"/test"})
     @PermitAll
     public CommonResult<Boolean> test(HttpServletRequest request) {
         // 打印查询参数

@@ -1,11 +1,10 @@
 package com.onework.boot.module.system.controller.admin.permission.vo.menu;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
 
 @Schema(description = "管理后台 - 菜单创建/修改 Request VO")
 @Data

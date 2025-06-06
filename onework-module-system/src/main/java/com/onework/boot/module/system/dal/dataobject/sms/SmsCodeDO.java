@@ -1,9 +1,8 @@
 package com.onework.boot.module.system.dal.dataobject.sms;
 
-import com.onework.boot.framework.mybatis.core.dataobject.BaseDO;
-
 import com.baomidou.mybatisplus.annotation.KeySequence;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.onework.boot.framework.mybatis.core.dataobject.BaseDO;
 import lombok.*;
 
 import java.time.LocalDateTime;

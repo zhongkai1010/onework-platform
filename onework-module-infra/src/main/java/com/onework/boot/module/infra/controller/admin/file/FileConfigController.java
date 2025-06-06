@@ -17,7 +17,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-
 import static com.onework.boot.framework.common.pojo.CommonResult.success;
 
 @Tag(name = "管理后台 - 文件配置")

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
@@ -12,7 +12,7 @@
     <!-- 基础信息 -->
     <name>${project.artifactId}</name>
     <artifactId>onework-spring-boot-starter-mybatis</artifactId>
-    
+
     <!-- 依赖 -->
     <dependencies>
         <!-- ==================== 核心依赖 ==================== -->
@@ -21,7 +21,7 @@
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
         </dependency>
-        
+
         <!-- Spring Boot 配置处理器 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -35,13 +35,13 @@
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
         </dependency>
-        
+
         <!-- Druid 数据库连接池 -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-3-starter</artifactId>
         </dependency>
-        
+
         <!-- 动态数据源支持 -->
         <dependency>
             <groupId>com.baomidou</groupId>
@@ -53,7 +53,7 @@
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-jsqlparser</artifactId>
         </dependency>
-        
+
         <!-- 联表查询支持 -->
         <dependency>
             <groupId>com.github.yulichang</groupId>
@@ -66,7 +66,7 @@
             <groupId>com.fhs-opensource</groupId>
             <artifactId>easy-trans-spring-boot-starter</artifactId>
         </dependency>
-        
+
         <!-- Easy Trans MyBatis Plus 扩展 -->
         <dependency>
             <groupId>com.fhs-opensource</groupId>
@@ -79,7 +79,7 @@
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
         </dependency>
-        
+
         <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -94,7 +94,7 @@
             <artifactId>onework-spring-boot-starter-web</artifactId>
             <scope>provided</scope>
         </dependency>
-        
+
         <!-- 公共模块 -->
         <dependency>
             <groupId>com.onework.boot</groupId>

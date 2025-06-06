@@ -1,6 +1,7 @@
 package com.onework.boot.module.system.service.dict;
 
 import cn.hutool.core.util.StrUtil;
+import com.google.common.annotations.VisibleForTesting;
 import com.onework.boot.framework.common.pojo.PageResult;
 import com.onework.boot.framework.common.util.date.LocalDateTimeUtils;
 import com.onework.boot.framework.common.util.object.BeanUtils;
@@ -8,10 +9,9 @@ import com.onework.boot.module.system.controller.admin.dict.vo.type.DictTypePage
 import com.onework.boot.module.system.controller.admin.dict.vo.type.DictTypeSaveReqVO;
 import com.onework.boot.module.system.dal.dataobject.dict.DictTypeDO;
 import com.onework.boot.module.system.dal.mysql.dict.DictTypeMapper;
-import com.google.common.annotations.VisibleForTesting;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
-import jakarta.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.List;
 

@@ -16,8 +16,6 @@ import com.onework.boot.framework.common.util.collection.SetUtils;
 import com.onework.boot.framework.common.util.json.JsonUtils;
 import com.onework.boot.framework.common.util.monitor.TracerUtils;
 import com.onework.boot.framework.common.util.servlet.ServletUtils;
-import com.onework.boot.framework.web.core.api.ApiErrorLogStore;
-import com.onework.boot.framework.web.core.dto.ApiErrorLogDTO;
 import com.onework.boot.framework.web.core.util.WebFrameworkUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolation;
@@ -25,8 +23,6 @@ import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.ValidationException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindException;
@@ -178,10 +174,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public CommonResult<?> methodArgumentTypeInvalidFormatExceptionHandler(HttpMessageNotReadableException ex) {
         log.warn("[methodArgumentTypeInvalidFormatExceptionHandler]", ex);
-        if(ex.getCause() instanceof InvalidFormatException) {
+        if (ex.getCause() instanceof InvalidFormatException) {
             InvalidFormatException invalidFormatException = (InvalidFormatException) ex.getCause();
             return CommonResult.error(BAD_REQUEST.getCode(), String.format("请求参数类型错误:%s", invalidFormatException.getValue()));
-        }else {
+        } else {
             return defaultExceptionHandler(ServletUtils.getRequest(), ex);
         }
     }
@@ -304,7 +300,7 @@ public class GlobalExceptionHandler {
             // 执行插入 errorLog
             apiErrorLogApi.createApiErrorLogAsync(errorLog);
         } catch (Throwable th) {
-            log.error("[createExceptionLog][url({}) log({}) 发生异常]", req.getRequestURI(),  JsonUtils.toJsonString(errorLog), th);
+            log.error("[createExceptionLog][url({}) log({}) 发生异常]", req.getRequestURI(), JsonUtils.toJsonString(errorLog), th);
         }
     }
 

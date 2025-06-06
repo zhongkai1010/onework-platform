@@ -40,7 +40,7 @@ public enum DbTypeEnum {
      *
      * 华为 openGauss 使用 ProductName 与 PostgreSQL 相同
      */
-    POSTGRE_SQL(DbType.POSTGRE_SQL,"PostgreSQL", "POSITION('#{value}' IN #{column}) <> 0"),
+    POSTGRE_SQL(DbType.POSTGRE_SQL, "PostgreSQL", "POSITION('#{value}' IN #{column}) <> 0"),
 
     /**
      * SQL Server

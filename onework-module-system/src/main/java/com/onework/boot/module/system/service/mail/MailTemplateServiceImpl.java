@@ -3,6 +3,7 @@ package com.onework.boot.module.system.service.mail;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
+import com.google.common.annotations.VisibleForTesting;
 import com.onework.boot.framework.common.pojo.PageResult;
 import com.onework.boot.framework.common.util.object.BeanUtils;
 import com.onework.boot.module.system.controller.admin.mail.vo.template.MailTemplatePageReqVO;
@@ -10,15 +11,14 @@ import com.onework.boot.module.system.controller.admin.mail.vo.template.MailTemp
 import com.onework.boot.module.system.dal.dataobject.mail.MailTemplateDO;
 import com.onework.boot.module.system.dal.mysql.mail.MailTemplateMapper;
 import com.onework.boot.module.system.dal.redis.RedisKeyConstants;
-import com.google.common.annotations.VisibleForTesting;
+import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import jakarta.annotation.Resource;
-import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -65,7 +65,7 @@ public class MailTemplateServiceImpl implements MailTemplateService {
         // 校验是否存在
         validateMailTemplateExists(updateReqVO.getId());
         // 校验 code 是否唯一
-        validateCodeUnique(updateReqVO.getId(),updateReqVO.getCode());
+        validateCodeUnique(updateReqVO.getId(), updateReqVO.getCode());
 
         // 更新
         MailTemplateDO updateObj = BeanUtils.toBean(updateReqVO, MailTemplateDO.class)
@@ -104,7 +104,9 @@ public class MailTemplateServiceImpl implements MailTemplateService {
     }
 
     @Override
-    public MailTemplateDO getMailTemplate(Long id) {return mailTemplateMapper.selectById(id);}
+    public MailTemplateDO getMailTemplate(Long id) {
+        return mailTemplateMapper.selectById(id);
+    }
 
     @Override
     @Cacheable(value = RedisKeyConstants.MAIL_TEMPLATE, key = "#code", unless = "#result == null")
@@ -118,7 +120,9 @@ public class MailTemplateServiceImpl implements MailTemplateService {
     }
 
     @Override
-    public List<MailTemplateDO> getMailTemplateList() {return mailTemplateMapper.selectList();}
+    public List<MailTemplateDO> getMailTemplateList() {
+        return mailTemplateMapper.selectList();
+    }
 
     @Override
     public String formatMailTemplateContent(String content, Map<String, Object> params) {

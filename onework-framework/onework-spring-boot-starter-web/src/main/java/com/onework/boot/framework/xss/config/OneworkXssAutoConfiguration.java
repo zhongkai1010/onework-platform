@@ -22,7 +22,8 @@ import static com.onework.boot.framework.web.config.OneworkWebAutoConfiguration.
 
 @AutoConfiguration
 @EnableConfigurationProperties(XssProperties.class)
-@ConditionalOnProperty(prefix = "onework.xss", name = "enable", havingValue = "true", matchIfMissing = true) // 设置为 false 时，禁用
+@ConditionalOnProperty(prefix = "onework.xss", name = "enable", havingValue = "true", matchIfMissing = true)
+// 设置为 false 时，禁用
 public class OneworkXssAutoConfiguration implements WebMvcConfigurer {
 
     /**
@@ -47,7 +48,7 @@ public class OneworkXssAutoConfiguration implements WebMvcConfigurer {
     @ConditionalOnProperty(value = "onework.xss.enable", havingValue = "true")
     public Jackson2ObjectMapperBuilderCustomizer xssJacksonCustomizer(XssProperties properties,
                                                                       PathMatcher pathMatcher,
-                                                                     XssCleaner xssCleaner) {
+                                                                      XssCleaner xssCleaner) {
         // 在反序列化时进行 xss 过滤，可以替换使用 XssStringJsonSerializer，在序列化时进行处理
         return builder -> builder.deserializerByType(String.class, new XssStringJsonDeserializer(properties, pathMatcher, xssCleaner));
     }

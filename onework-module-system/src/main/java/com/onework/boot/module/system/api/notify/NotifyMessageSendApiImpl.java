@@ -2,9 +2,8 @@ package com.onework.boot.module.system.api.notify;
 
 import com.onework.boot.module.system.api.notify.dto.NotifySendSingleToUserReqDTO;
 import com.onework.boot.module.system.service.notify.NotifySendService;
-import org.springframework.stereotype.Service;
-
 import jakarta.annotation.Resource;
+import org.springframework.stereotype.Service;
 
 /**
  * 站内信发送 API 实现类

@@ -1,6 +1,7 @@
 package com.onework.boot.module.system.service.dict;
 
 import cn.hutool.core.collection.CollUtil;
+import com.google.common.annotations.VisibleForTesting;
 import com.onework.boot.framework.common.enums.CommonStatusEnum;
 import com.onework.boot.framework.common.pojo.PageResult;
 import com.onework.boot.framework.common.util.collection.CollectionUtils;
@@ -10,7 +11,6 @@ import com.onework.boot.module.system.controller.admin.dict.vo.data.DictDataSave
 import com.onework.boot.module.system.dal.dataobject.dict.DictDataDO;
 import com.onework.boot.module.system.dal.dataobject.dict.DictTypeDO;
 import com.onework.boot.module.system.dal.mysql.dict.DictDataMapper;
-import com.google.common.annotations.VisibleForTesting;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

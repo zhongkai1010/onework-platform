@@ -1,9 +1,9 @@
 package com.onework.boot.module.system.api.notify.dto;
 
-import lombok.Data;
-
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+
 import java.util.Map;
 
 /**

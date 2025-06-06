@@ -1,13 +1,13 @@
 package com.onework.boot.module.system.dal.dataobject.user;
 
-import com.onework.boot.framework.common.enums.CommonStatusEnum;
-import com.onework.boot.framework.mybatis.core.dataobject.BaseDO;
-import com.onework.boot.module.system.enums.common.SexEnum;
 import com.baomidou.mybatisplus.annotation.KeySequence;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
+import com.onework.boot.framework.common.enums.CommonStatusEnum;
+import com.onework.boot.framework.mybatis.core.dataobject.BaseDO;
+import com.onework.boot.module.system.enums.common.SexEnum;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

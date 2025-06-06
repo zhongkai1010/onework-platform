@@ -5,15 +5,15 @@ import com.onework.boot.module.system.controller.admin.permission.vo.permission.
 import com.onework.boot.module.system.controller.admin.permission.vo.permission.PermissionAssignRoleMenuReqVO;
 import com.onework.boot.module.system.controller.admin.permission.vo.permission.PermissionAssignUserRoleReqVO;
 import com.onework.boot.module.system.service.permission.PermissionService;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.annotation.Resource;
-import jakarta.validation.Valid;
 import java.util.Set;
 
 import static com.onework.boot.framework.common.pojo.CommonResult.success;

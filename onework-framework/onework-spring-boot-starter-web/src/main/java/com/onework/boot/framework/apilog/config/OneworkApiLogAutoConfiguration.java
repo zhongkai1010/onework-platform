@@ -18,22 +18,23 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @AutoConfiguration(after = OneworkWebAutoConfiguration.class)
 public class OneworkApiLogAutoConfiguration implements WebMvcConfigurer {
 
+    private static <T extends Filter> FilterRegistrationBean<T> createFilterBean(T filter, Integer order) {
+        FilterRegistrationBean<T> bean = new FilterRegistrationBean<>(filter);
+        bean.setOrder(order);
+        return bean;
+    }
+
     /**
      * 创建 ApiAccessLogFilter Bean，记录 API 请求日志
      */
     @Bean
-    @ConditionalOnProperty(prefix = "onework.access-log", value = "enable", matchIfMissing = true) // 允许使用 onework.access-log.enable=false 禁用访问日志
+    @ConditionalOnProperty(prefix = "onework.access-log", value = "enable", matchIfMissing = true)
+    // 允许使用 onework.access-log.enable=false 禁用访问日志
     public FilterRegistrationBean<ApiAccessLogFilter> apiAccessLogFilter(WebProperties webProperties,
                                                                          @Value("${spring.application.name}") String applicationName,
                                                                          ApiAccessLogCommonApi apiAccessLogApi) {
         ApiAccessLogFilter filter = new ApiAccessLogFilter(webProperties, applicationName, apiAccessLogApi);
         return createFilterBean(filter, WebFilterOrderEnum.API_ACCESS_LOG_FILTER);
-    }
-
-    private static <T extends Filter> FilterRegistrationBean<T> createFilterBean(T filter, Integer order) {
-        FilterRegistrationBean<T> bean = new FilterRegistrationBean<>(filter);
-        bean.setOrder(order);
-        return bean;
     }
 
     @Override

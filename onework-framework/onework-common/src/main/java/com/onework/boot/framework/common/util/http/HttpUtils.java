@@ -47,10 +47,6 @@ public class HttpUtils {
         return builder.build();
     }
 
-    private String append(String base, Map<String, ?> query, boolean fragment) {
-        return append(base, query, null, fragment);
-    }
-
     /**
      * 拼接 URL
      *
@@ -170,6 +166,10 @@ public class HttpUtils {
                 .execute()) {
             return response.body();
         }
+    }
+
+    private String append(String base, Map<String, ?> query, boolean fragment) {
+        return append(base, query, null, fragment);
     }
 
 }

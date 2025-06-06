@@ -4,19 +4,21 @@ import com.onework.boot.framework.common.enums.UserTypeEnum;
 import com.onework.boot.framework.common.pojo.CommonResult;
 import com.onework.boot.framework.common.pojo.PageResult;
 import com.onework.boot.framework.common.util.object.BeanUtils;
-import com.onework.boot.module.system.controller.admin.notify.vo.template.*;
+import com.onework.boot.module.system.controller.admin.notify.vo.template.NotifyTemplatePageReqVO;
+import com.onework.boot.module.system.controller.admin.notify.vo.template.NotifyTemplateRespVO;
+import com.onework.boot.module.system.controller.admin.notify.vo.template.NotifyTemplateSaveReqVO;
+import com.onework.boot.module.system.controller.admin.notify.vo.template.NotifyTemplateSendReqVO;
 import com.onework.boot.module.system.dal.dataobject.notify.NotifyTemplateDO;
 import com.onework.boot.module.system.service.notify.NotifySendService;
 import com.onework.boot.module.system.service.notify.NotifyTemplateService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import jakarta.annotation.Resource;
-import jakarta.validation.Valid;
 
 import static com.onework.boot.framework.common.pojo.CommonResult.success;
 

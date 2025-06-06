@@ -57,7 +57,7 @@ public class Main {
                         .javaTemplate("/templates/entity.java") // 设置实体类模板
                         .enableFileOverride() // 覆盖已生成文件
                         .naming(NamingStrategy.underline_to_camel) // 数据库表映射到实体的命名策略
-                     .convertFileName(fileName -> convertFileName(fileName, ""))
+                        .convertFileName(fileName -> convertFileName(fileName, ""))
                         .disableSerialVersionUID() // 禁用生成 serialVersionUID
                         .enableLombok() // 开启 Lombok 模型
                         .enableTableFieldAnnotation() // 开启生成实体时生成字段注解
@@ -66,22 +66,22 @@ public class Main {
                         //.disable()
                         .superClass(BaseMapperX.class) // 设置父类
                         .enableFileOverride()
-                      .convertMapperFileName(fileName -> convertFileName(fileName, "Mapper"))
-                      .convertXmlFileName(fileName -> convertFileName(fileName, "Mapper"))
+                        .convertMapperFileName(fileName -> convertFileName(fileName, "Mapper"))
+                        .convertXmlFileName(fileName -> convertFileName(fileName, "Mapper"))
                 )
                 .strategyConfig(builder -> builder
                         .serviceBuilder()
                         //.disable()
                         .enableFileOverride()
                         .convertServiceFileName(fileName -> convertFileName(fileName, "Service"))
-                      .convertServiceImplFileName(fileName -> convertFileName(fileName, "ServiceImpl"))
+                        .convertServiceImplFileName(fileName -> convertFileName(fileName, "ServiceImpl"))
                 )
                 .strategyConfig(builder -> builder
                         .controllerBuilder()
                         //.disable()
                         .enableFileOverride()
                         .enableHyphenStyle() // 开启驼峰转连字符
-                   .convertFileName(fileName -> convertFileName(fileName, "Controller"))
+                        .convertFileName(fileName -> convertFileName(fileName, "Controller"))
                         .enableRestStyle() // 开启生成@RestController 控制器
                 )
                 .injectionConfig(builder ->

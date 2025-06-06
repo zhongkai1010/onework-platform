@@ -1,6 +1,5 @@
 package com.onework.boot.module.system.controller.admin.logger.vo.loginlog;
 
-import com.onework.boot.module.system.enums.DictTypeConstants;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

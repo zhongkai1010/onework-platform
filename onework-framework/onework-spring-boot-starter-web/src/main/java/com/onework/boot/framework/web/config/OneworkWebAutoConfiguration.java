@@ -40,6 +40,12 @@ public class OneworkWebAutoConfiguration implements WebMvcConfigurer {
     @Value("${spring.application.name}")
     private String applicationName;
 
+    public static <T extends Filter> FilterRegistrationBean<T> createFilterBean(T filter, Integer order) {
+        FilterRegistrationBean<T> bean = new FilterRegistrationBean<>(filter);
+        bean.setOrder(order);
+        return bean;
+    }
+
     @Override
     public void configurePathMatch(PathMatchConfigurer configurer) {
         configurePathMatch(configurer, webProperties.getAdminApi());
@@ -69,14 +75,14 @@ public class OneworkWebAutoConfiguration implements WebMvcConfigurer {
         return new GlobalResponseBodyHandler();
     }
 
+    // ========== Filter 相关 ==========
+
     @Bean
     @SuppressWarnings("InstantiationOfUtilityClass")
     public WebFrameworkUtils webFrameworkUtils(WebProperties webProperties) {
         // 由于 WebFrameworkUtils 需要使用到 webProperties 属性，所以注册为一个 Bean
         return new WebFrameworkUtils(webProperties);
     }
-
-    // ========== Filter 相关 ==========
 
     /**
      * 创建 CorsFilter Bean，解决跨域问题
@@ -110,12 +116,6 @@ public class OneworkWebAutoConfiguration implements WebMvcConfigurer {
     @ConditionalOnProperty(value = "onework.demo", havingValue = "true")
     public FilterRegistrationBean<DemoFilter> demoFilter() {
         return createFilterBean(new DemoFilter(), WebFilterOrderEnum.DEMO_FILTER);
-    }
-
-    public static <T extends Filter> FilterRegistrationBean<T> createFilterBean(T filter, Integer order) {
-        FilterRegistrationBean<T> bean = new FilterRegistrationBean<>(filter);
-        bean.setOrder(order);
-        return bean;
     }
 
     /**

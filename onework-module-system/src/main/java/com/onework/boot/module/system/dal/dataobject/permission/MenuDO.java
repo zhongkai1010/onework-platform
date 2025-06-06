@@ -1,12 +1,11 @@
 package com.onework.boot.module.system.dal.dataobject.permission;
 
-import com.onework.boot.framework.common.enums.CommonStatusEnum;
-import com.onework.boot.framework.mybatis.core.dataobject.BaseDO;
-
-import com.onework.boot.module.system.enums.permission.MenuTypeEnum;
 import com.baomidou.mybatisplus.annotation.KeySequence;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.onework.boot.framework.common.enums.CommonStatusEnum;
+import com.onework.boot.framework.mybatis.core.dataobject.BaseDO;
+import com.onework.boot.module.system.enums.permission.MenuTypeEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

@@ -1,6 +1,11 @@
 package com.onework.boot.module.infra.dal.dataobject.file;
 
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.annotation.KeySequence;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.handlers.AbstractJsonTypeHandler;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.onework.boot.framework.common.util.json.JsonUtils;
 import com.onework.boot.framework.mybatis.core.dataobject.BaseDO;
 import com.onework.boot.module.infra.framework.file.core.client.FileClientConfig;
@@ -9,11 +14,6 @@ import com.onework.boot.module.infra.framework.file.core.client.ftp.FtpFileClien
 import com.onework.boot.module.infra.framework.file.core.client.local.LocalFileClientConfig;
 import com.onework.boot.module.infra.framework.file.core.client.sftp.SftpFileClientConfig;
 import com.onework.boot.module.infra.framework.file.core.enums.FileStorageEnum;
-import com.baomidou.mybatisplus.annotation.KeySequence;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.extension.handlers.AbstractJsonTypeHandler;
-import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.*;
 import lombok.experimental.Accessors;
 

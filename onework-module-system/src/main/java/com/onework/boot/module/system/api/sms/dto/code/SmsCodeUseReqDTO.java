@@ -3,12 +3,10 @@ package com.onework.boot.module.system.api.sms.dto.code;
 import com.onework.boot.framework.common.validation.InEnum;
 import com.onework.boot.framework.common.validation.Mobile;
 import com.onework.boot.module.system.enums.sms.SmsSceneEnum;
-import lombok.Data;
-
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 import lombok.experimental.Accessors;
-import org.checkerframework.checker.units.qual.A;
 
 /**
  * 短信验证码的使用 Request DTO

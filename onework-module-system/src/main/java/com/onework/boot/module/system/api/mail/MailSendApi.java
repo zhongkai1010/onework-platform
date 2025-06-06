@@ -1,7 +1,6 @@
 package com.onework.boot.module.system.api.mail;
 
 import com.onework.boot.module.system.api.mail.dto.MailSendSingleToUserReqDTO;
-
 import jakarta.validation.Valid;
 
 /**

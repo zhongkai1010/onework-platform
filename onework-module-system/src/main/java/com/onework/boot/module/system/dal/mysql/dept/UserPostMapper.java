@@ -1,9 +1,9 @@
 package com.onework.boot.module.system.dal.mysql.dept;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.onework.boot.framework.mybatis.core.mapper.BaseMapperX;
 import com.onework.boot.framework.mybatis.core.query.LambdaQueryWrapperX;
 import com.onework.boot.module.system.dal.dataobject.dept.UserPostDO;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.Collection;

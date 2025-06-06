@@ -1,11 +1,11 @@
 package com.onework.boot.module.infra.dal.dataobject.logger;
 
-import com.onework.boot.framework.common.enums.UserTypeEnum;
-import com.onework.boot.framework.mybatis.core.dataobject.BaseDO;
-import com.onework.boot.module.infra.enums.logger.ApiErrorLogProcessStatusEnum;
 import com.baomidou.mybatisplus.annotation.KeySequence;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.onework.boot.framework.common.enums.UserTypeEnum;
+import com.onework.boot.framework.mybatis.core.dataobject.BaseDO;
+import com.onework.boot.module.infra.enums.logger.ApiErrorLogProcessStatusEnum;
 import lombok.*;
 
 import java.time.LocalDateTime;

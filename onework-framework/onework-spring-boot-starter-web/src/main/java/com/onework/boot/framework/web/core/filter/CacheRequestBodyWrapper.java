@@ -54,7 +54,8 @@ public class CacheRequestBodyWrapper extends HttpServletRequestWrapper {
             }
 
             @Override
-            public void setReadListener(ReadListener readListener) {}
+            public void setReadListener(ReadListener readListener) {
+            }
 
             @Override
             public int available() {

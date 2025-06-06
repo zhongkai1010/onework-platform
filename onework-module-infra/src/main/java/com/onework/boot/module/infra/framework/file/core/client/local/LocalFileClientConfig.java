@@ -1,10 +1,9 @@
 package com.onework.boot.module.infra.framework.file.core.client.local;
 
- import com.onework.boot.module.infra.framework.file.core.client.FileClientConfig;
- import lombok.Data;
-import org.hibernate.validator.constraints.URL;
-
+import com.onework.boot.module.infra.framework.file.core.client.FileClientConfig;
 import jakarta.validation.constraints.NotEmpty;
+import lombok.Data;
+import org.hibernate.validator.constraints.URL;
 
 /**
  * 本地文件客户端的配置类

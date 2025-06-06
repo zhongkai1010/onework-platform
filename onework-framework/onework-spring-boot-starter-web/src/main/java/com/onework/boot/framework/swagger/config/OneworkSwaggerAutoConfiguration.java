@@ -42,6 +42,50 @@ public class OneworkSwaggerAutoConfiguration {
 
     // ========== 全局 OpenAPI 配置 ==========
 
+    public static GroupedOpenApi buildGroupedOpenApi(String group) {
+        return buildGroupedOpenApi(group, group);
+    }
+
+    public static GroupedOpenApi buildGroupedOpenApi(String group, String path) {
+        return GroupedOpenApi.builder()
+                .group(group)
+                .pathsToMatch("/admin-api/" + path + "/**", "/app-api/" + path + "/**")
+                .addOperationCustomizer((operation, handlerMethod) -> operation
+                        .addParametersItem(buildTenantHeaderParameter())
+                        .addParametersItem(buildSecurityHeaderParameter()))
+                .build();
+    }
+
+    /**
+     * 构建 Tenant 租户编号请求头参数
+     *
+     * @return 多租户参数
+     */
+    private static Parameter buildTenantHeaderParameter() {
+        return new Parameter()
+                .name(HEADER_TENANT_ID) // header 名
+                .description("租户编号") // 描述
+                .in(String.valueOf(SecurityScheme.In.HEADER)) // 请求 header
+                .schema(new IntegerSchema()._default(1L).name(HEADER_TENANT_ID).description("租户编号")); // 默认：使用租户编号为 1
+    }
+
+    /**
+     * 构建 Authorization 认证请求头参数
+     *
+     * 解决 Knife4j <a href="https://gitee.com/xiaoym/knife4j/issues/I69QBU">Authorize 未生效，请求header里未包含参数</a>
+     *
+     * @return 认证参数
+     */
+    private static Parameter buildSecurityHeaderParameter() {
+        return new Parameter()
+                .name(HttpHeaders.AUTHORIZATION) // header 名
+                .description("认证 Token") // 描述
+                .in(String.valueOf(SecurityScheme.In.HEADER)) // 请求 header
+                .schema(new StringSchema()._default("Bearer test1").name(HEADER_TENANT_ID).description("认证 Token")); // 默认：使用用户编号为 1
+    }
+
+    // ========== 分组 OpenAPI 配置 ==========
+
     @Bean
     public OpenAPI createApi(SwaggerProperties properties) {
         Map<String, SecurityScheme> securitySchemas = buildSecuritySchemes();
@@ -96,55 +140,11 @@ public class OneworkSwaggerAutoConfiguration {
                 propertyResolverUtils, openApiBuilderCustomizers, serverBaseUrlCustomizers, javadocProvider);
     }
 
-    // ========== 分组 OpenAPI 配置 ==========
-
     /**
      * 所有模块的 API 分组
      */
     @Bean
     public GroupedOpenApi allGroupedOpenApi() {
         return buildGroupedOpenApi("all", "");
-    }
-
-    public static GroupedOpenApi buildGroupedOpenApi(String group) {
-        return buildGroupedOpenApi(group, group);
-    }
-
-    public static GroupedOpenApi buildGroupedOpenApi(String group, String path) {
-        return GroupedOpenApi.builder()
-                .group(group)
-                .pathsToMatch("/admin-api/" + path + "/**", "/app-api/" + path + "/**")
-                .addOperationCustomizer((operation, handlerMethod) -> operation
-                        .addParametersItem(buildTenantHeaderParameter())
-                        .addParametersItem(buildSecurityHeaderParameter()))
-                .build();
-    }
-
-    /**
-     * 构建 Tenant 租户编号请求头参数
-     *
-     * @return 多租户参数
-     */
-    private static Parameter buildTenantHeaderParameter() {
-        return new Parameter()
-                .name(HEADER_TENANT_ID) // header 名
-                .description("租户编号") // 描述
-                .in(String.valueOf(SecurityScheme.In.HEADER)) // 请求 header
-                .schema(new IntegerSchema()._default(1L).name(HEADER_TENANT_ID).description("租户编号")); // 默认：使用租户编号为 1
-    }
-
-    /**
-     * 构建 Authorization 认证请求头参数
-     *
-     * 解决 Knife4j <a href="https://gitee.com/xiaoym/knife4j/issues/I69QBU">Authorize 未生效，请求header里未包含参数</a>
-     *
-     * @return 认证参数
-     */
-    private static Parameter buildSecurityHeaderParameter() {
-        return new Parameter()
-                .name(HttpHeaders.AUTHORIZATION) // header 名
-                .description("认证 Token") // 描述
-                .in(String.valueOf(SecurityScheme.In.HEADER)) // 请求 header
-                .schema(new StringSchema()._default("Bearer test1").name(HEADER_TENANT_ID).description("认证 Token")); // 默认：使用用户编号为 1
     }
 }

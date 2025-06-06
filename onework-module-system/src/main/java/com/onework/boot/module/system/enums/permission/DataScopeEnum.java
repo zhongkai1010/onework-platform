@@ -24,12 +24,11 @@ public enum DataScopeEnum implements ArrayValuable<Integer> {
 
     SELF(5); // 仅本人数据权限
 
+    public static final Integer[] ARRAYS = Arrays.stream(values()).map(DataScopeEnum::getScope).toArray(Integer[]::new);
     /**
      * 范围
      */
     private final Integer scope;
-
-    public static final Integer[] ARRAYS = Arrays.stream(values()).map(DataScopeEnum::getScope).toArray(Integer[]::new);
 
     @Override
     public Integer[] array() {

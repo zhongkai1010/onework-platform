@@ -9,6 +9,7 @@ import cn.hutool.crypto.digest.HmacAlgorithm;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import com.google.common.annotations.VisibleForTesting;
 import com.onework.boot.framework.common.core.KeyValue;
 import com.onework.boot.framework.common.util.collection.ArrayUtils;
 import com.onework.boot.framework.common.util.http.HttpUtils;
@@ -17,7 +18,6 @@ import com.onework.boot.module.system.framework.sms.core.client.dto.SmsSendRespD
 import com.onework.boot.module.system.framework.sms.core.client.dto.SmsTemplateRespDTO;
 import com.onework.boot.module.system.framework.sms.core.enums.SmsTemplateAuditStatusEnum;
 import com.onework.boot.module.system.framework.sms.core.property.SmsChannelProperties;
-import com.google.common.annotations.VisibleForTesting;
 
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -34,15 +34,13 @@ import static com.onework.boot.framework.common.util.collection.CollectionUtils.
  */
 public class TencentSmsClient extends AbstractSmsClient {
 
-    private static final String HOST = "sms.tencentcloudapi.com";
-    private static final String VERSION = "2021-01-11";
-    private static final String REGION = "ap-guangzhou";
-
     /**
      * 调用成功 code
      */
     public static final String API_CODE_SUCCESS = "Ok";
-
+    private static final String HOST = "sms.tencentcloudapi.com";
+    private static final String VERSION = "2021-01-11";
+    private static final String REGION = "ap-guangzhou";
     /**
      * 是否国际/港澳台短信：
      *
@@ -71,6 +69,10 @@ public class TencentSmsClient extends AbstractSmsClient {
         Assert.notEmpty(combineKey, "apiKey 不能为空");
         String[] keys = combineKey.trim().split(" ");
         Assert.isTrue(keys.length == 2, "腾讯云短信 apiKey 配置格式错误，请配置 为[secretId sdkAppId]");
+    }
+
+    private static byte[] hmac256(byte[] key, String msg) {
+        return DigestUtil.hmac(HmacAlgorithm.HmacSHA256, key).digest(msg);
     }
 
     private String getSdkAppId() {
@@ -146,10 +148,14 @@ public class TencentSmsClient extends AbstractSmsClient {
     @VisibleForTesting
     Integer convertSmsTemplateAuditStatus(int templateStatus) {
         switch (templateStatus) {
-            case 1: return SmsTemplateAuditStatusEnum.CHECKING.getStatus();
-            case 0: return SmsTemplateAuditStatusEnum.SUCCESS.getStatus();
-            case -1: return SmsTemplateAuditStatusEnum.FAIL.getStatus();
-            default: throw new IllegalArgumentException(String.format("未知审核状态(%d)", templateStatus));
+            case 1:
+                return SmsTemplateAuditStatusEnum.CHECKING.getStatus();
+            case 0:
+                return SmsTemplateAuditStatusEnum.SUCCESS.getStatus();
+            case -1:
+                return SmsTemplateAuditStatusEnum.FAIL.getStatus();
+            default:
+                throw new IllegalArgumentException(String.format("未知审核状态(%d)", templateStatus));
         }
     }
 
@@ -192,10 +198,6 @@ public class TencentSmsClient extends AbstractSmsClient {
         // 2. 发起请求
         String responseBody = HttpUtils.post("https://" + HOST, headers, JSONUtil.toJsonStr(body));
         return JSONUtil.parseObj(responseBody);
-    }
-
-    private static byte[] hmac256(byte[] key, String msg) {
-        return DigestUtil.hmac(HmacAlgorithm.HmacSHA256, key).digest(msg);
     }
 
 }

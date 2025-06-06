@@ -1,7 +1,6 @@
 package com.onework.boot.module.system.api.logger;
 
 import com.onework.boot.module.system.api.logger.dto.LoginLogCreateReqDTO;
-
 import jakarta.validation.Valid;
 
 /**

@@ -1,11 +1,12 @@
 package com.onework.boot.module.infra.dal.mysql.file;
 
 import com.onework.boot.framework.common.pojo.PageResult;
+import com.onework.boot.framework.mybatis.core.mapper.BaseMapperX;
 import com.onework.boot.framework.mybatis.core.query.LambdaQueryWrapperX;
 import com.onework.boot.module.infra.controller.admin.file.vo.file.FilePageReqVO;
 import com.onework.boot.module.infra.dal.dataobject.file.FileDO;
 import org.apache.ibatis.annotations.Mapper;
-import com.onework.boot.framework.mybatis.core.mapper.BaseMapperX;
+
 /**
  * 文件操作 Mapper
  *

@@ -1,7 +1,7 @@
 package com.onework.boot.module.system.service.permission;
 
-import com.onework.boot.module.system.controller.admin.permission.vo.menu.MenuSaveVO;
 import com.onework.boot.module.system.controller.admin.permission.vo.menu.MenuListReqVO;
+import com.onework.boot.module.system.controller.admin.permission.vo.menu.MenuSaveVO;
 import com.onework.boot.module.system.dal.dataobject.permission.MenuDO;
 
 import java.util.Collection;

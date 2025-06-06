@@ -4,10 +4,9 @@ import com.onework.boot.framework.common.validation.InEnum;
 import com.onework.boot.framework.common.validation.Mobile;
 import com.onework.boot.module.system.enums.sms.SmsSceneEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
-
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 @EqualsAndHashCode(callSuper = true)
 @Schema(description = "管理后台 - 发送手机验证码 Request VO")

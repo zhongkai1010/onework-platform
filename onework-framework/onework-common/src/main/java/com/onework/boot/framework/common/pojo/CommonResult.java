@@ -73,17 +73,21 @@ public class CommonResult<T> implements Serializable {
         return Objects.equals(code, GlobalErrorCodeConstants.SUCCESS.getCode());
     }
 
+    public static <T> CommonResult<T> error(ServiceException serviceException) {
+        return error(serviceException.getCode(), serviceException.getMessage());
+    }
+
     @JsonIgnore // 避免 jackson 序列化
     public boolean isSuccess() {
         return isSuccess(code);
     }
 
+    // ========= 和 Exception 异常体系集成 =========
+
     @JsonIgnore // 避免 jackson 序列化
     public boolean isError() {
         return !isSuccess();
     }
-
-    // ========= 和 Exception 异常体系集成 =========
 
     /**
      * 判断是否有异常。如果有，则抛出 {@link ServiceException} 异常
@@ -104,10 +108,6 @@ public class CommonResult<T> implements Serializable {
     public T getCheckedData() {
         checkError();
         return data;
-    }
-
-    public static <T> CommonResult<T> error(ServiceException serviceException) {
-        return error(serviceException.getCode(), serviceException.getMessage());
     }
 
 }

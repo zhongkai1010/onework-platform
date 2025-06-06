@@ -1,7 +1,7 @@
 package com.onework.boot.module.system.dal.dataobject.dict;
 
-import com.onework.boot.framework.common.enums.CommonStatusEnum;
 import com.baomidou.mybatisplus.annotation.*;
+import com.onework.boot.framework.common.enums.CommonStatusEnum;
 import com.onework.boot.framework.mybatis.core.dataobject.BaseDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

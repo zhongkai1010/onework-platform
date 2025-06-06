@@ -1,4 +1,5 @@
 package com.onework.boot.module.infra.framework.file.core.client;
+
 import com.onework.boot.module.infra.framework.file.core.enums.FileStorageEnum;
 
 public interface FileClientFactory {

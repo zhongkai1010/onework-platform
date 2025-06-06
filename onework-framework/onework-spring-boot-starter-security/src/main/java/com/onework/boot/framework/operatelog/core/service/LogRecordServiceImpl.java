@@ -26,26 +26,6 @@ public class LogRecordServiceImpl implements ILogRecordService {
     @Resource
     private OperateLogCommonApi operateLogApi;
 
-    @Override
-    public void record(LogRecord logRecord) {
-        OperateLogCreateReqDTO reqDTO = new OperateLogCreateReqDTO();
-        try {
-            reqDTO.setTraceId(TracerUtils.getTraceId());
-            // 补充用户信息
-            fillUserFields(reqDTO);
-            // 补全模块信息
-            fillModuleFields(reqDTO, logRecord);
-            // 补全请求信息
-            fillRequestFields(reqDTO);
-
-            // 2. 异步记录日志
-            operateLogApi.createOperateLogAsync(reqDTO);
-        } catch (Throwable ex) {
-            // 由于 @Async 异步调用，这里打印下日志，更容易跟进
-            log.error("[record][url({}) log({}) 发生异常]", reqDTO.getRequestUrl(), reqDTO, ex);
-        }
-    }
-
     private static void fillUserFields(OperateLogCreateReqDTO reqDTO) {
         // 使用 SecurityFrameworkUtils。因为要考虑，rpc、mq、job，它其实不是 web；
         LoginUser loginUser = SecurityFrameworkUtils.getLoginUser();
@@ -75,6 +55,26 @@ public class LogRecordServiceImpl implements ILogRecordService {
         reqDTO.setRequestUrl(request.getRequestURI());
         reqDTO.setUserIp(ServletUtils.getClientIP(request));
         reqDTO.setUserAgent(ServletUtils.getUserAgent(request));
+    }
+
+    @Override
+    public void record(LogRecord logRecord) {
+        OperateLogCreateReqDTO reqDTO = new OperateLogCreateReqDTO();
+        try {
+            reqDTO.setTraceId(TracerUtils.getTraceId());
+            // 补充用户信息
+            fillUserFields(reqDTO);
+            // 补全模块信息
+            fillModuleFields(reqDTO, logRecord);
+            // 补全请求信息
+            fillRequestFields(reqDTO);
+
+            // 2. 异步记录日志
+            operateLogApi.createOperateLogAsync(reqDTO);
+        } catch (Throwable ex) {
+            // 由于 @Async 异步调用，这里打印下日志，更容易跟进
+            log.error("[record][url({}) log({}) 发生异常]", reqDTO.getRequestUrl(), reqDTO, ex);
+        }
     }
 
     @Override

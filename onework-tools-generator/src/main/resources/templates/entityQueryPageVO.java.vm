@@ -10,7 +10,6 @@ import lombok.ToString;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-public class ${entity}PageReqVO extends PageParam
-{
+public class ${entity}PageReqVO extends PageParam {
 
 }

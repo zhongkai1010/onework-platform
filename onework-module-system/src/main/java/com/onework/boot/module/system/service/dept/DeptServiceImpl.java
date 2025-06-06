@@ -2,6 +2,7 @@ package com.onework.boot.module.system.service.dept;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
+import com.google.common.annotations.VisibleForTesting;
 import com.onework.boot.framework.common.enums.CommonStatusEnum;
 import com.onework.boot.framework.common.util.object.BeanUtils;
 import com.onework.boot.module.system.controller.admin.dept.vo.dept.DeptListReqVO;
@@ -9,14 +10,13 @@ import com.onework.boot.module.system.controller.admin.dept.vo.dept.DeptSaveReqV
 import com.onework.boot.module.system.dal.dataobject.dept.DeptDO;
 import com.onework.boot.module.system.dal.mysql.dept.DeptMapper;
 import com.onework.boot.module.system.dal.redis.RedisKeyConstants;
-import com.google.common.annotations.VisibleForTesting;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import jakarta.annotation.Resource;
 import java.util.*;
 
 import static com.onework.boot.framework.common.exception.util.ServiceExceptionUtil.exception;

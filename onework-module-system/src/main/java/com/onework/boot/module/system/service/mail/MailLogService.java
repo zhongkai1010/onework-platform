@@ -46,7 +46,7 @@ public interface MailLogService {
      * @return 日志编号
      */
     Long createMailLog(Long userId, Integer userType, String toMail,
-                       MailAccountDO account, MailTemplateDO template ,
+                       MailAccountDO account, MailTemplateDO template,
                        String templateContent, Map<String, Object> templateParams, Boolean isSend);
 
     /**

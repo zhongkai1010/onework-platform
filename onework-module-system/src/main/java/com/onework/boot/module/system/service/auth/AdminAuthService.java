@@ -2,7 +2,6 @@ package com.onework.boot.module.system.service.auth;
 
 import com.onework.boot.module.system.controller.admin.auth.vo.*;
 import com.onework.boot.module.system.dal.dataobject.user.AdminUserDO;
-
 import jakarta.validation.Valid;
 
 /**

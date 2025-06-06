@@ -1,7 +1,6 @@
 package com.onework.boot.module.system.api.notify;
 
 import com.onework.boot.module.system.api.notify.dto.NotifySendSingleToUserReqDTO;
-
 import jakarta.validation.Valid;
 
 /**

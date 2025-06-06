@@ -1,8 +1,8 @@
 package com.onework.boot.module.system.controller.admin.permission.vo.role;
 
+import com.mzt.logapi.starter.annotation.DiffLogField;
 import com.onework.boot.framework.common.enums.CommonStatusEnum;
 import com.onework.boot.framework.common.validation.InEnum;
-import com.mzt.logapi.starter.annotation.DiffLogField;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

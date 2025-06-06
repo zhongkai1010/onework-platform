@@ -2,10 +2,9 @@ package com.onework.boot.module.system.api.notify.dto;
 
 import com.onework.boot.framework.common.enums.CommonStatusEnum;
 import com.onework.boot.framework.common.validation.InEnum;
-import lombok.Data;
-
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
 @Data
 public class NotifyTemplateReqDTO {

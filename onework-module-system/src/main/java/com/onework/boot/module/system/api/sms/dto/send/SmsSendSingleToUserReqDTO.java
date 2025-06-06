@@ -1,9 +1,9 @@
 package com.onework.boot.module.system.api.sms.dto.send;
 
 import com.onework.boot.framework.common.validation.Mobile;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
-import jakarta.validation.constraints.NotEmpty;
 import java.util.Map;
 
 /**

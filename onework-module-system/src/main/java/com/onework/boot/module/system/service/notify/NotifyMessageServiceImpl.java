@@ -6,10 +6,10 @@ import com.onework.boot.module.system.controller.admin.notify.vo.message.NotifyM
 import com.onework.boot.module.system.dal.dataobject.notify.NotifyMessageDO;
 import com.onework.boot.module.system.dal.dataobject.notify.NotifyTemplateDO;
 import com.onework.boot.module.system.dal.mysql.notify.NotifyMessageMapper;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import jakarta.annotation.Resource;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;

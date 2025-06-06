@@ -1,6 +1,5 @@
 package com.onework.boot.module.system.controller.admin.sms.vo.log;
 
-import com.onework.boot.module.system.enums.DictTypeConstants;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -45,10 +44,10 @@ public class SmsLogRespVO {
     private Long userId;
 
     @Schema(description = "用户类型", example = "1")
-     private Integer userType;
+    private Integer userType;
 
     @Schema(description = "发送状态", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-     private Integer sendStatus;
+    private Integer sendStatus;
 
     @Schema(description = "发送时间")
     private LocalDateTime sendTime;
@@ -66,7 +65,7 @@ public class SmsLogRespVO {
     private String apiSerialNo;
 
     @Schema(description = "接收状态", requiredMode = Schema.RequiredMode.REQUIRED, example = "0")
-     private Integer receiveStatus;
+    private Integer receiveStatus;
 
     @Schema(description = "接收时间")
     private LocalDateTime receiveTime;

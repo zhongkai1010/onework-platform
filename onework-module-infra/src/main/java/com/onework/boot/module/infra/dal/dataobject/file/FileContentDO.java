@@ -1,11 +1,11 @@
 package com.onework.boot.module.infra.dal.dataobject.file;
 
 
-import com.onework.boot.framework.mybatis.core.dataobject.BaseDO;
-import com.onework.boot.module.infra.framework.file.core.client.db.DBFileClient;
 import com.baomidou.mybatisplus.annotation.KeySequence;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.onework.boot.framework.mybatis.core.dataobject.BaseDO;
+import com.onework.boot.module.infra.framework.file.core.client.db.DBFileClient;
 import lombok.*;
 import lombok.experimental.Accessors;
 

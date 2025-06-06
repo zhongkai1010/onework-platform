@@ -17,21 +17,17 @@ import org.springframework.web.context.request.ServletRequestAttributes;
  */
 public class WebFrameworkUtils {
 
-    private static final String REQUEST_ATTRIBUTE_LOGIN_USER_ID = "login_user_id";
-    private static final String REQUEST_ATTRIBUTE_LOGIN_USER_TYPE = "login_user_type";
-
-    private static final String REQUEST_ATTRIBUTE_COMMON_RESULT = "common_result";
-
     public static final String HEADER_TENANT_ID = "tenant-id";
     public static final String HEADER_VISIT_TENANT_ID = "visit-tenant-id";
-
     /**
      * 终端的 Header
      *
      * @see TerminalEnum
      */
     public static final String HEADER_TERMINAL = "terminal";
-
+    private static final String REQUEST_ATTRIBUTE_LOGIN_USER_ID = "login_user_id";
+    private static final String REQUEST_ATTRIBUTE_LOGIN_USER_TYPE = "login_user_type";
+    private static final String REQUEST_ATTRIBUTE_COMMON_RESULT = "common_result";
     private static WebProperties properties;
 
     public WebFrameworkUtils(WebProperties webProperties) {
@@ -59,7 +55,7 @@ public class WebFrameworkUtils {
      */
     public static Long getVisitTenantId(HttpServletRequest request) {
         String tenantId = request.getHeader(HEADER_VISIT_TENANT_ID);
-        return NumberUtil.isNumber(tenantId)? Long.valueOf(tenantId) : null;
+        return NumberUtil.isNumber(tenantId) ? Long.valueOf(tenantId) : null;
     }
 
     public static void setLoginUserId(ServletRequest request, Long userId) {

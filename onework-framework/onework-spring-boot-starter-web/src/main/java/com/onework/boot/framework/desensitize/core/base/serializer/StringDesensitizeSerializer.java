@@ -5,14 +5,14 @@ import cn.hutool.core.lang.Singleton;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
-import com.onework.boot.framework.desensitize.core.base.annotation.DesensitizeBy;
-import com.onework.boot.framework.desensitize.core.base.handler.DesensitizationHandler;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.BeanProperty;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.ContextualSerializer;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+import com.onework.boot.framework.desensitize.core.base.annotation.DesensitizeBy;
+import com.onework.boot.framework.desensitize.core.base.handler.DesensitizationHandler;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -47,7 +47,7 @@ public class StringDesensitizeSerializer extends StdSerializer<String> implement
         if (beanProperty == null) {
             return this;
         }
-        
+
         DesensitizeBy annotation = beanProperty.getAnnotation(DesensitizeBy.class);
         if (annotation == null) {
             return this;

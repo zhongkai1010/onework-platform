@@ -1,5 +1,6 @@
 package com.onework.boot.module.infra.service.config;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.onework.boot.framework.common.pojo.PageResult;
 import com.onework.boot.module.infra.controller.admin.config.vo.ConfigPageReqVO;
 import com.onework.boot.module.infra.controller.admin.config.vo.ConfigSaveReqVO;
@@ -7,7 +8,6 @@ import com.onework.boot.module.infra.convert.config.ConfigConvert;
 import com.onework.boot.module.infra.dal.dataobject.config.ConfigDO;
 import com.onework.boot.module.infra.dal.mysql.config.ConfigMapper;
 import com.onework.boot.module.infra.enums.config.ConfigTypeEnum;
-import com.google.common.annotations.VisibleForTesting;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

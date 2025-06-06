@@ -1,9 +1,9 @@
 package com.onework.boot.module.system.api.permission;
 
 import com.onework.boot.module.system.service.permission.RoleService;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
-import jakarta.annotation.Resource;
 import java.util.Collection;
 
 /**

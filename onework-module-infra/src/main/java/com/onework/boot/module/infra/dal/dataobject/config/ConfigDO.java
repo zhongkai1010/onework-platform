@@ -1,11 +1,11 @@
 package com.onework.boot.module.infra.dal.dataobject.config;
 
 
-import com.onework.boot.framework.mybatis.core.dataobject.BaseDO;
-import com.onework.boot.module.infra.enums.config.ConfigTypeEnum;
 import com.baomidou.mybatisplus.annotation.KeySequence;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.onework.boot.framework.mybatis.core.dataobject.BaseDO;
+import com.onework.boot.module.infra.enums.config.ConfigTypeEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;

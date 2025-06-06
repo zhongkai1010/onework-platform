@@ -1,14 +1,13 @@
 package com.onework.boot.framework.datasource.config;
 
+import com.alibaba.druid.spring.boot3.autoconfigure.properties.DruidStatProperties;
+import com.onework.boot.framework.datasource.core.filter.DruidAdRemoveFilter;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-
-import com.alibaba.druid.spring.boot3.autoconfigure.properties.DruidStatProperties;
-import com.onework.boot.framework.datasource.core.filter.DruidAdRemoveFilter;
 
 /**
  * 数据库配置类
@@ -18,8 +17,8 @@ import com.onework.boot.framework.datasource.core.filter.DruidAdRemoveFilter;
 @EnableTransactionManagement(proxyTargetClass = true) // 启动事务管理
 @EnableConfigurationProperties(DruidStatProperties.class)
 public class OneworkDataSourceAutoConfiguration {
-    
-      /**
+
+    /**
      * 创建 DruidAdRemoveFilter 过滤器，过滤 common.js 的广告
      */
     @Bean
