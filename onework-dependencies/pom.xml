@@ -31,6 +31,7 @@
         <dynamic-datasource.version>4.3.1</dynamic-datasource.version>
         <redisson.version>3.41.0</redisson.version>
         <!-- 工具类相关版本 -->
+        <anji-plus-captcha.version>1.4.0</anji-plus-captcha.version>
         <fastjson.version>2.0.53</fastjson.version>
         <hutool.version>5.8.25</hutool.version>
         <selenium.version>4.25.0</selenium.version>
@@ -318,6 +319,12 @@
                 <artifactId>easyexcel</artifactId>
                 <version>${easyexcel.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.anji-plus</groupId>
+                <artifactId>captcha-spring-boot-starter</artifactId> <!-- 验证码，一般用于登录使用 -->
+                <version>${anji-plus-captcha.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 

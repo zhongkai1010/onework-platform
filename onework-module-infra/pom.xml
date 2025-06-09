@@ -3,23 +3,22 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    
+    <!-- 父项目配置 -->
     <parent>
         <groupId>com.onework.boot</groupId>
         <artifactId>onework</artifactId>
         <version>${revision}</version>
     </parent>
-    <packaging>jar</packaging>
 
     <artifactId>onework-module-infra</artifactId>
+    <packaging>jar</packaging>
     <name>${project.artifactId}</name>
-    <description>OneWork Server Infrastructure Module</description>
+    <description>OneWork 基础设施模块，提供数据库访问、安全认证、文件处理等基础服务支持</description>
 
-    <!-- 依赖 -->
+    <!-- 项目依赖配置 -->
     <dependencies>
-        <dependency>
-            <groupId>com.onework.boot</groupId>
-            <artifactId>onework-spring-boot-starter-mybatis</artifactId>
-        </dependency>
+        <!-- OneWork 框架功能模块依赖 -->
         <dependency>
             <groupId>com.onework.boot</groupId>
             <artifactId>onework-spring-boot-starter-web</artifactId>
@@ -29,12 +28,20 @@
             <artifactId>onework-spring-boot-starter-security</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.onework.boot</groupId>
+            <artifactId>onework-spring-boot-starter-mybatis</artifactId>
+        </dependency>
+
+        <!-- 第三方工具依赖 -->
+        <dependency>
             <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-generator</artifactId> <!-- 代码生成器，使用它解析表结构 -->
+            <artifactId>mybatis-plus-generator</artifactId>
+            <!-- 代码生成器：用于解析数据库表结构并生成代码 -->
         </dependency>
         <dependency>
             <groupId>org.apache.tika</groupId>
-            <artifactId>tika-core</artifactId> <!-- 文件客户端：文件类型的识别 -->
+            <artifactId>tika-core</artifactId>
+            <!-- 文件处理工具：用于文件类型识别和元数据提取 -->
         </dependency>
     </dependencies>
 </project>

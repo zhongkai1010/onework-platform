@@ -69,7 +69,6 @@ spring:
             alter-allow: true # 允许ALTER语句
             drop-allow: true # 允许DROP语句
             comment-allow: true # 允许注释语句
-            none-base-statement-allow: true # 允许非基本语句的其他语句
     dynamic: # 多数据源配置
       druid: # Druid 【连接池】相关的全局配置
         initial-size: 5 # 初始连接数

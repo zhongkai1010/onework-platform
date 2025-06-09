@@ -3,6 +3,8 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    
+    <!-- 父项目配置 -->
     <parent>
         <groupId>com.onework.boot</groupId>
         <artifactId>onework</artifactId>
@@ -12,14 +14,21 @@
     <artifactId>onework-module-system</artifactId>
     <packaging>jar</packaging>
     <name>${project.artifactId}</name>
-    <description>OneWork Server System Module</description>
+    <description>OneWork 系统核心模块，提供系统管理、用户权限、基础配置等核心功能支持</description>
 
-    <!-- 依赖 -->
+    <!-- 项目依赖配置 -->
     <dependencies>
+        <!-- OneWork 框架核心依赖 -->
         <dependency>
             <groupId>com.onework.boot</groupId>
-            <artifactId>onework-spring-boot-starter-mybatis</artifactId>
+            <artifactId>onework-common</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.onework.boot</groupId>
+            <artifactId>onework-module-infra</artifactId>
+        </dependency>
+
+        <!-- OneWork 框架功能模块依赖 -->
         <dependency>
             <groupId>com.onework.boot</groupId>
             <artifactId>onework-spring-boot-starter-web</artifactId>
@@ -30,20 +39,14 @@
         </dependency>
         <dependency>
             <groupId>com.onework.boot</groupId>
-            <artifactId>onework-module-infra</artifactId>
+            <artifactId>onework-spring-boot-starter-mybatis</artifactId>
         </dependency>
 
-        <!-- 添加基础框架依赖 -->
-        <dependency>
-            <groupId>com.onework.boot</groupId>
-            <artifactId>onework-common</artifactId>
-        </dependency>
-
+        <!-- 开发工具依赖 -->
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

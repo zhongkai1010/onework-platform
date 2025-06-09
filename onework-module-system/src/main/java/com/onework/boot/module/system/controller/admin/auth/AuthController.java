@@ -53,7 +53,6 @@ public class AuthController {
     @Resource
     private PermissionService permissionService;
 
-
     @Resource
     private SecurityProperties securityProperties;
 
