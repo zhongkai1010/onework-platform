@@ -1,16 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://maven.apache.org/POM/4.0.0"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
+    <!-- =============== 父项目配置 =============== -->
     <parent>
-        <artifactId>onework</artifactId>
         <groupId>com.onework.boot</groupId>
+        <artifactId>onework</artifactId>
         <version>${revision}</version>
     </parent>
+
+    <!-- =============== 项目基本信息 =============== -->
     <packaging>pom</packaging>
-    <!-- 子模块 -->
+    <artifactId>onework-framework</artifactId>
+
+    <!-- =============== 项目描述 =============== -->
+    <description>
+        OneWork 框架核心模块，提供基础技术组件和业务组件。
+
+        技术组件分类：
+        1. 框架组件：对常用框架的扩展和封装
+           - MyBatis：数据库访问框架
+           - Redis：缓存框架
+           - Security：安全认证框架
+           - Web：Web 应用框架
+           - Excel：Excel 处理框架
+           - IP：IP 地址处理框架
+           - Monitor：系统监控框架
+           - Test：测试框架
+           - Tenant：多租户框架
+           - Permission：权限管理框架
+
+        2. 业务组件：业务相关的功能封装
+           - 数据字典
+           - 操作日志
+           - 业务配置
+           - 其他业务功能
+
+        组件结构：
+        1. core 包：组件的核心功能实现
+        2. config 包：基于 Spring 的自动配置
+    </description>
+
+    <!-- =============== 子模块配置 =============== -->
     <modules>
+        <!-- 框架组件 -->
         <module>onework-common</module>
         <module>onework-spring-boot-starter-mybatis</module>
         <module>onework-spring-boot-starter-web</module>
@@ -23,21 +58,11 @@
         <module>onework-spring-boot-starter-permission</module>
         <module>onework-spring-boot-starter-monitor</module>
     </modules>
-    <!-- 基础信息 -->
-    <artifactId>onework-framework</artifactId>
-    <description>
-        该包是技术组件，每个子包，代表一个组件。每个组件包括两部分：
-        1. core 包：是该组件的核心封装
-        2. config 包：是该组件基于 Spring 的配置
 
-        技术组件，也分成两类：
-        1. 框架组件：和我们熟悉的 MyBatis、Redis 等等的拓展
-        2. 业务组件：和业务相关的组件的封装，例如说数据字典、操作日志等等。
-        如果是业务组件，Maven 名字会包含 biz
-    </description>
-
+    <!-- =============== 依赖管理 =============== -->
     <dependencyManagement>
         <dependencies>
+            <!-- 项目依赖管理 -->
             <dependency>
                 <groupId>com.onework.boot</groupId>
                 <artifactId>onework-dependencies</artifactId>
@@ -47,4 +72,5 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
 </project>

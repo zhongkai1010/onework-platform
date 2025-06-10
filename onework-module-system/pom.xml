@@ -1,24 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://maven.apache.org/POM/4.0.0"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    
-    <!-- 父项目配置 -->
+
+    <!-- =============== 父项目配置 =============== -->
     <parent>
         <groupId>com.onework.boot</groupId>
         <artifactId>onework</artifactId>
         <version>${revision}</version>
     </parent>
 
-    <artifactId>onework-module-system</artifactId>
+    <!-- =============== 项目基本信息 =============== -->
     <packaging>jar</packaging>
+    <artifactId>onework-module-system</artifactId>
     <name>${project.artifactId}</name>
-    <description>OneWork 系统核心模块，提供系统管理、用户权限、基础配置等核心功能支持</description>
 
-    <!-- 项目依赖配置 -->
+    <!-- =============== 项目描述 =============== -->
+    <description>
+        系统核心模块，提供系统管理和基础配置功能。
+
+        主要特性：
+        1. 用户管理：用户信息、角色、权限管理
+        2. 系统配置：系统参数、字典、配置管理
+        3. 安全认证：登录认证、验证码、安全防护
+        4. 数据权限：基于角色的数据权限控制
+        5. 数据导入：支持 Excel 数据导入导出
+
+        技术组件说明：
+        1. controller 包：系统管理控制器
+        2. service 包：业务服务实现
+        3. dal 包：数据访问层实现
+        4. convert 包：数据转换层实现
+    </description>
+
+    <!-- =============== 项目依赖 =============== -->
     <dependencies>
-        <!-- OneWork 框架核心依赖 -->
+        <!-- =============== OneWork 框架核心依赖 =============== -->
         <dependency>
             <groupId>com.onework.boot</groupId>
             <artifactId>onework-common</artifactId>
@@ -28,7 +46,7 @@
             <artifactId>onework-module-infra</artifactId>
         </dependency>
 
-        <!-- OneWork 框架功能模块依赖 -->
+        <!-- =============== OneWork 框架功能模块依赖 =============== -->
         <dependency>
             <groupId>com.onework.boot</groupId>
             <artifactId>onework-spring-boot-starter-web</artifactId>
@@ -45,19 +63,6 @@
             <groupId>com.onework.boot</groupId>
             <artifactId>onework-spring-boot-starter-tenant</artifactId>
         </dependency>
-        <!-- 开发工具依赖 -->
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.anji-plus</groupId>
-            <artifactId>captcha-spring-boot-starter</artifactId> <!-- 验证码，一般用于登录使用 -->
-        </dependency>
         <dependency>
             <groupId>com.onework.boot</groupId>
             <artifactId>onework-spring-boot-starter-excel</artifactId>
@@ -66,5 +71,22 @@
             <groupId>com.onework.boot</groupId>
             <artifactId>onework-spring-boot-starter-permission</artifactId>
         </dependency>
+
+        <!-- =============== 开发工具依赖 =============== -->
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.anji-plus</groupId>
+            <artifactId>captcha-spring-boot-starter</artifactId>
+            <!-- 验证码，一般用于登录使用 -->
+        </dependency>
     </dependencies>
+
 </project>

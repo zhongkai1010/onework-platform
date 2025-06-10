@@ -3,40 +3,58 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
+    <!-- =============== 父项目配置 =============== -->
     <parent>
         <groupId>com.onework.boot</groupId>
         <artifactId>onework-framework</artifactId>
         <version>${revision}</version>
     </parent>
+
+    <!-- =============== 项目基本信息 =============== -->
     <packaging>jar</packaging>
-    <!-- 基础信息 -->
     <name>${project.artifactId}</name>
     <artifactId>onework-spring-boot-starter-redis</artifactId>
+
+    <!-- =============== 项目描述 =============== -->
     <description>
-    OneWork Redis 缓存模块，基于 Redisson 实现的分布式缓存功能。
-    提供高性能的缓存操作接口，支持分布式锁、限流等特性。
+        Redis 缓存模块，提供分布式缓存和分布式锁功能。
+
+        主要特性：
+        1. 缓存操作：基于 Redisson 的缓存操作
+        2. 分布式锁：支持分布式锁实现
+        3. 限流功能：支持分布式限流
+        4. 缓存注解：支持缓存注解
+        5. 序列化：支持多种序列化方式
+
+        技术组件说明：
+        1. core 包：缓存核心功能
+        2. config 包：Redis 自动配置
+        3. annotation 包：缓存注解
+        4. lock 包：分布式锁实现
     </description>
-    <!-- 依赖 -->
+
+    <!-- =============== 项目依赖 =============== -->
     <dependencies>
-        <!-- 框架核心依赖 -->
+        <!-- =============== 框架核心依赖 =============== -->
         <dependency>
             <groupId>com.onework.boot</groupId>
             <artifactId>onework-common</artifactId>
         </dependency>
 
-        <!-- Spring Boot 相关依赖 -->
+        <!-- =============== Spring Boot 相关依赖 =============== -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-cache</artifactId>
         </dependency>
 
-        <!-- Redis 相关依赖 -->
+        <!-- =============== Redis 相关依赖 =============== -->
         <dependency>
             <groupId>org.redisson</groupId>
             <artifactId>redisson-spring-boot-starter</artifactId>
         </dependency>
 
-        <!-- JSON 处理相关依赖 -->
+        <!-- =============== JSON 处理相关依赖 =============== -->
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>

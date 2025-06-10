@@ -14,6 +14,7 @@
         <module>onework-server</module>
         <module>onework-module-system</module>
         <module>onework-module-infra</module>
+        <module>onework-admin-ui</module>
     </modules>
 
     <name>${project.artifactId}</name>

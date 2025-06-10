@@ -3,22 +3,40 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
+    <!-- =============== 父项目配置 =============== -->
     <parent>
         <groupId>com.onework.boot</groupId>
         <artifactId>onework-framework</artifactId>
         <version>${revision}</version>
     </parent>
+
+    <!-- =============== 项目基本信息 =============== -->
     <packaging>jar</packaging>
-    <!-- 基础信息 -->
     <name>${project.artifactId}</name>
     <artifactId>onework-spring-boot-starter-tenant</artifactId>
+
+    <!-- =============== 项目描述 =============== -->
     <description>
-    OneWork 多租户模块，提供多租户数据隔离功能。
-    支持基于数据库、Schema、表等不同级别的租户隔离策略。
+        多租户模块，提供多租户数据隔离功能。
+
+        主要特性：
+        1. 数据隔离：支持多租户数据隔离
+        2. 租户管理：支持租户信息管理
+        3. 数据权限：支持租户数据权限控制
+        4. 动态切换：支持租户动态切换
+        5. 数据迁移：支持租户数据迁移
+
+        技术组件说明：
+        1. core 包：多租户核心功能
+        2. config 包：多租户自动配置
+        3. handler 包：多租户处理器
+        4. service 包：多租户服务实现
     </description>
-    <!-- 依赖 -->
+
+    <!-- =============== 项目依赖 =============== -->
     <dependencies>
-        <!-- 框架核心依赖 -->
+        <!-- =============== 框架核心依赖 =============== -->
         <dependency>
             <groupId>com.onework.boot</groupId>
             <artifactId>onework-spring-boot-starter-mybatis</artifactId>
@@ -28,7 +46,7 @@
             <artifactId>onework-spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- 工具类依赖 -->
+        <!-- =============== 工具类依赖 =============== -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

@@ -1,47 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
+    <!-- =============== 父项目配置 =============== -->
     <parent>
         <groupId>com.onework.boot</groupId>
         <artifactId>onework-framework</artifactId>
         <version>${revision}</version>
     </parent>
 
-    <version>1.0.0-SNAPSHOT</version>
+    <!-- =============== 项目基本信息 =============== -->
     <packaging>jar</packaging>
-    <!-- 基础信息 -->
     <name>${project.artifactId}</name>
     <artifactId>onework-spring-boot-starter-permission</artifactId>
+
+    <!-- =============== 项目描述 =============== -->
+    <description>
+        权限管理模块，提供数据权限和功能权限的核心功能。
+
+        主要特性：
+        1. 数据权限：支持基于部门、用户的数据权限控制
+        2. 功能权限：支持基于角色、权限的功能权限控制
+        3. 权限注解：提供 @DataPermission 注解，支持细粒度的数据权限控制
+        4. 权限规则：支持自定义数据权限规则
+        5. 多租户：支持多租户场景下的权限控制
+
+        技术组件说明：
+        1. core 包：权限管理的核心功能实现
+        2. config 包：基于 Spring 的自动配置
+        3. rule 包：数据权限规则实现
+        4. aop 包：权限注解的 AOP 实现
+    </description>
+
+    <!-- =============== 项目依赖 =============== -->
     <dependencies>
+        <!-- =============== 基础依赖 =============== -->
         <dependency>
             <groupId>com.onework.boot</groupId>
             <artifactId>onework-common</artifactId>
         </dependency>
 
-        <!-- Web 相关 -->
+        <!-- =============== Web 安全相关依赖 =============== -->
         <dependency>
             <groupId>com.onework.boot</groupId>
             <artifactId>onework-spring-boot-starter-security</artifactId>
-            <optional>true</optional> <!-- 可选，如果使用 DeptDataPermissionRule 必须提供 -->
+            <optional>true</optional>
+            <!-- 可选，如果使用 DeptDataPermissionRule 必须提供 -->
         </dependency>
 
-        <!-- DB 相关 -->
+        <!-- =============== 数据库相关依赖 =============== -->
         <dependency>
             <groupId>com.onework.boot</groupId>
             <artifactId>onework-spring-boot-starter-mybatis</artifactId>
-
         </dependency>
 
-        <!-- Test 测试相关 -->
+        <!-- =============== 测试相关依赖 =============== -->
         <dependency>
             <groupId>com.onework.boot</groupId>
             <artifactId>onework-spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-
 
 </project>

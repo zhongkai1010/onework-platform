@@ -1,23 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
+    <!-- =============== 父项目配置 =============== -->
     <parent>
         <groupId>com.onework.boot</groupId>
         <artifactId>onework-framework</artifactId>
         <version>${revision}</version>
     </parent>
+
+    <!-- =============== 项目基本信息 =============== -->
     <packaging>jar</packaging>
-    <!-- 基础信息 -->
     <name>${project.artifactId}</name>
     <artifactId>onework-spring-boot-starter-security</artifactId>
+
+    <!-- =============== 项目描述 =============== -->
     <description>
-    OneWork 安全认证模块，基于 Spring Security 实现的安全认证功能。
-    提供统一的认证授权、权限控制、安全防护等特性。
+        安全认证模块，提供认证授权和权限控制功能。
+
+        主要特性：
+        1. 认证授权：基于 Spring Security 的认证授权
+        2. 权限控制：支持细粒度的权限控制
+        3. 安全防护：提供安全防护功能
+        4. 操作日志：支持操作日志记录
+        5. 多租户：支持多租户安全隔离
+
+        技术组件说明：
+        1. core 包：安全核心功能
+        2. config 包：安全自动配置
+        3. filter 包：安全过滤器
+        4. handler 包：安全处理器
     </description>
-    <!-- 依赖 -->
+
+    <!-- =============== 项目依赖 =============== -->
     <dependencies>
-        <!-- 框架核心依赖 -->
+        <!-- =============== 框架核心依赖 =============== -->
         <dependency>
             <groupId>com.onework.boot</groupId>
             <artifactId>onework-common</artifactId>
@@ -27,7 +46,7 @@
             <artifactId>onework-spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- Spring Boot 相关依赖 -->
+        <!-- =============== Spring Boot 相关依赖 =============== -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
@@ -42,13 +61,13 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- 工具类依赖 -->
+        <!-- =============== 工具类依赖 =============== -->
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
         </dependency>
 
-        <!-- 业务日志依赖 -->
+        <!-- =============== 业务日志依赖 =============== -->
         <dependency>
             <groupId>io.github.mouzt</groupId>
             <artifactId>bizlog-sdk</artifactId>

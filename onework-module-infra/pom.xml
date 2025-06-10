@@ -1,24 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://maven.apache.org/POM/4.0.0"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    
-    <!-- 父项目配置 -->
+
+    <!-- =============== 父项目配置 =============== -->
     <parent>
         <groupId>com.onework.boot</groupId>
         <artifactId>onework</artifactId>
         <version>${revision}</version>
     </parent>
 
-    <artifactId>onework-module-infra</artifactId>
+    <!-- =============== 项目基本信息 =============== -->
     <packaging>jar</packaging>
+    <artifactId>onework-module-infra</artifactId>
     <name>${project.artifactId}</name>
-    <description>OneWork 基础设施模块，提供数据库访问、安全认证、文件处理等基础服务支持</description>
 
-    <!-- 项目依赖配置 -->
+    <!-- =============== 项目描述 =============== -->
+    <description>
+        基础设施模块，提供系统运行所需的基础服务支持。
+
+        主要特性：
+        1. 数据库访问：提供数据库操作和代码生成功能
+        2. 安全认证：提供用户认证和权限控制
+        3. 文件处理：支持文件类型识别和元数据提取
+        4. 多租户：支持多租户数据隔离
+        5. Web 服务：提供 Web 应用基础功能
+
+        技术组件说明：
+        1. controller 包：控制器层实现
+        2. service 包：业务服务层实现
+        3. dal 包：数据访问层实现
+        4. convert 包：数据转换层实现
+    </description>
+
+    <!-- =============== 项目依赖 =============== -->
     <dependencies>
-        <!-- OneWork 框架功能模块依赖 -->
+        <!-- =============== OneWork 框架功能模块依赖 =============== -->
         <dependency>
             <groupId>com.onework.boot</groupId>
             <artifactId>onework-spring-boot-starter-web</artifactId>
@@ -31,8 +49,12 @@
             <groupId>com.onework.boot</groupId>
             <artifactId>onework-spring-boot-starter-mybatis</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.onework.boot</groupId>
+            <artifactId>onework-spring-boot-starter-tenant</artifactId>
+        </dependency>
 
-        <!-- 第三方工具依赖 -->
+        <!-- =============== 第三方工具依赖 =============== -->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-generator</artifactId>
@@ -43,9 +65,6 @@
             <artifactId>tika-core</artifactId>
             <!-- 文件处理工具：用于文件类型识别和元数据提取 -->
         </dependency>
-        <dependency>
-            <groupId>com.onework.boot</groupId>
-            <artifactId>onework-spring-boot-starter-tenant</artifactId>
-        </dependency>
     </dependencies>
+
 </project>

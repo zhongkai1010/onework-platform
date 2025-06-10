@@ -1,19 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
+    <!-- =============== 父项目配置 =============== -->
     <parent>
         <groupId>com.onework.boot</groupId>
         <artifactId>onework-framework</artifactId>
         <version>${revision}</version>
     </parent>
+
+    <!-- =============== 项目基本信息 =============== -->
     <packaging>jar</packaging>
-    <!-- 基础信息 -->
     <artifactId>onework-common</artifactId>
     <name>${project.artifactId}</name>
-    <description>定义基础 pojo 类、枚举、工具类等等</description>
+
+    <!-- =============== 项目描述 =============== -->
+    <description>
+        通用工具模块，提供基础 POJO 类、枚举、工具类等通用功能。
+
+        主要特性：
+        1. 基础类型：提供通用的 POJO 类、枚举、常量等
+        2. 工具类：提供常用的工具类，如字符串处理、集合操作等
+        3. 注解支持：提供自定义注解，用于业务功能扩展
+        4. 异常处理：提供统一的异常处理机制
+        5. 线程支持：提供线程安全的工具类
+
+        技术组件说明：
+        1. pojo 包：基础数据对象定义
+        2. enums 包：枚举类型定义
+        3. util 包：通用工具类实现
+        4. exception 包：异常处理相关类
+    </description>
+
+    <!-- =============== 项目依赖 =============== -->
     <dependencies>
-        <!-- Spring 核心 -->
+        <!-- =============== Spring 核心依赖 =============== -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
@@ -22,18 +45,22 @@
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
         </dependency>
-        <!-- Web相关 -->
+
+        <!-- =============== Web 相关依赖 =============== -->
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
-            <scope>provided</scope> <!-- 设置为 provided，主要是 PageParam 使用到 -->
+            <scope>provided</scope>
+            <!-- 设置为 provided，主要是 PageParam 使用到 -->
         </dependency>
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
-            <scope>provided</scope> <!-- 设置为 provided，只有工具类需要使用到 -->
+            <scope>provided</scope>
+            <!-- 设置为 provided，只有工具类需要使用到 -->
         </dependency>
-        <!-- 监控相关 -->
+
+        <!-- =============== 监控相关依赖 =============== -->
         <dependency>
             <groupId>org.apache.skywalking</groupId>
             <artifactId>apm-toolkit-trace</artifactId>
@@ -42,7 +69,8 @@
             <groupId>org.apache.skywalking</groupId>
             <artifactId>apm-toolkit-logback-1.x</artifactId>
         </dependency>
-        <!-- 工具类相关 -->
+
+        <!-- =============== 工具类相关依赖 =============== -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -68,4 +96,5 @@
             <artifactId>mapstruct</artifactId>
         </dependency>
     </dependencies>
+
 </project>

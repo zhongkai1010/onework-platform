@@ -3,44 +3,70 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
+    <!-- =============== 父项目配置 =============== -->
     <parent>
         <groupId>com.onework.boot</groupId>
         <artifactId>onework-framework</artifactId>
         <version>${revision}</version>
     </parent>
+
+    <!-- =============== 项目基本信息 =============== -->
     <packaging>jar</packaging>
-    <!-- 基础信息 -->
     <name>${project.artifactId}</name>
     <artifactId>onework-spring-boot-starter-monitor</artifactId>
-    <dependencies>
 
+    <!-- =============== 项目描述 =============== -->
+    <description>
+        系统监控模块，提供应用监控、链路追踪、性能指标等功能。
+
+        主要特性：
+        1. 应用监控：集成 Spring Boot Admin，提供应用运行状态监控
+        2. 链路追踪：集成 SkyWalking，提供分布式链路追踪能力
+        3. 性能指标：集成 Micrometer，支持 Prometheus 指标收集
+        4. 日志集成：支持 SkyWalking 日志收集
+        5. 健康检查：集成 Spring Boot Actuator，提供健康检查端点
+
+        技术组件说明：
+        1. core 包：监控核心功能实现
+        2. config 包：基于 Spring 的自动配置
+        3. filter 包：请求追踪过滤器实现
+        4. aop 包：性能监控切面实现
+    </description>
+
+    <!-- =============== 项目依赖 =============== -->
+    <dependencies>
+        <!-- =============== 基础依赖 =============== -->
         <dependency>
             <groupId>com.onework.boot</groupId>
             <artifactId>onework-common</artifactId>
         </dependency>
 
+        <!-- =============== Spring 相关依赖 =============== -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
-        <!-- Web 相关 -->
+
+        <!-- =============== Web 相关依赖 =============== -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
-            <scope>provided</scope> <!-- 设置为 provided，只有 TraceFilter 使用 -->
+            <scope>provided</scope>
+            <!-- 设置为 provided，只有 TraceFilter 使用 -->
         </dependency>
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
-            <scope>provided</scope> <!-- 设置为 provided，只有 TraceFilter 使用 -->
+            <scope>provided</scope>
+            <!-- 设置为 provided，只有 TraceFilter 使用 -->
         </dependency>
+
+        <!-- =============== 监控相关依赖 =============== -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-actuator-autoconfigure</artifactId>
         </dependency>
-
-
-        <!-- 监控相关 -->
         <dependency>
             <groupId>io.opentracing</groupId>
             <artifactId>opentracing-util</artifactId>
@@ -58,15 +84,18 @@
             <artifactId>apm-toolkit-opentracing</artifactId>
         </dependency>
 
-        <!-- Micrometer 对 Prometheus 的支持 -->
+        <!-- =============== 指标监控依赖 =============== -->
         <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-registry-prometheus</artifactId>
         </dependency>
 
+        <!-- =============== 应用监控依赖 =============== -->
         <dependency>
             <groupId>de.codecentric</groupId>
-            <artifactId>spring-boot-admin-starter-client</artifactId> <!-- 实现 Spring Boot Admin Server 服务端 -->
+            <artifactId>spring-boot-admin-starter-client</artifactId>
+            <!-- 实现 Spring Boot Admin Server 服务端 -->
         </dependency>
     </dependencies>
+
 </project>

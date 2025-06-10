@@ -3,22 +3,40 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
+    <!-- =============== 父项目配置 =============== -->
     <parent>
         <groupId>com.onework.boot</groupId>
         <artifactId>onework-framework</artifactId>
         <version>${revision}</version>
     </parent>
+
+    <!-- =============== 项目基本信息 =============== -->
     <packaging>jar</packaging>
-    <!-- 基础信息 -->
     <name>${project.artifactId}</name>
     <artifactId>onework-spring-boot-starter-test</artifactId>
+
+    <!-- =============== 项目描述 =============== -->
     <description>
-    OneWork 测试模块，提供单元测试和集成测试支持。
-    包含 Mock 工具、测试数据库、测试数据生成器等测试相关功能。
+        测试模块，提供单元测试和集成测试支持。
+
+        主要特性：
+        1. 单元测试：支持单元测试框架
+        2. 集成测试：支持集成测试环境
+        3. Mock 工具：提供 Mock 测试工具
+        4. 测试数据：支持测试数据生成
+        5. 测试数据库：支持测试数据库
+
+        技术组件说明：
+        1. core 包：测试核心功能
+        2. config 包：测试自动配置
+        3. mock 包：Mock 测试工具
+        4. util 包：测试工具类
     </description>
-    <!-- 依赖 -->
+
+    <!-- =============== 项目依赖 =============== -->
     <dependencies>
-        <!-- 框架核心依赖 -->
+        <!-- =============== 框架核心依赖 =============== -->
         <dependency>
             <groupId>com.onework.boot</groupId>
             <artifactId>onework-common</artifactId>
@@ -27,18 +45,17 @@
             <groupId>com.onework.boot</groupId>
             <artifactId>onework-spring-boot-starter-redis</artifactId>
         </dependency>
-        <dependency>
+        <dependency> 
             <groupId>com.onework.boot</groupId>
             <artifactId>onework-spring-boot-starter-mybatis</artifactId>
         </dependency>
-
-        <!-- Spring Boot 测试相关依赖 -->
+        <!-- =============== Spring Boot 测试相关依赖 =============== -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
 
-        <!-- 测试工具依赖 -->
+        <!-- =============== 测试工具依赖 =============== -->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-inline</artifactId>
@@ -48,7 +65,7 @@
             <artifactId>podam</artifactId>
         </dependency>
 
-        <!-- 测试数据库依赖 -->
+        <!-- =============== 测试数据库依赖 =============== -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
