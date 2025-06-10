@@ -13,8 +13,10 @@ import com.onework.boot.module.system.dal.dataobject.permission.MenuDO;
 import com.onework.boot.module.system.dal.mysql.permission.MenuMapper;
 import com.onework.boot.module.system.dal.redis.RedisKeyConstants;
 import com.onework.boot.module.system.enums.permission.MenuTypeEnum;
+import com.onework.boot.module.system.service.tenant.TenantService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.validator.internal.util.stereotypes.Lazy;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -40,9 +42,9 @@ public class MenuServiceImpl implements MenuService {
     private MenuMapper menuMapper;
     @Resource
     private PermissionService permissionService;
-//    @Resource
-//    @Lazy // 延迟，避免循环依赖报错
-//    private TenantService tenantService;
+    @Resource
+    @Lazy // 延迟，避免循环依赖报错
+    private TenantService tenantService;
 
     @Override
     @CacheEvict(value = RedisKeyConstants.PERMISSION_MENU_ID_LIST, key = "#createReqVO.permission",
@@ -111,7 +113,7 @@ public class MenuServiceImpl implements MenuService {
         // 查询所有菜单，并过滤掉关闭的节点
         List<MenuDO> menus = getMenuList(reqVO);
         // 开启多租户的情况下，需要过滤掉未开通的菜单
-//        tenantService.handleTenantMenu(menuIds -> menus.removeIf(menu -> !CollUtil.contains(menuIds, menu.getId())));
+        tenantService.handleTenantMenu(menuIds -> menus.removeIf(menu -> !CollUtil.contains(menuIds, menu.getId())));
         return menus;
     }
 

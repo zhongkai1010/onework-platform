@@ -18,6 +18,7 @@ import com.onework.boot.module.system.service.permission.PermissionService;
 import com.onework.boot.module.system.service.permission.RoleService;
 import com.onework.boot.module.system.service.user.AdminUserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.annotation.security.PermitAll;
@@ -42,6 +43,7 @@ import static com.onework.boot.framework.web.core.util.WebFrameworkUtils.getLogi
 @Slf4j
 public class AuthController {
 
+
     @Resource
     private AdminAuthService authService;
     @Resource
@@ -52,6 +54,7 @@ public class AuthController {
     private MenuService menuService;
     @Resource
     private PermissionService permissionService;
+
 
     @Resource
     private SecurityProperties securityProperties;
@@ -73,6 +76,14 @@ public class AuthController {
             authService.logout(token, LoginLogTypeEnum.LOGOUT_SELF.getType());
         }
         return success(true);
+    }
+
+    @PostMapping("/refresh-token")
+    @PermitAll
+    @Operation(summary = "刷新令牌")
+    @Parameter(name = "refreshToken", description = "刷新令牌", required = true)
+    public CommonResult<AuthLoginRespVO> refreshToken(@RequestParam("refreshToken") String refreshToken) {
+        return success(authService.refreshToken(refreshToken));
     }
 
     @GetMapping("/get-permission-info")

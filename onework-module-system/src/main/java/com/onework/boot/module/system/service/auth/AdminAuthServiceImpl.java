@@ -1,25 +1,35 @@
 package com.onework.boot.module.system.service.auth;
 
 import cn.hutool.core.util.ObjectUtil;
+import com.anji.captcha.model.common.ResponseModel;
+import com.anji.captcha.model.vo.CaptchaVO;
+import com.anji.captcha.service.CaptchaService;
+import com.google.common.annotations.VisibleForTesting;
 import com.onework.boot.framework.common.enums.CommonStatusEnum;
 import com.onework.boot.framework.common.enums.UserTypeEnum;
 import com.onework.boot.framework.common.util.monitor.TracerUtils;
 import com.onework.boot.framework.common.util.servlet.ServletUtils;
+import com.onework.boot.framework.common.util.validation.ValidationUtils;
 import com.onework.boot.module.system.api.logger.dto.LoginLogCreateReqDTO;
 import com.onework.boot.module.system.api.sms.SmsCodeApi;
 import com.onework.boot.module.system.api.sms.dto.code.SmsCodeUseReqDTO;
 import com.onework.boot.module.system.controller.admin.auth.vo.*;
 import com.onework.boot.module.system.convert.auth.AuthConvert;
 import com.onework.boot.module.system.dal.dataobject.user.AdminUserDO;
+import com.onework.boot.module.system.dal.dataobject.oauth2.OAuth2AccessTokenDO;
 import com.onework.boot.module.system.enums.logger.LoginLogTypeEnum;
 import com.onework.boot.module.system.enums.logger.LoginResultEnum;
+import com.onework.boot.module.system.enums.oauth2.OAuth2ClientConstants;
 import com.onework.boot.module.system.enums.sms.SmsSceneEnum;
 import com.onework.boot.module.system.service.logger.LoginLogService;
 import com.onework.boot.module.system.service.member.MemberService;
+import com.onework.boot.module.system.service.oauth2.OAuth2TokenService;
 import com.onework.boot.module.system.service.user.AdminUserService;
 import jakarta.annotation.Resource;
 import jakarta.validation.Validator;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,11 +53,23 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     @Resource
     private LoginLogService loginLogService;
     @Resource
+    private OAuth2TokenService oauth2TokenService;
+
+    @Resource
     private MemberService memberService;
     @Resource
     private Validator validator;
     @Resource
+    private CaptchaService captchaService;
+    @Resource
     private SmsCodeApi smsCodeApi;
+
+    /**
+     * 验证码的开关，默认为 true
+     */
+    @Value("${onework.captcha.enable:true}")
+    @Setter // 为了单测：开启或者关闭验证码
+    private Boolean captchaEnable;
 
     @Override
     public AdminUserDO authenticate(String username, String password) {
@@ -72,14 +94,26 @@ public class AdminAuthServiceImpl implements AdminAuthService {
 
     @Override
     public AuthLoginRespVO login(AuthLoginReqVO reqVO) {
+        // 校验验证码
+        validateCaptcha(reqVO);
+
         // 使用账号密码，进行登录
         AdminUserDO user = authenticate(reqVO.getUsername(), reqVO.getPassword());
+
         // 创建 Token 令牌，记录登录日志
         return createTokenAfterLoginSuccess(user.getId(), reqVO.getUsername(), LoginLogTypeEnum.LOGIN_USERNAME);
     }
 
     @Override
     public void sendSmsCode(AuthSmsSendReqVO reqVO) {
+        // 如果是重置密码场景，需要校验图形验证码是否正确
+        if (Objects.equals(SmsSceneEnum.ADMIN_MEMBER_RESET_PASSWORD.getScene(), reqVO.getScene())) {
+            ResponseModel response = doValidateCaptcha(reqVO);
+            if (!response.isSuccess()) {
+                throw exception(AUTH_REGISTER_CAPTCHA_CODE_ERROR, response.getRepMsg());
+            }
+        }
+
         // 登录场景，验证是否存在
         if (userService.getUserByMobile(reqVO.getMobile()) == null) {
             throw exception(AUTH_MOBILE_NOT_EXISTS);
@@ -113,31 +147,62 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         reqDTO.setUserType(getUserType().getValue());
         reqDTO.setUsername(username);
         reqDTO.setUserAgent(ServletUtils.getUserAgent());
-        reqDTO.setUserIp(getClientIP());
+        reqDTO.setUserIp(ServletUtils.getClientIP());
         reqDTO.setResult(loginResult.getResult());
         loginLogService.createLoginLog(reqDTO);
         // 更新最后登录时间
         if (userId != null && Objects.equals(LoginResultEnum.SUCCESS.getResult(), loginResult.getResult())) {
-            userService.updateUserLogin(userId, getClientIP());
+            userService.updateUserLogin(userId, ServletUtils.getClientIP());
         }
     }
 
-    @Override
-    public AuthLoginRespVO socialLogin(AuthSocialLoginReqVO reqVO) {
-        return null;
+    @VisibleForTesting
+    void validateCaptcha(AuthLoginReqVO reqVO) {
+        ResponseModel response = doValidateCaptcha(reqVO);
+        // 校验验证码
+        if (!response.isSuccess()) {
+            // 创建登录失败日志（验证码不正确)
+            createLoginLog(null, reqVO.getUsername(), LoginLogTypeEnum.LOGIN_USERNAME, LoginResultEnum.CAPTCHA_CODE_ERROR);
+            throw exception(AUTH_LOGIN_CAPTCHA_CODE_ERROR, response.getRepMsg());
+        }
+    }
+
+    private ResponseModel doValidateCaptcha(CaptchaVerificationReqVO reqVO) {
+        // 如果验证码关闭，则不进行校验
+        if (!captchaEnable) {
+            return ResponseModel.success();
+        }
+        ValidationUtils.validate(validator, reqVO, CaptchaVerificationReqVO.CodeEnableGroup.class);
+        CaptchaVO captchaVO = new CaptchaVO();
+        captchaVO.setCaptchaVerification(reqVO.getCaptchaVerification());
+        return captchaService.verification(captchaVO);
     }
 
     private AuthLoginRespVO createTokenAfterLoginSuccess(Long userId, String username, LoginLogTypeEnum logType) {
-        return null;
+        // 插入登陆日志
+        createLoginLog(userId, username, logType, LoginResultEnum.SUCCESS);
+        // 创建访问令牌
+        OAuth2AccessTokenDO accessTokenDO = oauth2TokenService.createAccessToken(userId, getUserType().getValue(),
+                OAuth2ClientConstants.CLIENT_ID_DEFAULT, null);
+        // 构建返回结果
+        return AuthConvert.INSTANCE.convert(accessTokenDO);
     }
 
     @Override
     public AuthLoginRespVO refreshToken(String refreshToken) {
-        return null;
+        OAuth2AccessTokenDO accessTokenDO = oauth2TokenService.refreshAccessToken(refreshToken, OAuth2ClientConstants.CLIENT_ID_DEFAULT);
+        return AuthConvert.INSTANCE.convert(accessTokenDO);
     }
 
     @Override
     public void logout(String token, Integer logType) {
+        // 删除访问令牌
+        OAuth2AccessTokenDO accessTokenDO = oauth2TokenService.removeAccessToken(token);
+        if (accessTokenDO == null) {
+            return;
+        }
+        // 删除成功，则记录登出日志
+        createLogoutLog(accessTokenDO.getUserId(), accessTokenDO.getUserType(), logType);
     }
 
     private void createLogoutLog(Long userId, Integer userType, Integer logType) {
@@ -152,7 +217,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
             reqDTO.setUsername(memberService.getMemberUserMobile(userId));
         }
         reqDTO.setUserAgent(ServletUtils.getUserAgent());
-        reqDTO.setUserIp(getClientIP());
+        reqDTO.setUserIp(ServletUtils.getClientIP());
         reqDTO.setResult(LoginResultEnum.SUCCESS.getResult());
         loginLogService.createLoginLog(reqDTO);
     }
@@ -171,11 +236,23 @@ public class AdminAuthServiceImpl implements AdminAuthService {
 
     @Override
     public AuthLoginRespVO register(AuthRegisterReqVO registerReqVO) {
+        // 1. 校验验证码
+        validateCaptcha(registerReqVO);
+
         // 2. 校验用户名是否已存在
         Long userId = userService.registerUser(registerReqVO);
 
         // 3. 创建 Token 令牌，记录登录日志
         return createTokenAfterLoginSuccess(userId, registerReqVO.getUsername(), LoginLogTypeEnum.LOGIN_USERNAME);
+    }
+
+    @VisibleForTesting
+    void validateCaptcha(AuthRegisterReqVO reqVO) {
+        ResponseModel response = doValidateCaptcha(reqVO);
+        // 验证不通过
+        if (!response.isSuccess()) {
+            throw exception(AUTH_REGISTER_CAPTCHA_CODE_ERROR, response.getRepMsg());
+        }
     }
 
     @Override

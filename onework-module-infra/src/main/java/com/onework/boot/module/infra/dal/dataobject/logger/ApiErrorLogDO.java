@@ -7,6 +7,7 @@ import com.onework.boot.framework.common.enums.UserTypeEnum;
 import com.onework.boot.framework.mybatis.core.dataobject.BaseDO;
 import com.onework.boot.module.infra.enums.logger.ApiErrorLogProcessStatusEnum;
 import lombok.*;
+import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
 
@@ -22,6 +23,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @KeySequence(value = "infra_api_error_log_seq")
+@Accessors(chain = true)
 public class ApiErrorLogDO extends BaseDO {
 
     /**
@@ -153,7 +155,7 @@ public class ApiErrorLogDO extends BaseDO {
     /**
      * 处理用户编号
      *
-     * 关联 cn.iocoder.yudao.adminserver.modules.system.dal.dataobject.user.SysUserDO.SysUserDO#getId()
+     * 关联  SysUserDO.SysUserDO#getId()
      */
     private Long processUserId;
 

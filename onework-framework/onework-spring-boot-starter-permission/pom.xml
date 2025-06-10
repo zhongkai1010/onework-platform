@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.onework.boot</groupId>
+        <artifactId>onework-framework</artifactId>
+        <version>${revision}</version>
+    </parent>
+
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <!-- 基础信息 -->
+    <name>${project.artifactId}</name>
+    <artifactId>onework-spring-boot-starter-permission</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>com.onework.boot</groupId>
+            <artifactId>onework-common</artifactId>
+        </dependency>
+
+        <!-- Web 相关 -->
+        <dependency>
+            <groupId>com.onework.boot</groupId>
+            <artifactId>onework-spring-boot-starter-security</artifactId>
+            <optional>true</optional> <!-- 可选，如果使用 DeptDataPermissionRule 必须提供 -->
+        </dependency>
+
+        <!-- DB 相关 -->
+        <dependency>
+            <groupId>com.onework.boot</groupId>
+            <artifactId>onework-spring-boot-starter-mybatis</artifactId>
+
+        </dependency>
+
+        <!-- Test 测试相关 -->
+        <dependency>
+            <groupId>com.onework.boot</groupId>
+            <artifactId>onework-spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+
+
+</project>

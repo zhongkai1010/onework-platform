@@ -59,7 +59,7 @@ public class MenuController {
 
     @GetMapping("/list")
     @Operation(summary = "获取菜单列表", description = "用于【菜单管理】界面")
-    @PreAuthorize("@ss.hasPermission('system:menu:query')")
+    @PreAuthorize("@ss.hasPermission('system:menu:query')")//
     public CommonResult<List<MenuRespVO>> getMenuList(MenuListReqVO reqVO) {
         List<MenuDO> list = menuService.getMenuList(reqVO);
         list.sort(Comparator.comparing(MenuDO::getSort));

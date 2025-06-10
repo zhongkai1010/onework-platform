@@ -4,6 +4,8 @@ import com.onework.boot.framework.common.api.logger.dto.ApiErrorLogCreateReqDTO;
 import com.onework.boot.framework.common.pojo.PageResult;
 import com.onework.boot.framework.common.string.StrUtils;
 import com.onework.boot.framework.common.util.object.BeanUtils;
+import com.onework.boot.framework.tenant.core.context.TenantContextHolder;
+import com.onework.boot.framework.tenant.core.util.TenantUtils;
 import com.onework.boot.module.infra.controller.admin.logger.vo.apierrorlog.ApiErrorLogPageReqVO;
 import com.onework.boot.module.infra.dal.dataobject.logger.ApiErrorLogDO;
 import com.onework.boot.module.infra.dal.mysql.logger.ApiErrorLogMapper;
@@ -34,9 +36,15 @@ public class ApiErrorLogServiceImpl implements ApiErrorLogService {
 
     @Override
     public void createApiErrorLog(ApiErrorLogCreateReqDTO createDTO) {
-        ApiErrorLogDO apiErrorLog = BeanUtils.toBean(createDTO, ApiErrorLogDO.class);
+        ApiErrorLogDO apiErrorLog = BeanUtils.toBean(createDTO, ApiErrorLogDO.class)
+                .setProcessStatus(ApiErrorLogProcessStatusEnum.INIT.getStatus());
         apiErrorLog.setRequestParams(StrUtils.maxLength(apiErrorLog.getRequestParams(), REQUEST_PARAMS_MAX_LENGTH));
-        apiErrorLogMapper.insert(apiErrorLog);
+        if (TenantContextHolder.getTenantId() != null) {
+            apiErrorLogMapper.insert(apiErrorLog);
+        } else {
+            // 极端情况下，上下文中没有租户时，此时忽略租户上下文，避免插入失败！
+            TenantUtils.executeIgnore(() -> apiErrorLogMapper.insert(apiErrorLog));
+        }
     }
 
     @Override

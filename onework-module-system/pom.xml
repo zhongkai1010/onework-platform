@@ -41,7 +41,10 @@
             <groupId>com.onework.boot</groupId>
             <artifactId>onework-spring-boot-starter-mybatis</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>com.onework.boot</groupId>
+            <artifactId>onework-spring-boot-starter-tenant</artifactId>
+        </dependency>
         <!-- 开发工具依赖 -->
         <dependency>
             <groupId>org.mapstruct</groupId>
@@ -50,6 +53,18 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.anji-plus</groupId>
+            <artifactId>captcha-spring-boot-starter</artifactId> <!-- 验证码，一般用于登录使用 -->
+        </dependency>
+        <dependency>
+            <groupId>com.onework.boot</groupId>
+            <artifactId>onework-spring-boot-starter-excel</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.onework.boot</groupId>
+            <artifactId>onework-spring-boot-starter-permission</artifactId>
         </dependency>
     </dependencies>
 </project>

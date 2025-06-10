@@ -43,5 +43,9 @@
             <artifactId>tika-core</artifactId>
             <!-- 文件处理工具：用于文件类型识别和元数据提取 -->
         </dependency>
+        <dependency>
+            <groupId>com.onework.boot</groupId>
+            <artifactId>onework-spring-boot-starter-tenant</artifactId>
+        </dependency>
     </dependencies>
 </project>

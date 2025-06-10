@@ -22,7 +22,7 @@ public class SmsTemplateRespVO {
     @Schema(description = "模板编码", requiredMode = Schema.RequiredMode.REQUIRED, example = "test_01")
     private String code;
 
-    @Schema(description = "模板名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "yudao")
+    @Schema(description = "模板名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "onework")
     private String name;
 
     @Schema(description = "模板内容", requiredMode = Schema.RequiredMode.REQUIRED, example = "你好，{name}。你长的太{like}啦！")

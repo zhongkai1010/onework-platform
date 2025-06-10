@@ -27,8 +27,7 @@ public class SecurityFrameworkUtils {
      */
     public static final String AUTHORIZATION_BEARER = "Bearer";
 
-    private SecurityFrameworkUtils() {
-    }
+    private SecurityFrameworkUtils() {}
 
     /**
      * 从请求中，获得认证 Token
@@ -154,5 +153,6 @@ public class SecurityFrameworkUtils {
         // 重点：跨租户访问时，无法进行权限校验
         return ObjUtil.notEqual(loginUser.getVisitTenantId(), loginUser.getTenantId());
     }
+
 
 }

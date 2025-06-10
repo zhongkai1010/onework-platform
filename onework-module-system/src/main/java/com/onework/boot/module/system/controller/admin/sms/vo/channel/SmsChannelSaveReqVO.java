@@ -27,14 +27,14 @@ public class SmsChannelSaveReqVO {
     @Schema(description = "备注", example = "好吃！")
     private String remark;
 
-    @Schema(description = "短信 API 的账号", requiredMode = Schema.RequiredMode.REQUIRED, example = "yudao")
+    @Schema(description = "短信 API 的账号", requiredMode = Schema.RequiredMode.REQUIRED, example = "onework")
     @NotNull(message = "短信 API 的账号不能为空")
     private String apiKey;
 
     @Schema(description = "短信 API 的密钥", example = "yuanma")
     private String apiSecret;
 
-    @Schema(description = "短信发送回调 URL", example = "http://www.iocoder.cn")
+    @Schema(description = "短信发送回调 URL", example = "http://www.onework.cn")
     @URL(message = "回调 URL 格式不正确")
     private String callbackUrl;
 

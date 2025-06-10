@@ -19,6 +19,9 @@
         <module>onework-spring-boot-starter-excel</module>
         <module>onework-spring-boot-starter-ip</module>
         <module>onework-spring-boot-starter-test</module>
+        <module>onework-spring-boot-starter-tenant</module>
+        <module>onework-spring-boot-starter-permission</module>
+        <module>onework-spring-boot-starter-monitor</module>
     </modules>
     <!-- 基础信息 -->
     <artifactId>onework-framework</artifactId>

@@ -18,7 +18,7 @@ public class DictDataRespVO {
     @Schema(description = "字典标签", requiredMode = Schema.RequiredMode.REQUIRED, example = "Onework")
     private String label;
 
-    @Schema(description = "字典值", requiredMode = Schema.RequiredMode.REQUIRED, example = "iocoder")
+    @Schema(description = "字典值", requiredMode = Schema.RequiredMode.REQUIRED, example = "onework")
     private String value;
 
     @Schema(description = "字典类型", requiredMode = Schema.RequiredMode.REQUIRED, example = "sys_common_sex")

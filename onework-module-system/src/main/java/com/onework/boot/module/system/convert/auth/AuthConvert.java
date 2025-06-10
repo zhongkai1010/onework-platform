@@ -1,12 +1,12 @@
 package com.onework.boot.module.system.convert.auth;
 
 import cn.hutool.core.collection.CollUtil;
+
 import com.onework.boot.framework.common.util.object.BeanUtils;
 import com.onework.boot.module.system.api.sms.dto.code.SmsCodeSendReqDTO;
 import com.onework.boot.module.system.api.sms.dto.code.SmsCodeUseReqDTO;
-import com.onework.boot.module.system.controller.admin.auth.vo.AuthPermissionInfoRespVO;
-import com.onework.boot.module.system.controller.admin.auth.vo.AuthSmsLoginReqVO;
-import com.onework.boot.module.system.controller.admin.auth.vo.AuthSmsSendReqVO;
+import com.onework.boot.module.system.controller.admin.auth.vo.*;
+import com.onework.boot.module.system.dal.dataobject.oauth2.OAuth2AccessTokenDO;
 import com.onework.boot.module.system.dal.dataobject.permission.MenuDO;
 import com.onework.boot.module.system.dal.dataobject.permission.RoleDO;
 import com.onework.boot.module.system.dal.dataobject.user.AdminUserDO;
@@ -14,17 +14,19 @@ import com.onework.boot.module.system.enums.permission.MenuTypeEnum;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import org.slf4j.LoggerFactory;
-
 import java.util.*;
 
 import static com.onework.boot.framework.common.util.collection.CollectionUtils.convertSet;
 import static com.onework.boot.framework.common.util.collection.CollectionUtils.filterList;
 import static com.onework.boot.module.system.dal.dataobject.permission.MenuDO.ID_ROOT;
 
+
 @Mapper
 public interface AuthConvert {
 
     AuthConvert INSTANCE = Mappers.getMapper(AuthConvert.class);
+
+    AuthLoginRespVO convert(OAuth2AccessTokenDO bean);
 
     default AuthPermissionInfoRespVO convert(AdminUserDO user, List<RoleDO> roleList, List<MenuDO> menuList) {
         return AuthPermissionInfoRespVO.builder()
@@ -76,7 +78,6 @@ public interface AuthConvert {
         // 获得到所有的根节点
         return filterList(treeNodeMap.values(), node -> ID_ROOT.equals(node.getParentId()));
     }
-
 
     SmsCodeSendReqDTO convert(AuthSmsSendReqVO reqVO);
 

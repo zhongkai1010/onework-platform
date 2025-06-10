@@ -41,16 +41,16 @@ public class AuthPermissionInfoRespVO {
         @Schema(description = "用户昵称", requiredMode = Schema.RequiredMode.REQUIRED, example = "Onework源码")
         private String nickname;
 
-        @Schema(description = "用户头像", requiredMode = Schema.RequiredMode.REQUIRED, example = "https://www.iocoder.cn/xx.jpg")
+        @Schema(description = "用户头像", requiredMode = Schema.RequiredMode.REQUIRED, example = "https://www.onework.cn/xx.jpg")
         private String avatar;
 
         @Schema(description = "部门编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "2048")
         private Long deptId;
 
-        @Schema(description = "用户账号", requiredMode = Schema.RequiredMode.REQUIRED, example = "yudao")
+        @Schema(description = "用户账号", requiredMode = Schema.RequiredMode.REQUIRED, example = "onework")
         private String username;
 
-        @Schema(description = "用户邮箱", example = "yudao@iocoder.cn")
+        @Schema(description = "用户邮箱", example = "onework@onework.cn")
         private String email;
 
     }

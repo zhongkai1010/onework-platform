@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.onework.boot.framework.common.enums.CommonStatusEnum;
 import com.onework.boot.framework.mybatis.core.dataobject.BaseDO;
+import com.onework.boot.framework.tenant.core.db.TenantBaseDO;
 import com.onework.boot.module.system.enums.permission.DataScopeEnum;
 import com.onework.boot.module.system.enums.permission.RoleTypeEnum;
 import lombok.Data;
@@ -18,14 +19,14 @@ import java.util.Set;
 /**
  * 角色 DO
  *
- * @author ruoyi
+ *
  */
 @TableName(value = "system_role", autoResultMap = true)
 @KeySequence("system_role_seq") // 用于 Oracle、PostgreSQL、Kingbase、DB2、H2 数据库的主键自增。如果是 MySQL 等数据库，可不写。
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-public class RoleDO extends BaseDO {
+public class RoleDO extends TenantBaseDO {
 
     /**
      * 角色ID
