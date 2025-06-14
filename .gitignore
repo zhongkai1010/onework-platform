@@ -33,3 +33,5 @@ nbproject/ # NetBeans 项目配置
 *.log    # 日志文件
 LOG_FILE_IS_UNDEFINED  # 未定义的日志文件
 LOG_FILE_IS_UNDEFINED.*  # 未定义的日志文件的所有变体
+
+/onework-module-system/target/
