@@ -8,7 +8,6 @@ import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,18 +31,12 @@ public class LoginUser {
      * 关联 {@link UserTypeEnum}
      */
     private Integer userType;
-    /**
-     * 额外的用户信息
-     */
-    private Map<String, String> info;
+
     /**
      * 租户编号
      */
     private Long tenantId;
-    /**
-     * 授权范围
-     */
-    private List<String> scopes;
+
     /**
      * 过期时间
      */

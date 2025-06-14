@@ -2,8 +2,8 @@ package com.onework.boot.framework.security.core.filter;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import com.onework.boot.framework.common.api.oauth2.OAuth2TokenCommonApi;
-import com.onework.boot.framework.common.api.oauth2.dto.OAuth2AccessTokenCheckRespDTO;
+import com.onework.boot.framework.common.api.token.TokenCommonApi;
+import com.onework.boot.framework.common.api.token.dto.TokenDataDto;
 import com.onework.boot.framework.common.exception.ServiceException;
 import com.onework.boot.framework.common.pojo.CommonResult;
 import com.onework.boot.framework.common.util.servlet.ServletUtils;
@@ -30,12 +30,11 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
-
     private final SecurityProperties securityProperties;
 
     private final GlobalExceptionHandler globalExceptionHandler;
 
-    private final OAuth2TokenCommonApi oauth2TokenApi;
+    private final TokenCommonApi tokenCommonApi;
 
     @Override
     @SuppressWarnings("NullableProblems")
@@ -70,22 +69,27 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
     private LoginUser buildLoginUserByToken(String token, Integer userType) {
         try {
-            OAuth2AccessTokenCheckRespDTO accessToken = oauth2TokenApi.checkAccessToken(token);
-            if (accessToken == null) {
+            TokenDataDto tokenDataDto = tokenCommonApi.checkToken(token);
+            if (tokenDataDto == null) {
                 return null;
             }
             // 用户类型不匹配，无权限
             // 注意：只有 /admin-api/* 和 /app-api/* 有 userType，才需要比对用户类型
             // 类似 WebSocket 的 /ws/* 连接地址，是不需要比对用户类型的
             if (userType != null
-                    && ObjectUtil.notEqual(accessToken.getUserType(), userType)) {
+                    && ObjectUtil.notEqual(tokenDataDto.getUserType(), userType)) {
                 throw new AccessDeniedException("错误的用户类型");
             }
+            // 延迟token有效期
+            tokenCommonApi.refreshToken(token, securityProperties.getJwtExpiresIn());
+
             // 构建登录用户
-            return new LoginUser().setId(accessToken.getUserId()).setUserType(accessToken.getUserType())
-                    .setInfo(accessToken.getUserInfo()) // 额外的用户信息
-                    .setTenantId(accessToken.getTenantId()).setScopes(accessToken.getScopes())
-                    .setExpiresTime(accessToken.getExpiresTime());
+            return new LoginUser()
+                    .setId(tokenDataDto.getUserId())
+                    .setUserType(tokenDataDto.getUserType())
+                    .setTenantId(tokenDataDto.getTenantId())
+                    .setExpiresTime(tokenDataDto.getExpiresTime());
+
         } catch (ServiceException serviceException) {
             // 校验 Token 不通过时，考虑到一些接口是无需登录的，所以直接返回 null 即可
             return null;

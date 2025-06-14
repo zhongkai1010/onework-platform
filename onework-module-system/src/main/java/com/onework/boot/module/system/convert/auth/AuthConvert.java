@@ -6,7 +6,6 @@ import com.onework.boot.framework.common.util.object.BeanUtils;
 import com.onework.boot.module.system.api.sms.dto.code.SmsCodeSendReqDTO;
 import com.onework.boot.module.system.api.sms.dto.code.SmsCodeUseReqDTO;
 import com.onework.boot.module.system.controller.admin.auth.vo.*;
-import com.onework.boot.module.system.dal.dataobject.oauth2.OAuth2AccessTokenDO;
 import com.onework.boot.module.system.dal.dataobject.permission.MenuDO;
 import com.onework.boot.module.system.dal.dataobject.permission.RoleDO;
 import com.onework.boot.module.system.dal.dataobject.user.AdminUserDO;
@@ -25,8 +24,6 @@ import static com.onework.boot.module.system.dal.dataobject.permission.MenuDO.ID
 public interface AuthConvert {
 
     AuthConvert INSTANCE = Mappers.getMapper(AuthConvert.class);
-
-    AuthLoginRespVO convert(OAuth2AccessTokenDO bean);
 
     default AuthPermissionInfoRespVO convert(AdminUserDO user, List<RoleDO> roleList, List<MenuDO> menuList) {
         return AuthPermissionInfoRespVO.builder()

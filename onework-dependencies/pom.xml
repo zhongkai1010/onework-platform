@@ -42,6 +42,7 @@
         <tika-core.version>3.1.0</tika-core.version>
         <ip2region.version>2.7.0</ip2region.version>
         <easyexcel.version>4.0.3</easyexcel.version>
+        <jjwt.version>0.12.6</jjwt.version>
         <!-- Web 相关版本 -->
         <springdoc.version>1.7.0</springdoc.version>
         <knife4j.version>4.5.0</knife4j.version>
@@ -55,6 +56,8 @@
         <jedis-mock.version>1.1.8</jedis-mock.version>
         <podam.version>8.0.2.RELEASE</podam.version>
         <mockito-inline.version>5.2.0</mockito-inline.version>
+        <!-- 验证码 -->
+        <easy-captcha.version>1.6.2</easy-captcha.version>
     </properties>
 
     <dependencyManagement>
@@ -264,6 +267,28 @@
                 <artifactId>onework-spring-boot-starter-ip</artifactId>
                 <version>${revision}</version>
             </dependency>
+            <!-- JWT 支持（使用 jjwt）-->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-api</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-impl</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-jackson</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+            <!-- 验证码 -->
+            <dependency>
+                <groupId>com.github.whvcse</groupId>
+                <artifactId>easy-captcha</artifactId>
+                <version>${easy-captcha.version}</version>
+            </dependency>
             <!-- ================== 监控与日志 ================== -->
 
             <dependency>
@@ -384,11 +409,7 @@
                 <artifactId>easyexcel</artifactId>
                 <version>${easyexcel.version}</version>
             </dependency>
-            <dependency>
-                <groupId>com.anji-plus</groupId>
-                <artifactId>captcha-spring-boot-starter</artifactId> <!-- 验证码，一般用于登录使用 -->
-                <version>${anji-plus-captcha.version}</version>
-            </dependency>
+
 
         </dependencies>
     </dependencyManagement>

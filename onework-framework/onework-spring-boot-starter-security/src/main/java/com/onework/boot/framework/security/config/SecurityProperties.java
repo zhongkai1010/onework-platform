@@ -43,6 +43,21 @@ public class SecurityProperties {
     private String mockSecret = "test";
 
     /**
+     * JWT私钥
+     * 默认使用一个安全的密钥，建议在生产环境中修改
+     * 注意：密钥长度必须大于等于32字节
+     */
+    @NotEmpty(message = "JWT私钥不能为空")
+    private String jwtSecretKey = "5xeqfqNnXsNIiGKuJ6J+CTY15k8tgxFfE/4rN1K4exdpUuB2/vRPjijVdynGFTE5";
+
+    /**
+     * JWT过期时间（秒）
+     * 默认7天
+     */
+    @NotNull(message = "JWT过期时间不能为空")
+    private Long jwtExpiresIn = 24 * 60 * 60L;
+
+    /**
      * 免登录的 URL 列表
      */
     private List<String> permitAllUrls = Collections.emptyList();

@@ -78,13 +78,6 @@ public class AuthController {
         return success(true);
     }
 
-    @PostMapping("/refresh-token")
-    @PermitAll
-    @Operation(summary = "刷新令牌")
-    @Parameter(name = "refreshToken", description = "刷新令牌", required = true)
-    public CommonResult<AuthLoginRespVO> refreshToken(@RequestParam("refreshToken") String refreshToken) {
-        return success(authService.refreshToken(refreshToken));
-    }
 
     @GetMapping("/get-permission-info")
     @Operation(summary = "获取登录用户的权限信息")

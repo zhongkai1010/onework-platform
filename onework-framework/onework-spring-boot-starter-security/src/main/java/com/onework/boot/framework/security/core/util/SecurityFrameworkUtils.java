@@ -91,28 +91,6 @@ public class SecurityFrameworkUtils {
     }
 
     /**
-     * 获得当前用户的昵称，从上下文中
-     *
-     * @return 昵称
-     */
-    @Nullable
-    public static String getLoginUserNickname() {
-        LoginUser loginUser = getLoginUser();
-        return loginUser != null ? MapUtil.getStr(loginUser.getInfo(), LoginUser.INFO_KEY_NICKNAME) : null;
-    }
-
-    /**
-     * 获得当前用户的部门编号，从上下文中
-     *
-     * @return 部门编号
-     */
-    @Nullable
-    public static Long getLoginUserDeptId() {
-        LoginUser loginUser = getLoginUser();
-        return loginUser != null ? MapUtil.getLong(loginUser.getInfo(), LoginUser.INFO_KEY_DEPT_ID) : null;
-    }
-
-    /**
      * 设置当前用户
      *
      * @param loginUser 登录用户
@@ -153,6 +131,4 @@ public class SecurityFrameworkUtils {
         // 重点：跨租户访问时，无法进行权限校验
         return ObjUtil.notEqual(loginUser.getVisitTenantId(), loginUser.getTenantId());
     }
-
-
 }

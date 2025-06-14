@@ -66,11 +66,11 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
         </dependency>
-
         <!-- =============== 业务日志依赖 =============== -->
         <dependency>
             <groupId>io.github.mouzt</groupId>
             <artifactId>bizlog-sdk</artifactId>
         </dependency>
+
     </dependencies>
 </project>

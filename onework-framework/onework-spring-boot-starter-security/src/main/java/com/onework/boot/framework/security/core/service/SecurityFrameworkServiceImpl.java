@@ -59,25 +59,4 @@ public class SecurityFrameworkServiceImpl implements SecurityFrameworkService {
         }
         return permissionApi.hasAnyRoles(userId, roles);
     }
-
-    @Override
-    public boolean hasScope(String scope) {
-        return hasAnyScopes(scope);
-    }
-
-    @Override
-    public boolean hasAnyScopes(String... scope) {
-        // 特殊：跨租户访问
-        if (skipPermissionCheck()) {
-            return true;
-        }
-
-        // 权限校验
-        LoginUser user = SecurityFrameworkUtils.getLoginUser();
-        if (user == null) {
-            return false;
-        }
-        return CollUtil.containsAny(user.getScopes(), Arrays.asList(scope));
-    }
-
 }

@@ -1,7 +1,7 @@
 package com.onework.boot.framework.security.config;
 
-import com.onework.boot.framework.common.api.oauth2.OAuth2TokenCommonApi;
 import com.onework.boot.framework.common.api.permission.PermissionCommonApi;
+import com.onework.boot.framework.common.api.token.TokenCommonApi;
 import com.onework.boot.framework.security.core.context.TransmittableThreadLocalSecurityContextHolderStrategy;
 import com.onework.boot.framework.security.core.filter.TokenAuthenticationFilter;
 import com.onework.boot.framework.security.core.handler.AccessDeniedHandlerImpl;
@@ -24,11 +24,11 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 
 /**
  * Spring Security 自动配置类，主要用于相关组件的配置
- *
+ * <p>
  * 注意，不能和 {@link OneworkWebSecurityConfigurerAdapter} 用一个，原因是会导致初始化报错。
- * 参见 https://stackoverflow.com/questions/53847050/spring-boot-delegatebuilder-cannot-be-null-on-autowiring-authenticationmanager 文档。
+ * 参见 <a href="https://stackoverflow.com/questions/53847050/spring-boot-delegatebuilder-cannot-be-null-on-autowiring-authenticationmanager">...</a> 文档。
  *
- * 
+ *
  */
 @AutoConfiguration
 @AutoConfigureOrder(-1) // 目的：先于 Spring Security 自动配置，避免一键改包后，org.* 基础包无法生效
@@ -69,9 +69,8 @@ public class OneworkSecurityAutoConfiguration {
      * Token 认证过滤器 Bean
      */
     @Bean
-    public TokenAuthenticationFilter authenticationTokenFilter(GlobalExceptionHandler globalExceptionHandler,
-                                                               OAuth2TokenCommonApi oauth2TokenApi) {
-        return new TokenAuthenticationFilter(securityProperties, globalExceptionHandler, oauth2TokenApi);
+    public TokenAuthenticationFilter authenticationTokenFilter(GlobalExceptionHandler globalExceptionHandler, TokenCommonApi tokenCommonApi) {
+        return new TokenAuthenticationFilter(securityProperties, globalExceptionHandler,tokenCommonApi);
     }
 
     @Bean("ss") // 使用 Spring Security 的缩写，方便使用
