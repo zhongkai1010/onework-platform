@@ -20,7 +20,6 @@ mvnw.cmd                   # Maven wrapper Windows 脚本
 # IDE 配置
 .idea/                     # IntelliJ IDEA 项目配置
 *.iml                      # IntelliJ IDEA 模块文件
-.vscode/                   # Visual Studio Code 配置
 .settings/                 # Eclipse 设置目录
 .project                   # Eclipse 项目文件
 .classpath                 # Eclipse 类路径配置
