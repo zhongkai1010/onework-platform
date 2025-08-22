@@ -1,37 +1,77 @@
 # Java/Maven 编译输出
-target/  # Maven 编译输出目录（所有子目录）
-out/     # IDEA 编译输出目录
-*.class  # Java 编译生成的字节码文件
+target/                    # Maven 编译输出目录（所有子目录）
+out/                       # IDEA 编译输出目录
+*.class                    # Java 编译生成的字节码文件
+*.jar                      # JAR 包文件
+*.war                      # WAR 包文件
+*.ear                      # EAR 包文件
+
+# Maven 插件生成的文件
+.flattened-pom.xml         # Maven flatten 插件生成的文件
+.flattened-pom.xml.bak     # Maven flatten 插件备份文件
 
 # 构建工具
-.gradle/ # Gradle 构建工具配置和缓存
-build/   # Gradle 构建输出目录
+.gradle/                   # Gradle 构建工具配置和缓存
+build/                     # Gradle 构建输出目录
+.mvn/                      # Maven wrapper 配置
+mvnw                       # Maven wrapper 脚本
+mvnw.cmd                   # Maven wrapper Windows 脚本
 
 # IDE 配置
-.idea/   # IntelliJ IDEA 项目配置
-*.iml    # IntelliJ IDEA 模块文件
-.vscode/ # Visual Studio Code 配置
-
-
+.idea/                     # IntelliJ IDEA 项目配置
+*.iml                      # IntelliJ IDEA 模块文件
+.vscode/                   # Visual Studio Code 配置
+.settings/                 # Eclipse 设置目录
+.project                   # Eclipse 项目文件
+.classpath                 # Eclipse 类路径配置
+.factorypath               # Eclipse 注解处理器配置
+.metadata/                 # Eclipse 元数据目录
 
 # 系统文件
-.DS_Store  # macOS 系统文件
-Thumbs.db  # Windows 缩略图缓存
+.DS_Store                  # macOS 系统文件
+Thumbs.db                  # Windows 缩略图缓存
+desktop.ini                # Windows 桌面配置文件
 
 # 备份和交换文件
-*.bak  # 备份文件
-*.swp  # Vim 交换文件
-
-# Maven/IDE 生成的其他文件
-*.db       # 数据库文件
-nbproject/ # NetBeans 项目配置
-.project   # Eclipse 项目文件
-.classpath # Eclipse 类路径配置
-.settings/ # Eclipse 设置目录
+*.bak                      # 备份文件
+*.swp                      # Vim 交换文件
+*.swo                      # Vim 交换文件
+*~                         # 临时文件
 
 # 日志和临时文件
-*.log    # 日志文件
-LOG_FILE_IS_UNDEFINED  # 未定义的日志文件
-LOG_FILE_IS_UNDEFINED.*  # 未定义的日志文件的所有变体
+*.log                      # 日志文件
+*.tmp                      # 临时文件
+*.temp                     # 临时文件
+LOG_FILE_IS_UNDEFINED      # 未定义的日志文件
+LOG_FILE_IS_UNDEFINED.*    # 未定义的日志文件的所有变体
 
-/onework-module-system/target/
+# 数据库文件
+*.db                       # 数据库文件
+*.sqlite                   # SQLite 数据库文件
+*.h2.db                    # H2 数据库文件
+
+# 测试相关
+test-output/               # 测试输出目录
+coverage/                  # 代码覆盖率报告
+.nyc_output/               # NYC 覆盖率输出
+
+# 依赖管理
+node_modules/              # Node.js 依赖
+.pnpm-store/               # pnpm 存储
+
+# 环境配置
+.env                       # 环境变量文件
+.env.local                 # 本地环境变量
+.env.*.local               # 本地环境变量变体
+application-local.yml      # 本地配置文件
+application-local.properties # 本地配置文件
+
+# 缓存文件
+.cache/                    # 缓存目录
+*.cache                    # 缓存文件
+
+# 特定项目忽略（如果需要）
+# /onework-module-system/target/
+# /onework-module-infra/target/
+# /onework-server/target/
+# /onework-framework/*/target/
