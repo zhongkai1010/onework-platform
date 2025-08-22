@@ -214,8 +214,8 @@ public class MenuServiceImpl implements MenuService {
             throw exception(MENU_PARENT_NOT_EXISTS);
         }
         // 父菜单必须是目录或者菜单类型
-        if (!MenuTypeEnum.DIR.getType().equals(menu.getType())
-                && !MenuTypeEnum.MENU.getType().equals(menu.getType())) {
+        if (!MenuTypeEnum.DIR.getType().equals(menu.getMenuType())
+                && !MenuTypeEnum.MENU.getType().equals(menu.getMenuType())) {
             throw exception(MENU_PARENT_NOT_DIR_OR_MENU);
         }
     }
@@ -277,7 +277,7 @@ public class MenuServiceImpl implements MenuService {
      */
     private void initMenuProperty(MenuDO menu) {
         // 菜单为按钮类型时，无需 component、icon、path 属性，进行置空
-        if (MenuTypeEnum.BUTTON.getType().equals(menu.getType())) {
+        if (MenuTypeEnum.BUTTON.getType().equals(menu.getMenuType())) {
             menu.setComponent("");
             menu.setComponentName("");
             menu.setIcon("");

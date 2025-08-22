@@ -49,7 +49,7 @@ public interface AuthConvert {
             return Collections.emptyList();
         }
         // 移除按钮
-        menuList.removeIf(menu -> menu.getType().equals(MenuTypeEnum.BUTTON.getType()));
+        menuList.removeIf(menu -> menu.getMenuType().equals(MenuTypeEnum.BUTTON.getType()));
         // 排序，保证菜单的有序性
         menuList.sort(Comparator.comparing(MenuDO::getSort));
 
