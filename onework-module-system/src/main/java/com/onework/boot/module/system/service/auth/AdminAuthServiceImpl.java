@@ -2,12 +2,15 @@ package com.onework.boot.module.system.service.auth;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.google.common.annotations.VisibleForTesting;
+import com.onework.boot.framework.captcha.core.db.CaptchaVerificationDto;
+import com.onework.boot.framework.captcha.core.service.CaptchaService;
 import com.onework.boot.framework.common.api.token.TokenCommonApi;
 import com.onework.boot.framework.common.api.token.dto.TokenDataDto;
 import com.onework.boot.framework.common.enums.CommonStatusEnum;
 import com.onework.boot.framework.common.enums.UserTypeEnum;
 import com.onework.boot.framework.common.util.monitor.TracerUtils;
 import com.onework.boot.framework.common.util.servlet.ServletUtils;
+import com.onework.boot.framework.common.util.validation.ValidationUtils;
 import com.onework.boot.framework.security.config.SecurityProperties;
 import com.onework.boot.framework.tenant.core.context.TenantContextHolder;
 import com.onework.boot.module.system.api.logger.dto.LoginLogCreateReqDTO;
@@ -24,13 +27,12 @@ import com.onework.boot.module.system.service.member.MemberService;
 import com.onework.boot.module.system.service.user.AdminUserService;
 import jakarta.annotation.Resource;
 import jakarta.validation.Validator;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 import static com.onework.boot.framework.common.exception.util.ServiceExceptionUtil.exception;
@@ -54,20 +56,15 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     private MemberService memberService;
     @Resource
     private Validator validator;
-//    @Resource
-//    private CaptchaService captchaService;
+    @Resource
+    private CaptchaService captchaService;
     @Resource
     private SmsCodeApi smsCodeApi;
     @Resource
     private TokenCommonApi tokenCommonApi;
     @Resource
     private SecurityProperties securityProperties;
-    /**
-     * 验证码的开关，默认为 true
-     */
-    @Value("${onework.captcha.enable:true}")
-    @Setter // 为了单测：开启或者关闭验证码
-    private Boolean captchaEnable;
+
 
     @Override
     public AdminUserDO authenticate(String username, String password) {
@@ -104,13 +101,12 @@ public class AdminAuthServiceImpl implements AdminAuthService {
 
     @Override
     public void sendSmsCode(AuthSmsSendReqVO reqVO) {
-//        // 如果是重置密码场景，需要校验图形验证码是否正确
-//        if (Objects.equals(SmsSceneEnum.ADMIN_MEMBER_RESET_PASSWORD.getScene(), reqVO.getScene())) {
-//            ResponseModel response = doValidateCaptcha(reqVO);
-//            if (!response.isSuccess()) {
-//                throw exception(AUTH_REGISTER_CAPTCHA_CODE_ERROR, response.getRepMsg());
-//            }
-//        }
+        // 如果是重置密码场景，需要校验图形验证码是否正确
+        if (Objects.equals(SmsSceneEnum.ADMIN_MEMBER_RESET_PASSWORD.getScene(), reqVO.getScene())) {
+            if (!captchaService.validate(reqVO)) {
+                throw exception(AUTH_LOGIN_CAPTCHA_CODE_ERROR);
+            }
+        }
 
         // 登录场景，验证是否存在
         if (userService.getUserByMobile(reqVO.getMobile()) == null) {
@@ -156,25 +152,19 @@ public class AdminAuthServiceImpl implements AdminAuthService {
 
     @VisibleForTesting
     void validateCaptcha(AuthLoginReqVO reqVO) {
-//        ResponseModel response = doValidateCaptcha(reqVO);
-//        // 校验验证码
-//        if (!response.isSuccess()) {
-//            // 创建登录失败日志（验证码不正确)
-//            createLoginLog(null, reqVO.getUsername(), LoginLogTypeEnum.LOGIN_USERNAME, LoginResultEnum.CAPTCHA_CODE_ERROR);
-//            throw exception(AUTH_LOGIN_CAPTCHA_CODE_ERROR, response.getRepMsg());
-//        }
+        boolean response = doValidateCaptcha(reqVO);
+        // 校验验证码
+        if (!response) {
+            // 创建登录失败日志（验证码不正确)
+            createLoginLog(null, reqVO.getUsername(), LoginLogTypeEnum.LOGIN_USERNAME, LoginResultEnum.CAPTCHA_CODE_ERROR);
+            throw exception(AUTH_LOGIN_CAPTCHA_CODE_ERROR);
+        }
     }
 
-//    private ResponseModel doValidateCaptcha(CaptchaVerificationReqVO reqVO) {
-//        // 如果验证码关闭，则不进行校验
-//        if (!captchaEnable) {
-//            return ResponseModel.success();
-//        }
-//        ValidationUtils.validate(validator, reqVO, CaptchaVerificationReqVO.CodeEnableGroup.class);
-//        CaptchaVO captchaVO = new CaptchaVO();
-//        captchaVO.setCaptchaVerification(reqVO.getCaptchaVerification());
-//        return captchaService.verification(captchaVO);
-//    }
+    private boolean doValidateCaptcha(CaptchaVerificationDto reqVO) {
+        ValidationUtils.validate(validator, reqVO, CaptchaVerificationDto.CodeEnableGroup.class);
+        return captchaService.validate(reqVO);
+    }
 
     private AuthLoginRespVO createTokenAfterLoginSuccess(Long userId, String username, LoginLogTypeEnum logType) {
         // 插入登陆日志
@@ -185,12 +175,12 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         tokenData.setUserType(UserTypeEnum.ADMIN.getValue());
         tokenData.setTenantId(TenantContextHolder.getTenantId());
         // 设置过期时间：当前时间 + 过期秒数
-        tokenData.setExpiresTime(LocalDateTime.now().plusSeconds(securityProperties.getJwtExpiresIn()));
+        tokenData.setExpiresTime(LocalDateTime.now().plus(securityProperties.getJwtExpiresIn(),ChronoUnit.MILLIS));
         String token = tokenCommonApi.createToken(tokenData);
         // 构建返回结果
         AuthLoginRespVO vo = new AuthLoginRespVO();
         vo.setToken(token);
-        vo.setExpiresTime(LocalDateTime.now().plusSeconds(securityProperties.getJwtExpiresIn()));
+        vo.setExpiresTime(LocalDateTime.now().plus(securityProperties.getJwtExpiresIn(),ChronoUnit.MILLIS));
         return vo;
     }
 
@@ -248,11 +238,11 @@ public class AdminAuthServiceImpl implements AdminAuthService {
 
     @VisibleForTesting
     void validateCaptcha(AuthRegisterReqVO reqVO) {
-//        ResponseModel response = doValidateCaptcha(reqVO);
-//        // 验证不通过
-//        if (!response.isSuccess()) {
-//            throw exception(AUTH_REGISTER_CAPTCHA_CODE_ERROR, response.getRepMsg());
-//        }
+        boolean response = doValidateCaptcha(reqVO);
+        // 验证不通过
+        if (!response) {
+            throw exception(AUTH_REGISTER_CAPTCHA_CODE_ERROR);
+        }
     }
 
     @Override

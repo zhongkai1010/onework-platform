@@ -18,7 +18,6 @@ import com.onework.boot.module.system.service.permission.PermissionService;
 import com.onework.boot.module.system.service.permission.RoleService;
 import com.onework.boot.module.system.service.user.AdminUserService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.annotation.security.PermitAll;
@@ -79,7 +78,7 @@ public class AuthController {
     }
 
 
-    @GetMapping("/get-permission-info")
+    @GetMapping("/user")
     @Operation(summary = "获取登录用户的权限信息")
     public CommonResult<AuthPermissionInfoRespVO> getPermissionInfo() {
         // 1.1 获得用户信息

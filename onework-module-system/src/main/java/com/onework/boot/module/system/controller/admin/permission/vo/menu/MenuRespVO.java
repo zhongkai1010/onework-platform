@@ -26,7 +26,7 @@ public class MenuRespVO {
 
     @Schema(description = "类型，参见 MenuTypeEnum 枚举类", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     @NotNull(message = "菜单类型不能为空")
-    private Integer type;
+    private Integer menuType;
 
     @Schema(description = "显示顺序", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
     @NotNull(message = "显示顺序不能为空")

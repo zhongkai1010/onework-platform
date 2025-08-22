@@ -19,7 +19,7 @@ public class XssProperties {
     /**
      * 是否开启，默认为 true
      */
-    private boolean enable = true;
+    private boolean enabled = true;
     /**
      * 需要排除的 URL，默认为空
      */

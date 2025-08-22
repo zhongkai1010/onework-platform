@@ -1,4 +1,4 @@
-export const zh_CN = {
+export default {
   layout: {
     home: '主页',
     header: {
@@ -10,7 +10,7 @@ export const zh_CN = {
       website: '官网',
       document: '文档',
       authorization: '授权',
-      copyright: 'Copyright © 2025 武汉易云智科技有限公司'
+      copyright: 'Copyright © 2025 OneWork'
     },
     logout: {
       title: '系统提示',
@@ -133,11 +133,16 @@ export const zh_CN = {
     username: '请输入登录账号',
     password: '请输入登录密码',
     code: '请输入验证码',
+    phone: '请输入手机号',
+    getCode: '获取验证码',
+    sendCodeSuccess: '验证码已发送',
+    smsType: '手机登录',
+    loginSuccess: '登录成功',
     remember: '记住密码',
-    login: '登录',
     passwordType: '密码登录',
     qrcodeType: '扫码登录',
-    refreshQrcode: '刷新二维码'
+    refreshQrcode: '刷新',
+    login: '登录'
   },
   list: {
     // 基础列表
@@ -158,5 +163,3 @@ export const zh_CN = {
     }
   }
 };
-
-export type Locale = typeof zh_CN;

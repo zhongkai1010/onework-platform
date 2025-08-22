@@ -20,7 +20,7 @@ export async function pageMenus(params: MenuParam) {
  * 查询菜单列表
  */
 export async function listMenus(params?: MenuParam) {
-  const res = await request.get<ApiResult<Menu[]>>('/system/menu', {
+  const res = await request.get<ApiResult<Menu[]>>('/system/menu/list', {
     params
   });
   if (res.data.code === 0 && res.data.data) {
@@ -33,7 +33,10 @@ export async function listMenus(params?: MenuParam) {
  * 添加菜单
  */
 export async function addMenu(data: Menu) {
-  const res = await request.post<ApiResult<unknown>>('/system/menu', data);
+  const res = await request.post<ApiResult<unknown>>(
+    '/system/menu/create',
+    data
+  );
   if (res.data.code === 0) {
     return res.data.message;
   }
@@ -44,7 +47,10 @@ export async function addMenu(data: Menu) {
  * 修改菜单
  */
 export async function updateMenu(data: Menu) {
-  const res = await request.put<ApiResult<unknown>>('/system/menu', data);
+  const res = await request.put<ApiResult<unknown>>(
+    '/system/menu/update',
+    data
+  );
   if (res.data.code === 0) {
     return res.data.message;
   }
@@ -55,7 +61,11 @@ export async function updateMenu(data: Menu) {
  * 删除菜单
  */
 export async function removeMenu(id?: number) {
-  const res = await request.delete<ApiResult<unknown>>('/system/menu/' + id);
+  const res = await request.delete<ApiResult<unknown>>('/system/menu/delete', {
+    params: {
+      id
+    }
+  });
   if (res.data.code === 0) {
     return res.data.message;
   }

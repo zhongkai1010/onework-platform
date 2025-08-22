@@ -136,10 +136,10 @@
           </el-form-item>
         </el-col>
         <el-col :sm="12" :xs="24">
-          <el-form-item label="权限标识" prop="authority">
+          <el-form-item label="权限标识" prop="permission">
             <el-input
               clearable
-              v-model="form.authority"
+              v-model="form.permission"
               placeholder="请输入权限标识"
               :disabled="
                 form.menuType === 0 ||
@@ -240,7 +240,7 @@
     icon: '',
     path: '',
     component: '',
-    authority: '',
+    permission: '',
     sortNumber: void 0,
     hide: 0,
     meta: ''
@@ -385,12 +385,12 @@
   /** menuType选择改变 */
   const handleMenuTypeChange = () => {
     if (form.menuType === 0) {
-      form.authority = '';
+      form.permission = '';
       form.openType = 0;
       form.component = '';
     } else if (form.menuType === 1) {
       if (form.openType === 2) {
-        form.authority = '';
+        form.permission = '';
       }
     } else {
       form.openType = 0;
@@ -406,7 +406,7 @@
   const handleOpenTypeChange = () => {
     if (form.openType === 2) {
       form.component = '';
-      form.authority = '';
+      form.permission = '';
     }
     formRef.value?.clearValidate?.();
   };

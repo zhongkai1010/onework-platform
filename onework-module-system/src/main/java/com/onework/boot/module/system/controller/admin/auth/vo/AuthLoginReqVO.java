@@ -1,8 +1,7 @@
 package com.onework.boot.module.system.controller.admin.auth.vo;
 
-import cn.hutool.core.util.StrUtil;
+import com.onework.boot.framework.captcha.core.db.CaptchaVerificationDto;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
@@ -15,7 +14,7 @@ import org.hibernate.validator.constraints.Length;
 @AllArgsConstructor
 @Builder
 
-public class AuthLoginReqVO extends CaptchaVerificationReqVO {
+public class AuthLoginReqVO extends CaptchaVerificationDto {
 
     @Schema(description = "账号", requiredMode = Schema.RequiredMode.REQUIRED, example = "oneworkyuanma")
     @NotEmpty(message = "登录账号不能为空")

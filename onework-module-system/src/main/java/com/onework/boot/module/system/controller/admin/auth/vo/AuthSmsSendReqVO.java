@@ -1,5 +1,6 @@
 package com.onework.boot.module.system.controller.admin.auth.vo;
 
+import com.onework.boot.framework.captcha.core.db.CaptchaVerificationDto;
 import com.onework.boot.framework.common.validation.InEnum;
 import com.onework.boot.framework.common.validation.Mobile;
 import com.onework.boot.module.system.enums.sms.SmsSceneEnum;
@@ -15,7 +16,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 
-public class AuthSmsSendReqVO extends CaptchaVerificationReqVO {
+public class AuthSmsSendReqVO extends CaptchaVerificationDto {
 
     @Schema(description = "手机号", requiredMode = Schema.RequiredMode.REQUIRED, example = "oneworkyuanma")
     @NotEmpty(message = "手机号不能为空")

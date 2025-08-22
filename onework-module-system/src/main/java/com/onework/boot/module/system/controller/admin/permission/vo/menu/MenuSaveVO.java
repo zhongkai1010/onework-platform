@@ -24,7 +24,7 @@ public class MenuSaveVO {
 
     @Schema(description = "类型，参见 MenuTypeEnum 枚举类", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     @NotNull(message = "菜单类型不能为空")
-    private Integer type;
+    private Integer menuType;
 
     @Schema(description = "显示顺序", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
     @NotNull(message = "显示顺序不能为空")
@@ -60,5 +60,9 @@ public class MenuSaveVO {
 
     @Schema(description = "是否总是显示", example = "false")
     private Boolean alwaysShow;
+
+    @Schema(description = "JSON格式的路由元数据", example = "{\"title\":\"菜单名称\"}")
+    @Size(max = 200, message = "路由地址不能超过200个字符")
+    private String meta;
 
 }

@@ -39,7 +39,7 @@ public class XssFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         // 如果关闭，则不过滤
-        if (!properties.isEnable()) {
+        if (!properties.isEnabled()) {
             return true;
         }
 

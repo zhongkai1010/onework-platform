@@ -7,9 +7,12 @@ import type { LoginParam, LoginResult, CaptchaResult } from './model';
  * 登录
  */
 export async function login(data: LoginParam) {
-  const res = await request.post<ApiResult<LoginResult>>('/login', data);
+  const res = await request.post<ApiResult<LoginResult>>(
+    '/system/auth/login',
+    data
+  );
   if (res.data.code === 0) {
-    setToken('Bearer ' + res.data.data?.access_token, data.remember);
+    setToken('Bearer ' + res.data.data?.token, data.remember);
     return res.data.message;
   }
   return Promise.reject(new Error(res.data.message));
@@ -19,7 +22,7 @@ export async function login(data: LoginParam) {
  * 获取验证码
  */
 export async function getCaptcha() {
-  const res = await request.get<ApiResult<CaptchaResult>>('/captcha');
+  const res = await request.get<ApiResult<CaptchaResult>>('/system/captcha');
   if (res.data.code === 0 && res.data.data) {
     return res.data.data;
   }

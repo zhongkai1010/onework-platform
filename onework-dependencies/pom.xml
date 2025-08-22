@@ -31,7 +31,6 @@
         <dynamic-datasource.version>4.3.1</dynamic-datasource.version>
         <redisson.version>3.41.0</redisson.version>
         <!-- 工具类相关版本 -->
-        <anji-plus-captcha.version>1.4.0</anji-plus-captcha.version>
         <fastjson.version>2.0.53</fastjson.version>
         <hutool.version>5.8.25</hutool.version>
         <selenium.version>4.25.0</selenium.version>
@@ -57,7 +56,7 @@
         <podam.version>8.0.2.RELEASE</podam.version>
         <mockito-inline.version>5.2.0</mockito-inline.version>
         <!-- 验证码 -->
-        <easy-captcha.version>1.6.2</easy-captcha.version>
+        <captcha.version>2.2.5</captcha.version>
     </properties>
 
     <dependencyManagement>
@@ -285,9 +284,14 @@
             </dependency>
             <!-- 验证码 -->
             <dependency>
-                <groupId>com.github.whvcse</groupId>
-                <artifactId>easy-captcha</artifactId>
-                <version>${easy-captcha.version}</version>
+                <groupId>com.pig4cloud.plugin</groupId>
+                <artifactId>captcha-spring-boot-starter</artifactId>
+                <version>${captcha.version}</version>
+            </dependency>
+             <dependency>
+                 <groupId>com.onework.boot</groupId>
+                <artifactId>onework-spring-boot-starter-captcha</artifactId>
+                 <version>${revision}</version>
             </dependency>
             <!-- ================== 监控与日志 ================== -->
 
@@ -312,16 +316,6 @@
                 <groupId>org.apache.skywalking</groupId>
                 <artifactId>apm-toolkit-opentracing</artifactId>
                 <version>${skywalking.version}</version>
-                <!--                <exclusions>-->
-                <!--                    <exclusion>-->
-                <!--                        <artifactId>opentracing-api</artifactId>-->
-                <!--                        <groupId>io.opentracing</groupId>-->
-                <!--                    </exclusion>-->
-                <!--                    <exclusion>-->
-                <!--                        <artifactId>opentracing-util</artifactId>-->
-                <!--                        <groupId>io.opentracing</groupId>-->
-                <!--                    </exclusion>-->
-                <!--                </exclusions>-->
             </dependency>
             <!-- opentracing -->
             <dependency>

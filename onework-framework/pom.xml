@@ -57,6 +57,7 @@
         <module>onework-spring-boot-starter-tenant</module>
         <module>onework-spring-boot-starter-permission</module>
         <module>onework-spring-boot-starter-monitor</module>
+        <module>onework-spring-boot-starter-captcha</module>
     </modules>
 
     <!-- =============== 依赖管理 =============== -->

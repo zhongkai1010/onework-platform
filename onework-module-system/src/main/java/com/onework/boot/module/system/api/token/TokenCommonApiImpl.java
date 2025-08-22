@@ -15,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import static com.onework.boot.module.system.dal.redis.RedisKeyConstants.JWT_TOKEN;
 
@@ -44,8 +45,10 @@ public class TokenCommonApiImpl implements TokenCommonApi {
         // 存储到 Redis
         String redisKey = formatKey(String.valueOf(data.getUserId()));
         String tokenData = JsonUtils.toJsonString(data);
-        stringRedisTemplate.opsForValue().set(redisKey, tokenData, expirationTime, TimeUnit.MILLISECONDS);
-        
+        if (tokenData != null) {
+            stringRedisTemplate.opsForValue().set(redisKey, tokenData, expirationTime, TimeUnit.MILLISECONDS);
+        }
+
         return token;
     }
 
@@ -101,9 +104,11 @@ public class TokenCommonApiImpl implements TokenCommonApi {
         // 解析 token 数据
         TokenDataDto data = JsonUtils.parseObject(tokenData, TokenDataDto.class);
         // 更新过期时间
-        data.setExpiresTime(LocalDateTime.now().plusSeconds(expiresIn / 1000));
+        if (data != null) {
+            data.setExpiresTime(LocalDateTime.now().plusSeconds(expiresIn / 1000));
+        }
         // 更新 Redis 中的数据
-        stringRedisTemplate.opsForValue().set(redisKey, JsonUtils.toJsonString(data),
+        stringRedisTemplate.opsForValue().set(redisKey, Objects.requireNonNull(JsonUtils.toJsonString(data)),
                 expiresIn, TimeUnit.MILLISECONDS);
     }
 

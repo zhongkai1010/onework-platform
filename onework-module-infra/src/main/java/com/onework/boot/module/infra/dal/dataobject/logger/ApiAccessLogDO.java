@@ -132,7 +132,7 @@ public class ApiAccessLogDO extends BaseDO {
     /**
      * 结果提示
      *
-     * 目前使用的 {@link CommonResult#getMsg()} 属性
+     * 目前使用的 {@link CommonResult#getMessage()} 属性
      */
     private String resultMsg;
 

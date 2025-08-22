@@ -1,43 +1,37 @@
 package com.onework.boot.module.system.controller.admin.captcha;
 
-import cn.hutool.core.util.StrUtil;
-import com.onework.boot.framework.common.util.servlet.ServletUtils;
+import com.onework.boot.framework.captcha.core.service.CaptchaService;
+import com.onework.boot.framework.captcha.core.db.CaptchaDto;
+import com.onework.boot.framework.common.pojo.CommonResult;
+import com.onework.boot.module.system.controller.admin.captcha.vo.CaptchaRespVO;
+
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletRequest;
+import jakarta.annotation.security.PermitAll;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import static com.onework.boot.framework.common.pojo.CommonResult.success;
 
 @Tag(name = "管理后台 - 验证码")
 @RestController("adminCaptchaController")
 @RequestMapping("/system/captcha")
 public class CaptchaController {
 
-//    @Resource
-//    private CaptchaService captchaService;
-//
-//    @PostMapping({"/get"})
-//    @Operation(summary = "获得验证码")
-//    @PermitAll
-//    public ResponseModel get(@RequestBody CaptchaVO data, HttpServletRequest request) {
-//        assert request.getRemoteHost() != null;
-//        data.setBrowserInfo(getRemoteId(request));
-//        return captchaService.get(data);
-//    }
-//
-//    @PostMapping("/check")
-//    @Operation(summary = "校验验证码")
-//    @PermitAll
-//    public ResponseModel check(@RequestBody CaptchaVO data, HttpServletRequest request) {
-//        data.setBrowserInfo(getRemoteId(request));
-//        return captchaService.check(data);
-//    }
+    private final CaptchaService captchaService;
 
-    public static String getRemoteId(HttpServletRequest request) {
-        String ip = ServletUtils.getClientIP(request);
-        String ua = request.getHeader("user-agent");
-        if (StrUtil.isNotBlank(ip)) {
-            return ip + ua;
-        }
-        return request.getRemoteAddr() + ua;
+    public CaptchaController(CaptchaService captchaService) {
+        this.captchaService = captchaService;
+    }
+
+    @RequestMapping
+    @Operation(summary = "获得验证码")
+    @PermitAll
+    public CommonResult<CaptchaRespVO> get() {
+        CaptchaDto respVO = captchaService.generate();
+        CaptchaRespVO vo = new CaptchaRespVO();
+        vo.setSceneId(respVO.getSceneId());
+        vo.setBase64(respVO.getImage());
+        return success(vo);
     }
 }

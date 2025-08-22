@@ -198,7 +198,7 @@ public class ApiAccessLogFilter extends ApiRequestFilter {
         // 设置访问结果
         CommonResult<?> result = WebFrameworkUtils.getCommonResult(request);
         if (result != null) {
-            accessLog.setResultCode(result.getCode()).setResultMsg(result.getMsg());
+            accessLog.setResultCode(result.getCode()).setResultMsg(result.getMessage());
         } else if (ex != null) {
             accessLog.setResultCode(GlobalErrorCodeConstants.INTERNAL_SERVER_ERROR.getCode())
                     .setResultMsg(ExceptionUtil.getRootCauseMessage(ex));

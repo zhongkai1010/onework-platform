@@ -1,6 +1,7 @@
 package com.onework.boot.module.system.controller.admin.auth.vo;
 
 
+import com.onework.boot.framework.captcha.core.db.CaptchaVerificationDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -13,7 +14,7 @@ import org.hibernate.validator.constraints.Length;
 @EqualsAndHashCode(callSuper = true)
 @Schema(description = "管理后台 - Register Request VO")
 @Data
-public class AuthRegisterReqVO extends CaptchaVerificationReqVO {
+public class AuthRegisterReqVO extends CaptchaVerificationDto {
 
     @Schema(description = "用户账号", requiredMode = Schema.RequiredMode.REQUIRED, example = "onework")
     @NotBlank(message = "用户账号不能为空")

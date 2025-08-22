@@ -22,7 +22,7 @@ import static com.onework.boot.framework.web.config.OneworkWebAutoConfiguration.
 
 @AutoConfiguration
 @EnableConfigurationProperties(XssProperties.class)
-@ConditionalOnProperty(prefix = "onework.xss", name = "enable", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(prefix = "onework.xss", name = "enabled", havingValue = "true", matchIfMissing = true)
 // 设置为 false 时，禁用
 public class OneworkXssAutoConfiguration implements WebMvcConfigurer {
 
@@ -45,7 +45,7 @@ public class OneworkXssAutoConfiguration implements WebMvcConfigurer {
     @Bean
     @ConditionalOnMissingBean(name = "xssJacksonCustomizer")
     @ConditionalOnBean(ObjectMapper.class)
-    @ConditionalOnProperty(value = "onework.xss.enable", havingValue = "true")
+    @ConditionalOnProperty(value = "onework.xss.enabled", havingValue = "true")
     public Jackson2ObjectMapperBuilderCustomizer xssJacksonCustomizer(XssProperties properties,
                                                                       PathMatcher pathMatcher,
                                                                       XssCleaner xssCleaner) {

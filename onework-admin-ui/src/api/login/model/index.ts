@@ -1,5 +1,3 @@
-import type { User } from '../../system/user/model';
-
 /**
  * 登录参数
  */
@@ -19,9 +17,9 @@ export interface LoginParam {
  */
 export interface LoginResult {
   /** token */
-  access_token?: string;
+  token: string;
   /** 用户信息 */
-  user?: User;
+  expiresTime: number;
 }
 
 /**
@@ -30,6 +28,6 @@ export interface LoginResult {
 export interface CaptchaResult {
   /** 图形验证码base64数据 */
   base64: string;
-  /** 验证码文本 */
-  text: string;
+  /** 场景UUID */
+  sceneId: string;
 }

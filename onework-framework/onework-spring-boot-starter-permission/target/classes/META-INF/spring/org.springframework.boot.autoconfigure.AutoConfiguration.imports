@@ -1,0 +1,2 @@
+com.onework.boot.framework.permission.config.OneworkDataPermissionAutoConfiguration
+com.onework.boot.framework.permission.config.OneworkDeptDataPermissionAutoConfiguration

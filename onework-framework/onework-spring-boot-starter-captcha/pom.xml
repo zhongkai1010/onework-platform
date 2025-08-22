@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- =============== 父项目配置 =============== -->
+    <parent>
+        <groupId>com.onework.boot</groupId>
+        <artifactId>onework-framework</artifactId>
+        <version>${revision}</version>
+    </parent>
+
+    <!-- =============== 项目基本信息 =============== -->
+    <artifactId>onework-spring-boot-starter-captcha</artifactId>
+    <name>${project.artifactId}</name>
+
+    <!-- =============== 项目描述 =============== -->
+    <description>
+        验证码功能启动器，提供统一的验证码生成、校验功能。
+
+        主要特性：
+        1. 支持多种验证码类型：算术验证码、字符验证码等
+        2. 支持验证码存储：Redis、内存等
+        3. 支持验证码配置：长度、宽度、高度、有效期等
+        4. 支持验证码校验：自动校验、手动校验等
+    </description>
+
+    <!-- =============== 项目依赖 =============== -->
+    <dependencies>
+        <!-- Spring Boot 相关依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- Redis 相关依赖 -->
+        <dependency>
+            <groupId>com.onework.boot</groupId>
+            <artifactId>onework-spring-boot-starter-redis</artifactId>
+        </dependency>
+
+        <!-- 验证码生成工具 -->
+        <dependency>
+            <groupId>com.pig4cloud.plugin</groupId>
+            <artifactId>captcha-spring-boot-starter</artifactId>
+        </dependency>
+        <!-- 工具类 -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
+        </dependency>
+    </dependencies>
+</project>

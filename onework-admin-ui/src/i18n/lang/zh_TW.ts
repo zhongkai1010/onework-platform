@@ -1,6 +1,4 @@
-import type { Locale } from './zh_CN';
-
-export const zh_TW: Locale = {
+export default {
   layout: {
     home: '主頁',
     header: {
@@ -135,6 +133,11 @@ export const zh_TW: Locale = {
     username: '請輸入登入帳號',
     password: '請輸入登入密碼',
     code: '請輸入驗證碼',
+    phone: '請輸入手機號',
+    getCode: '獲取驗證碼',
+    sendCodeSuccess: '驗證碼已發送',
+    smsType: '手機登入',
+    loginSuccess: '登入成功',
     remember: '記住密碼',
     login: '登入',
     passwordType: '密碼登入',

@@ -14,7 +14,8 @@
             v-model="tabActive"
             :items="[
               { label: t('login.passwordType'), value: 1 },
-              { label: t('login.qrcodeType'), value: 2 }
+              { label: t('login.qrcodeType'), value: 2 },
+              { label: t('login.smsType'), value: 3 }
             ]"
             style="margin-bottom: 18px"
             @change="handleTabChange"
@@ -44,11 +45,11 @@
                 :prefix-icon="LockOutlined"
               />
             </el-form-item>
-            <el-form-item prop="code">
+            <el-form-item prop="captchaVerification">
               <div class="login-captcha-group">
                 <el-input
                   clearable
-                  v-model="form.code"
+                  v-model="form.captchaVerification"
                   :placeholder="t('login.code')"
                   :prefix-icon="ProtectOutlined"
                 />
@@ -74,7 +75,7 @@
               </el-button>
             </el-form-item>
           </el-form>
-          <div v-else class="login-qrcode-group">
+          <div v-else-if="tabActive == 2" class="login-qrcode-group">
             <ele-qr-code-svg
               :size="180"
               :margin="2"
@@ -96,6 +97,58 @@
               <span>{{ t('login.refreshQrcode') }}</span>
             </el-link>
           </div>
+          <el-form
+            v-else-if="tabActive == 3"
+            ref="smsFormRef"
+            size="large"
+            :model="smsForm"
+            :rules="smsRules"
+            @keyup.enter="submitSms"
+            @submit.prevent=""
+          >
+            <el-form-item prop="phone">
+              <el-input
+                clearable
+                v-model="smsForm.phone"
+                :placeholder="t('login.phone')"
+                :prefix-icon="UserOutlined"
+              />
+            </el-form-item>
+            <el-form-item prop="code">
+              <div class="login-captcha-group">
+                <el-input
+                  clearable
+                  v-model="smsForm.code"
+                  :placeholder="t('login.code')"
+                  :prefix-icon="ProtectOutlined"
+                />
+                <el-button
+                  class="login-captcha"
+                  :disabled="smsTimer > 0 || !smsForm.phone"
+                  @click="sendSmsCode"
+                  style="margin-left: 8px; width: 108px; height: 40px"
+                >
+                  {{ smsTimer > 0 ? `${smsTimer}s` : t('login.getCode') }}
+                </el-button>
+              </div>
+            </el-form-item>
+            <el-form-item>
+              <el-checkbox v-model="smsForm.remember">
+                {{ t('login.remember') }}
+              </el-checkbox>
+            </el-form-item>
+            <el-form-item>
+              <el-button
+                size="large"
+                type="primary"
+                :loading="smsLoading"
+                style="width: 100%"
+                @click="submitSms"
+              >
+                {{ t('login.login') }}
+              </el-button>
+            </el-form-item>
+          </el-form>
         </div>
       </ele-card>
     </div>
@@ -135,10 +188,10 @@
 
   /** 表单数据 */
   const form = reactive({
-    tenantId: 4, // 租户id, 不需要可去掉
+    sceneId: '',
     username: 'admin',
-    password: 'admin',
-    code: '',
+    password: 'admin123',
+    captchaVerification: '',
     remember: true
   });
 
@@ -161,7 +214,7 @@
           trigger: 'blur'
         }
       ],
-      code: [
+      captchaVerification: [
         {
           required: true,
           message: t('login.code'),
@@ -175,11 +228,27 @@
   /** 图形验证码 */
   const captcha = ref('');
 
-  /** 验证码内容, 实际项目去掉 */
-  const text = ref('');
-
   /** 二维码 */
   const qrcode = ref('');
+
+  /** 短信验证码登录表单 */
+  const smsFormRef = ref<FormInstance | null>(null);
+  const smsLoading = ref(false);
+  const smsTimer = ref(0);
+  const smsForm = reactive({
+    phone: '',
+    code: '',
+    remember: true
+  });
+  const smsRules = computed<FormRules>(() => {
+    return {
+      phone: [
+        { required: true, message: t('login.phone'), trigger: 'blur' },
+        { pattern: /^1[3-9]\d{9}$/, message: t('login.phone'), trigger: 'blur' }
+      ],
+      code: [{ required: true, message: t('login.code'), trigger: 'blur' }]
+    };
+  });
 
   /** 提交 */
   const submit = () => {
@@ -187,10 +256,10 @@
       if (!valid) {
         return;
       }
-      if (form.code.toLowerCase() !== text.value) {
-        EleMessage.error({ message: '验证码错误', plain: true });
-        return;
-      }
+      // if (form.captchaVerification.toLowerCase() !== text.value) {
+      //   EleMessage.error({ message: '验证码错误', plain: true });
+      //   return;
+      // }
       loading.value = true;
       login(form)
         .then((msg) => {
@@ -212,9 +281,7 @@
       .then((data) => {
         captcha.value = data.base64;
         // 实际项目后端一般会返回验证码的key而不是直接返回验证码的内容, 登录用key去验证, 可以根据自己后端接口修改
-        text.value = data.text;
-        // 自动回填验证码, 实际项目去掉
-        form.code = data.text;
+        form.sceneId = data.sceneId;
         formRef.value?.clearValidate?.();
       })
       .catch((e) => {
@@ -232,6 +299,14 @@
     if (active === 2) {
       refreshQrCode();
     }
+    // 切换到短信登录时重置表单
+    if (active === 3) {
+      smsForm.phone = '';
+      smsForm.code = '';
+      smsForm.remember = true;
+      smsFormRef.value?.clearValidate?.();
+      smsTimer.value = 0;
+    }
   };
 
   /** 跳转到首页 */
@@ -246,6 +321,42 @@
   } else {
     changeCaptcha();
   }
+
+  /** 发送短信验证码（接口留空） */
+  const sendSmsCode = () => {
+    if (smsTimer.value > 0) return;
+    smsFormRef.value?.validateField('phone', (valid) => {
+      if (!valid) return;
+      // TODO: 调用发送短信验证码API
+      EleMessage.success({
+        message: t('login.sendCodeSuccess') || '验证码已发送',
+        plain: true
+      });
+      smsTimer.value = 60;
+      const timer = setInterval(() => {
+        smsTimer.value--;
+        if (smsTimer.value <= 0) clearInterval(timer);
+      }, 1000);
+    });
+  };
+
+  /** 短信验证码登录（接口留空） */
+  const submitSms = () => {
+    smsFormRef.value?.validate((valid) => {
+      if (!valid) return;
+      smsLoading.value = true;
+      // TODO: 调用短信验证码登录API
+      setTimeout(() => {
+        smsLoading.value = false;
+        EleMessage.success({
+          message: t('login.loginSuccess') || '登录成功',
+          plain: true
+        });
+        cleanPageTabs();
+        goHome();
+      }, 1000);
+    });
+  };
 </script>
 
 <style lang="scss" scoped>

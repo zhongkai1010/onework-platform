@@ -51,11 +51,11 @@ public class SecurityProperties {
     private String jwtSecretKey = "5xeqfqNnXsNIiGKuJ6J+CTY15k8tgxFfE/4rN1K4exdpUuB2/vRPjijVdynGFTE5";
 
     /**
-     * JWT过期时间（秒）
+     * JWT过期时间（毫秒）
      * 默认7天
      */
     @NotNull(message = "JWT过期时间不能为空")
-    private Long jwtExpiresIn = 24 * 60 * 60L;
+    private Long jwtExpiresIn = 7L * 24 * 60 * 60 * 1000;
 
     /**
      * 免登录的 URL 列表

@@ -1,6 +1,4 @@
-import type { Locale } from './zh_CN';
-
-export const en: Locale = {
+export default {
   layout: {
     home: 'Home',
     header: {
@@ -134,12 +132,17 @@ export const en: Locale = {
     title: 'User Login',
     username: 'please input username',
     password: 'please input password',
-    code: 'please input code',
+    code: 'Please enter the code',
     remember: 'remember',
     login: 'Login',
     passwordType: 'Password',
     qrcodeType: 'QR Code',
-    refreshQrcode: 'Refresh'
+    refreshQrcode: 'Refresh',
+    phone: 'Please enter your phone',
+    getCode: 'Get Code',
+    sendCodeSuccess: 'Code sent',
+    smsType: 'Phone Login',
+    loginSuccess: 'Login successful'
   },
   list: {
     // 基础列表

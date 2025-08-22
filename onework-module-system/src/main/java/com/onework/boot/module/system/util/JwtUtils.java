@@ -1,12 +1,10 @@
 package com.onework.boot.module.system.util;
 
 import cn.hutool.crypto.SecureUtil;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.onework.boot.framework.common.util.json.JsonUtils;
 import com.onework.boot.framework.security.LoginUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.jackson.io.JacksonDeserializer;
-import io.jsonwebtoken.jackson.io.JacksonSerializer;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,6 +14,7 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
+
 /**
  * JWT工具类
  * 提供token的生成、验证、刷新和解析功能
@@ -23,7 +22,6 @@ import java.util.Date;
 @Slf4j
 public class JwtUtils {
 
-    private static final ObjectMapper objectMapper = new ObjectMapper();
     private static final int MIN_SECRET_LENGTH = 32; // 最小密钥长度（字节）
 
     /**
@@ -52,7 +50,7 @@ public class JwtUtils {
             }
 
             // 序列化LoginUser
-            String loginUserJson = objectMapper.writeValueAsString(loginUser);
+            String loginUserJson = JsonUtils.toJsonString(loginUser);
             
             // 使用SHA-256生成AES密钥并加密
             byte[] sha256Key = SecureUtil.sha256(secret).getBytes(StandardCharsets.UTF_8);
@@ -70,7 +68,6 @@ public class JwtUtils {
                     .issuedAt(Date.from(now))
                     .expiration(Date.from(now.plus(expiration, ChronoUnit.MILLIS)))
                     .signWith(key)
-                    .json(new JacksonSerializer<>(objectMapper))
                     .compact();
         } catch (Exception e) {
             log.error("Failed to generate token: {}", e.getMessage());
@@ -103,7 +100,6 @@ public class JwtUtils {
             SecretKey key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
             Claims claims = Jwts.parser()
                     .verifyWith(key)
-                    .json(new JacksonDeserializer<>(objectMapper))
                     .build()
                     .parseSignedClaims(token)
                     .getPayload();
@@ -115,7 +111,7 @@ public class JwtUtils {
             System.arraycopy(sha256Key, 0, aesKey, 0, 32);
             String loginUserJson = SecureUtil.aes(aesKey).decryptStr(encryptedLoginUser);
             
-            return objectMapper.readValue(loginUserJson, LoginUser.class);
+            return JsonUtils.parseObject(loginUserJson, LoginUser.class);
         } catch (Exception e) {
             log.warn("Token validation failed: {}", e.getMessage());
             return null;

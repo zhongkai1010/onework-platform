@@ -51,7 +51,7 @@ public class MenuDO extends BaseDO {
      *
      * 枚举 {@link MenuTypeEnum}
      */
-    private Integer type;
+    private Integer menuType;
     /**
      * 显示顺序
      */
@@ -104,5 +104,12 @@ public class MenuDO extends BaseDO {
      * 如果为 false 时，当该菜单只有一个子菜单时，不展示自己，直接展示子菜单
      */
     private Boolean alwaysShow;
+
+    /**
+     * 路由元数据
+     *
+     * JSON格式的路由元数据"
+     */
+    private String  meta;
 
 }

@@ -34,7 +34,7 @@ public class CommonResult<T> implements Serializable {
      *
      * @see ErrorCode#getMsg() ()
      */
-    private String msg;
+    private String message;
 
     /**
      * 将传入的 result 对象，转换成另外一个泛型结果的对象
@@ -46,14 +46,14 @@ public class CommonResult<T> implements Serializable {
      * @return 新的 CommonResult 对象
      */
     public static <T> CommonResult<T> error(CommonResult<?> result) {
-        return error(result.getCode(), result.getMsg());
+        return error(result.getCode(), result.getMessage());
     }
 
     public static <T> CommonResult<T> error(Integer code, String message) {
         Assert.isTrue(!GlobalErrorCodeConstants.SUCCESS.getCode().equals(code), "code 必须是错误的！");
         CommonResult<T> result = new CommonResult<>();
         result.code = code;
-        result.msg = message;
+        result.message = message;
         return result;
     }
 
@@ -65,7 +65,7 @@ public class CommonResult<T> implements Serializable {
         CommonResult<T> result = new CommonResult<>();
         result.code = GlobalErrorCodeConstants.SUCCESS.getCode();
         result.data = data;
-        result.msg = "";
+        result.message = "";
         return result;
     }
 
@@ -97,7 +97,7 @@ public class CommonResult<T> implements Serializable {
             return;
         }
         // 业务异常
-        throw new ServiceException(code, msg);
+        throw new ServiceException(code, message);
     }
 
     /**

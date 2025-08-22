@@ -15,4 +15,4 @@ public class OneWorkServerApplication {
     public static void main(String[] args) {
         SpringApplication.run(OneWorkServerApplication.class, args);
     }
-} 
+}

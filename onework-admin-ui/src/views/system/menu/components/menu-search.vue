@@ -21,7 +21,7 @@
           <el-form-item label="权限标识">
             <el-input
               clearable
-              v-model.trim="form.authority"
+              v-model.trim="form.permission"
               placeholder="请输入"
             />
           </el-form-item>
@@ -49,7 +49,7 @@
   const [form, resetFields] = useFormData<MenuParam>({
     title: '',
     path: '',
-    authority: ''
+    permission: ''
   });
 
   /** 搜索 */

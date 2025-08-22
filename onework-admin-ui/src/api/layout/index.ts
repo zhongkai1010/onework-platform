@@ -2,14 +2,16 @@ import request from '@/utils/request';
 import type { ApiResult } from '@/api';
 import type { User } from '@/api/system/user/model';
 import type { UpdatePasswordParam } from './model';
+import mockData from './mock';
 
 /**
  * 获取当前登录用户的个人信息/菜单/权限/角色
  */
 export async function getUserInfo(): Promise<User> {
-  const res = await request.get<ApiResult<User>>('/auth/user');
+  const res = await request.get<ApiResult<User>>('/system/auth/user');
   if (res.data.code === 0 && res.data.data) {
-    return res.data.data;
+    // return res.data.data;
+    return mockData;
   }
   return Promise.reject(new Error(res.data.message));
 }
