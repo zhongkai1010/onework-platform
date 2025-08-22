@@ -1,3 +1,0 @@
-com.onework.boot.framework.security.config.OneworkSecurityAutoConfiguration
-com.onework.boot.framework.security.config.OneworkWebSecurityConfigurerAdapter
-com.onework.boot.framework.operatelog.config.OneworkOperateLogConfiguration
